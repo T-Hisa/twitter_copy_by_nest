@@ -1,0 +1,43 @@
+旅メモ
+
+    機能
+      - ログイン・登録
+      - 行く予定の場所
+      - 行きたい場所
+      - 行った場所
+      - 共有・投稿機能
+      - フォロー / フォロワー
+
+
+
+
+
+
+データスキーマ
+  - users
+    // - username
+    // - email
+    // - password
+    - id
+    - twitter, facebook, google 連携
+    - following_username
+    - follower_username
+    - want_place_ids
+    - went_place_ids
+    - will_place_ids
+    - board_ids
+    - likes
+  // - place
+    // - id
+    // - prefecture_id
+  // - prefecture
+    // - place_ids
+  - boards
+    - id
+    - body
+    - user_id
+    - image
+    - like_user_ids
+  - tags
+    - tag_id
+    _ tag_name
