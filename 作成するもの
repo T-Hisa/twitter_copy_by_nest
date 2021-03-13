@@ -26,6 +26,7 @@
     - went_place_ids
     - will_place_ids
     - board_ids
+    - repost_board_ids
     - likes
   // - place
     // - id
@@ -38,6 +39,10 @@
     - user_id
     - image
     - like_user_ids
+    - re_post_user_ids
+    - timestamp
   - tags
     - tag_id
     _ tag_name
+
+userid は 英字 4 ~ 10文字

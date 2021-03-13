@@ -1,0 +1,11 @@
+@types/exppresss のデコレータ一覧
+  @Request(), @Req()      -> req
+  @Response(), @Res()     -> res
+  @Next()                 -> next
+  @Session()              -> req.session
+  @Param(key?: string)    -> req.session
+  @Body(key?: string)     -> req.session
+  @Query(key?: string)    -> req.session
+  @Headers(name?: string) -> req.session
+  @Ip()                   -> req.ip
+  @HostParam()            -> req.hosts
