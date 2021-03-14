@@ -20,11 +20,11 @@
     // - password
     - id
     - twitter, facebook, google 連携
-    - following_username
-    - follower_username
-    - want_place_ids
-    - went_place_ids
-    - will_place_ids
+    - following_userid
+    - follower_userid
+    // - want_place_ids
+    // - went_place_ids
+    // - will_place_ids
     - board_ids
     - repost_board_ids
     - likes
@@ -45,4 +45,4 @@
     - tag_id
     _ tag_name
 
-userid は 英字 4 ~ 10文字
+userid は 英数字 4 ~ 10文字

@@ -11,6 +11,7 @@ import {
   Post,
   UseFilters,
   UseGuards,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import Joi from 'joi';
@@ -23,6 +24,7 @@ import {
 import { sampleSchema } from './sample.schema';
 import { SampleService } from './sample.service';
 import { SampleAuthGuard } from './sample.auth.guard'
+import { SampleLoggingInterceptor } from './sample.interceptor';
 
 @Controller('/sample')
 export class SampleController {
@@ -85,5 +87,11 @@ export class SampleController {
   @UseGuards(SampleAuthGuard)
   async sampleAuthGuard() {
     return "this is sample with auth guard!!!"
+  }
+
+  @Get('/sample-use-interceptor')
+  @UseInterceptors(SampleLoggingInterceptor)
+  sampleLogging() {
+    return 'this is sample logging with interceptor!'
   }
 }

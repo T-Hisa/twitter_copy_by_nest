@@ -1,5 +1,5 @@
 import { Controller, Get, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
-import { BoardModule } from './boards.module';
+import { BoardModule } from '../boards.module';
 import { SampleController } from './sample.controller';
 import { SampleMiddleware } from './sample.middleware';
 import { SampleService } from './sample.service';
