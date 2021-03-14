@@ -9,3 +9,53 @@
   @Headers(name?: string) -> req.session
   @Ip()                   -> req.ip
   @HostParam()            -> req.hosts
+
+
+
+HttpException 一覧
+  ・BarRequestException
+  ・UnauthorizedException
+  ・NotFoundException
+  ・ForbiddenException
+  ・NotAcceptableException
+  ・RequestTimeoutException
+  ・ConflictException
+  ・GoneException
+  ・HttpVersionNotSupportedException
+  ・PayloadTooLargeException
+  ・UnsupportedMediaTypeException
+  ・UnprocessableEntityException
+  ・InternalServerErrorException
+  ・NotImplementedException
+  ・ImATeapotExceptionException
+  ・MethodNotAllowedException
+  ・BadGatewayException
+  ・ServiceUnavailableException
+  ・GatewayTimeoutException
+  ・PreconditionFailedException
+
+
+
+Pipeについて
+  ・Pipe は二つの使用ケースがある
+    1. データを望んだ警視位に変えること(string -> integer)
+    2. バリデーション
+  どちらのケースでも、route handler で arguments に作用する
+
+  Nest備え付けのPipe一覧
+    ・ValidationPipe
+    ・ParseIntPipe
+    ・ParseBoolPipe
+    ・ParseArrayPipe
+    ・ParseUUIDPipe
+    ・DefaultValuePipe
+
+グローバル(app全体)でカスタムパイプを使用したい場合
+```app.ts
+    async function bootstrap() {
+      const app = await NestFactory.create(AppModule);
+      app.useGlobalPipes(new ValidationPipe());
+      await app.listen(3000);
+    }
+    bootstrap();
+```
