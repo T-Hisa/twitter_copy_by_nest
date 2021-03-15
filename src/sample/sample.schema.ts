@@ -1,4 +1,4 @@
-const Joi = require("joi")
+import * as Joi from "joi";
 
 export const sampleSchema = Joi.object({
   sample: Joi.string(),

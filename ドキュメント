@@ -85,3 +85,38 @@ asyncronous providers
           return connection;
         },
       }
+
+
+
+provider scope 
+      ・DEFAULT
+          アプリ全体を通して単一のインスタンスのもの。デフォルト値。
+      ・REQUEST
+          request 毎に生成されるインスタンス。request後には毎回ガーベッジコレクションされる
+      ・TRANSIENT
+          複数のconsumerでは共有されない一瞬のインスタンス。
+
+      usage(使用例):
+        1: cat.service.ts
+
+          import { Injectable, Scope } from '@nestjs/common';
+
+          @Injectable({ scope: Scope.REQUEST })
+          export class CatsService {}
+
+        2: cat.module.ts
+          providers: [{
+            provide: 'CACHE_MANAGER',
+            useClass: CacheManager,
+            scope: Scope.TRANSIENT,
+          }]
+
+Controller Scope
+  scope の値は、providerと同様
+      usage:
+
+        @Controller({
+          path: 'sample',
+          scope: Scope.REQUEST
+        })
+        export class SampleController {}
