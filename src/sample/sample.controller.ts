@@ -69,11 +69,11 @@ export class SampleController {
     return `this is sample pipe ${id}`;
   }
 
-  // @Post('sample-validate-pipe')
-  // @UsePipes(new SampleJoiValidationPipe(sampleSchema))
-  // async createSampleDto(@Body() sampleDto: SampleDto) {
-  //   this.sampleService.create(sampleDto);
-  // }
+  @Post('sample-validate-pipe')
+  @UsePipes(new SampleJoiValidationPipe(sampleSchema))
+  async createSampleDto(@Body() sampleDto: SampleDto) {
+    this.sampleService.create(sampleDto);
+  }
 
   @Post('sample-validate-class')
   async createSampleClass(

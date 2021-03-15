@@ -73,3 +73,15 @@ Interceptors
         基本的な関数の動作を拡張する
     ・completely override a function depending on specific conditions
         特定の条件での関数をオーバーライドする
+
+
+asyncronous providers
+  DBと接続するときなど、Promise が必要となる場合がある。
+    その際は、 async / await を使用して、DBと接続するまで待つことができる
+      {
+        provide: 'ASYNC_CONNECTION',
+        useFactory: async () => {
+          const connection = await createConnection(options);
+          return connection;
+        },
+      }

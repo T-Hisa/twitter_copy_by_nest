@@ -16,3 +16,5 @@ export class SampleDynammicModule {
     };
   }
 }
+
+// https://docs.nestjs.com/fundamentals/dynamic-modules
