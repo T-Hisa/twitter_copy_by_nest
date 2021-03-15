@@ -14,7 +14,6 @@ import {
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
-import Joi from 'joi';
 import { SampleDto } from './sample.dto';
 import { SampleHttpExceptionFilter } from './sample.http-exception.filter';
 import {
@@ -70,11 +69,11 @@ export class SampleController {
     return `this is sample pipe ${id}`;
   }
 
-  @Post('sample-validate-pipe')
-  @UsePipes(new SampleJoiValidationPipe(sampleSchema))
-  async createSampleDto(@Body() sampleDto: SampleDto) {
-    this.sampleService.create(sampleDto);
-  }
+  // @Post('sample-validate-pipe')
+  // @UsePipes(new SampleJoiValidationPipe(sampleSchema))
+  // async createSampleDto(@Body() sampleDto: SampleDto) {
+  //   this.sampleService.create(sampleDto);
+  // }
 
   @Post('sample-validate-class')
   async createSampleClass(
@@ -92,6 +91,6 @@ export class SampleController {
   @Get('/sample-use-interceptor')
   @UseInterceptors(SampleLoggingInterceptor)
   sampleLogging() {
-    return 'this is sample logging with interceptor!'
+    return 'this is sample logging with!'
   }
 }

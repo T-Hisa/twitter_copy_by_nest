@@ -1,5 +1,4 @@
 import { Controller, Get, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
-import { BoardModule } from '../boards.module';
 import { SampleController } from './sample.controller';
 import { SampleMiddleware } from './sample.middleware';
 import { SampleService } from './sample.service';
@@ -9,6 +8,7 @@ import { SampleService } from './sample.service';
   controllers: [SampleController],
   providers: [SampleService],
 })
+// export class SampleModule {}
 export class SampleModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(SampleMiddleware)
