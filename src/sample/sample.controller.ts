@@ -9,6 +9,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Render,
   UseFilters,
   UseGuards,
   UseInterceptors,
@@ -30,8 +31,11 @@ export class SampleController {
   constructor(private readonly sampleService: SampleService) {}
 
   @Get()
-  getBoards() {
-    return this.sampleService.findAll()
+  @Render('index')
+  async getBoards() {
+    const data = await this.sampleService.findAll()
+    // console.log('data', data)
+    return {data}
   }
 
   @Get('/error')
