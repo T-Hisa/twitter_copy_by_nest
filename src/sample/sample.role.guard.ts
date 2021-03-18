@@ -8,7 +8,7 @@ function matchRoles(arg1:any, arg2: any) {
 
 // req.user で ユーザー情報が取得できるという前提
 @Injectable()
-export class RolesGuard implements CanActivate {
+export class SampleRolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {

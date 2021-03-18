@@ -30,8 +30,8 @@ export class SampleController {
   constructor(private readonly sampleService: SampleService) {}
 
   @Get()
-  getBoards(): string {
-    return 'this is sample';
+  getBoards() {
+    return this.sampleService.findAll()
   }
 
   @Get('/error')

@@ -120,3 +120,175 @@ Controller Scope
           scope: Scope.REQUEST
         })
         export class SampleController {}
+
+
+
+ArgumentsHost Class
+  ArgumentsHost は、(request)handler に渡された引数を受け取るクラス。
+          exception filter の catch メソッドなどで使用される。
+  例えば、
+    @nestjs/platform-express
+  が使用されている場合、
+    host: ArgumentsHost
+  は、[request, response, next] array 。
+
+    GraphQL
+  の時は、
+    [root, args, context, info] array.
+
+
+
+Current Application Context
+
+        if (host.getType() === 'http') {
+          // do something that is only important in the context of regular HTTP requests (REST)
+        } else if (host.getType() === 'rpc') {
+          // do something that is only important in the context of Microservice requests
+        } else if (host.getType<GqlContextType>() === 'graphql') {
+          // do something that is only important in the context of GraphQL requests
+        }
+
+
+GraphQL を使用する場合
+  The GqlContextType is imported from the @nestjs/graphql package.
+
+const [req, res, next] = host.getArgs();
+
+
+
+
+ArgumentsHost を Http, rps, websockets それぞれの適したObject に変形するよう明言する
+
+  switchToRpc(): RpcArgumentsHost;
+  switchToHttp(): HttpArgumentsHost;
+  switchToWs(): WsArgumentsHost;
+
+    http:
+      const ctx = host.switchToHttp();
+      const request = ctx.getRequest<Request>();
+      const response = ctx.getResponse<Response>();
+
+    websockets:
+      export interface WsArgumentsHost {
+        getData<T>(): T;
+        getClient<T>(): T;
+
+    rpc:
+      export interface RpcArgumentsHost {
+        getData<T>(): T;
+        getContext<T>(): T;
+
+
+
+ExecutionContext
+  ExecutionContext　は、 ArgumentsHost を拡張したもので、
+    実行中のcontext の詳細を提供する。
+
+    guard の canActivate() メソッド
+    interceptor の intercept() メソッド
+  等で使用される。
+
+export interface ExecutionContext extends ArgumentsHost {
+  getClass<T>(): Type<T>;
+  getHandler(): Function;
+}
+
+
+
+
+Reflectorについて
+
+
+      @Injectable()
+      export class RolesGuard {
+        constructor(private reflector: Reflector) {}
+      }
+
+      const roles = this.reflector.get<string[]>('roles', context.getHandler());
+
+  Reflector#get メソッドは、下記の二つの引数を使用して簡単にmetadata にアクセスできる。
+    ・key
+    ・context(decorator target)
+
+
+      RolesGuard デコレータが、
+        1.method に修飾されている時は、
+          context.getHandler()
+        2. controller に修飾されている時は、
+          context.getClass()
+
+
+  以下のように、複数階層で、metadata がセットされている場合は、
+      @Roles('user')
+      @Controller('cats')
+      export class CatsController {
+        @Post()
+        @Roles('admin')
+        async create(@Body() createCatDto: CreateCatDto) {
+          this.catsService.create(createCatDto);
+        }
+      }
+
+  overrideするために、
+    getAllAndOverride() メソッドを使用することで解決できる
+
+          const roles = this.reflector.getAllAndOverride<string[]>('roles', [
+            context.getHandler(),
+            context.getClass(),
+          ]);
+        => { "roles": ["admin"] }
+
+  また、二つともmergeするには、
+    getAllAndMerge() を使用
+          const roles = this.reflector.getAllAndMerge<string[]>('roles', [
+            context.getHandler(),
+            context.getClass(),
+          ]);
+        => { "roles": ["user", "admin"] }
+
+
+
+・LifeCycle
+
+  ライフサイクルは、
+    ・initializing
+    ・running
+    ・terminateing
+  の3つのフェーズに分けられる。
+
+  1. Bootstrapping starts
+      - Nest core bootstrapping
+  2. onModuleInit
+      - For each module, after module initialization:
+          - await child controller & provider onModduleINit() methods
+          - await module onModuleInit() method
+  3. onApplicationBootstrap
+      - Foreachmodule:
+          - await child controller & provider onApplicationBootstrap() methods
+          - await module onApplicationBootstrap() method
+  4. Start listeners
+      - For HTTP server, WS server, each microservice:
+          - await connections open/ready
+  5. Application is running
+      - Normal application processing
+
+------------------Termination signa received -----------------
+  1. onModuleDestroy
+      - For each module:
+          - await child controller & provider onModuleDestroy() methods
+          - await modue onModuleDestroy() method
+  2. beforeApplicationShutdown
+      - For each module:
+          - await child controller & provider beforeApplicationShutdown() methods
+          - await modue beforeApplicationShutdown() method
+  3. Stop listeners
+      - For HTTP server, WS server, each microservice:
+          - await connection termination
+  4. onApplicationShutdown
+      - For each module:
+          - await child controller & provider onApplicationShutdown() methods
+          - await modue onApplicationShutdown() method
+  5. Process exits
+
+
+
