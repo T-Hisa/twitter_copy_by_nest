@@ -36,3 +36,5 @@ lerna-debug.log*
 参考資料*
 作成
 nestjs使い*
+
+.development.env

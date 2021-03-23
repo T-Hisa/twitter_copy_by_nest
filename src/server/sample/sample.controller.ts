@@ -24,13 +24,20 @@ import {
 import { sampleSchema } from './sample.schema';
 import { SampleService } from './sample.service';
 import { SampleAuthGuard } from './sample.auth.guard'
-import { SampleLoggingInterceptor } from './sample.interceptor';
+import { SampleLoggingInterceptor, SampleClientInterceptor } from './sample.interceptor';
 
 @Controller('/sample')
 export class SampleController {
   constructor(private readonly sampleService: SampleService) {}
 
   @Get()
+  @UseInterceptors(SampleClientInterceptor)
+  async getStatic() {
+    return this.sampleService.getStatic()
+    // return "sample"
+  }
+
+  @Get('/sample')
   @Render('index')
   async getBoards() {
     const data = await this.sampleService.findAll()

@@ -1,13 +1,15 @@
 import { Controller, Get, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { BoardSchema } from 'src/board.schema';
-import { User, UserSchema } from 'src/user.schema';
+import { BoardSchema } from 'src/server/board.schema';
+import { User, UserSchema } from 'src/server//user.schema';
 import { SampleController } from './sample.controller';
 import { SampleMiddleware } from './sample.middleware';
 import { SampleService } from './sample.service';
 
 @Module({
   imports: [
+    ConfigModule,
     MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
     MongooseModule.forFeature([{name: 'Board', schema: BoardSchema}]),
   //   MongooseModule.forFeatureAsync([
@@ -28,10 +30,10 @@ import { SampleService } from './sample.service';
 export class SampleModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(SampleMiddleware)
-      .exclude(
-        { path: 'sapmle', method: RequestMethod.POST },
-        'sample/(.*)',
-      )
+      // .exclude(
+      //   { path: 'sapmle', method: RequestMethod.POST },
+      //   'sample/(.*)',
+      // )
       // .forRoutes({path: 'sample', method: RequestMethod.GET})
       .forRoutes(SampleController)
   }

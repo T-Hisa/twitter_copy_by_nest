@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -10,6 +11,9 @@ import { SampleModule } from './sample/sample.module';
   imports: [
     BoardModule,
     SampleModule,
+    ConfigModule.forRoot({
+      envFilePath: '.development.env'
+    }),
     MongooseModule.forRoot('mongodb://localhost:27017/sample'/*, {
       connectionFactory: (connection) => {
         connection.plugin(require('mongoose-autopopulate'))
