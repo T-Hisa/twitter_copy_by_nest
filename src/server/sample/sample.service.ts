@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Board, BoardDocument } from 'src/server/board.schema';
-import { User, UserDocument } from 'src/server/user.schema';
+import { Board, BoardDocument } from '../board.schema';
+import { User, UserDocument } from '../user.schema';
 import { SampleInterface } from './sample.interface';
 import * as path from 'path'
 import * as fs from 'fs'
@@ -33,23 +33,20 @@ export class SampleService {
   }
 
   async getStatic () {
-    const basePath = 'public/public'
-    const filePath = path.resolve(path.join(basePath, 'index.html'))
-    console.log('filePath', filePath)
-    return new Promise((resolve, reject) => {
-      fs.readFile(filePath, 'utf8', (err: NodeJS.ErrnoException, data: string) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      });
-    });
+    return 'sample html!'
+    // const basePath = 'public/public'
+    // const filePath = path.resolve(path.join(basePath, 'index.html'))
+    // console.log('filePath', filePath)
+    // return new Promise((resolve, reject) => {
+    //   fs.readFile(filePath, 'utf8', (err: NodeJS.ErrnoException, data: string) => {
+    //     if (err) {
+    //       reject(err);
+    //     } else {
+    //       resolve(data);
+    //     }
+    //   });
+    // });
   }
-
-  // getAll(): SampleInterface[] {
-  //   return this.sample;
-  // }
 
   create(sample: SampleInterface) {
     // this.sample.push(sample)

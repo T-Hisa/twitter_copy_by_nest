@@ -1,20 +1,21 @@
-const webpack = require('webpack');
 const path = require('path');
+const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
-  // entry: ['webpack-hot-middleware/client', path.resolve(process.cwd(), './src/server/main')],
+  // entry: ['webpack/hot/poll?100', path.resolve(process.cwd(), './src/server/main')],
   entry: path.resolve(process.cwd(), './src/server/main'),
   target: 'node',
+  externals: [nodeExternals()],
   output: {
     path: path.resolve(process.cwd(), './dist'),
-    filename: 'server.js',
+    filename: 'main.js',
     chunkFilename: `[name].js`,
   },
   resolve: {
     alias: {
       '@': path.resolve(process.cwd(), './'),
     },
-    extensions: ['.js', '.ts'],
+    extensions: ['.js', '.ts', '.tsx'],
   },
   module: {
     rules: [
@@ -32,7 +33,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.ts$/,
+        test: /\.tsx?$/,
         exclude: /node_modulles/,
         loader: 'ts-loader',
       },

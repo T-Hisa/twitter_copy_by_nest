@@ -1,8 +1,8 @@
 import { Controller, Get, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { BoardSchema } from 'src/server/board.schema';
-import { User, UserSchema } from 'src/server//user.schema';
+import { BoardSchema } from '../board.schema';
+import { User, UserSchema } from '../user.schema';
 import { SampleController } from './sample.controller';
 import { SampleMiddleware } from './sample.middleware';
 import { SampleService } from './sample.service';

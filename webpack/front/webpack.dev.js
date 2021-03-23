@@ -6,10 +6,8 @@ const commonConf = require('./webpack.common');
 const outputFilename = '[name]';
 const isMinify = false;
 
-
-module.exports = () => webpackMerge(
-  commonConf({ outputFilename, isMinify }),
-  {
+module.exports = () =>
+  webpackMerge(commonConf({ outputFilename, isMinify }), {
     mode: 'development',
     devtool: 'source-map',
     // watch: true,
@@ -28,14 +26,13 @@ module.exports = () => webpackMerge(
       watchContentBase: true,
       watchOptions: {
         poll: false,
-        ignored: /node_modules/
-      }
+        ignored: /node_modules/,
+      },
       // publicPath: 'dist',
       // historyApiFallback: {
       //   rewrites: [
       //     { from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html') },
       //   ],
       // },
-    }
-  },
-);
+    },
+  });

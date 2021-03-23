@@ -46,3 +46,14 @@
     _ tag_name
 
 userid は 英数字 4 ~ 10文字
+
+
+webpackにて、エラーが起きたのでインストールしたもの・修正した箇所
+  @nestjs/microservices
+
+  .eslintrc.js にて、
+
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off'
+      }
+  を追加
