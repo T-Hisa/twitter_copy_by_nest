@@ -3,8 +3,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = ({ outputFilename, isMinify }) => ({
-  entry: './src/front/main',
-  // entry: ['./src/front/main', 'babel-polyfill'],
+  // entry: './src/front/main',
+  entry: ['./src/front/main', 'babel-polyfill'],
   output: {
     path: path.resolve(process.cwd(), 'dist/front'),
     filename: `${outputFilename}.js`,
@@ -21,7 +21,6 @@ module.exports = ({ outputFilename, isMinify }) => ({
       {
         test: /\.js$/,
         exclude: /node_modues/,
-        // loader: 'babel-loader',
         use: [
           { loader: 'babel-loader' },
           {
@@ -32,11 +31,6 @@ module.exports = ({ outputFilename, isMinify }) => ({
           },
         ],
       },
-      // {
-      //   test: /\.js$/,
-      //   exclude: /node_modues/,
-      //   loader: 'eslint-loader'
-      // },
       {
         test: /\.s(c|a)ss$/,
         use: [

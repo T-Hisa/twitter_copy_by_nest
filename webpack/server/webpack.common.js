@@ -3,6 +3,7 @@ const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
   // entry: ['webpack/hot/poll?100', path.resolve(process.cwd(), './src/server/main')],
+  // entry: [path.resolve(process.cwd(), './src/server/main'), 'webpack-hot-middleware/client'],
   entry: path.resolve(process.cwd(), './src/server/main'),
   target: 'node',
   externals: [nodeExternals()],

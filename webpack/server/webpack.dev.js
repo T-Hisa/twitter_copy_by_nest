@@ -5,7 +5,7 @@ const path = require('path')
 
 module.exports = webpackMerge(commonConf, {
   mode: 'development',
-  watch: false,
+  watch: true,
   plugins: [
     new NodemonPlugin({
       watch: path.join(process.cwd(), './dist'),
