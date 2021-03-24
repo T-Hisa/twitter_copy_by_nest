@@ -8,7 +8,7 @@ module.exports = {
   externals: [nodeExternals()],
   output: {
     path: path.resolve(process.cwd(), './dist'),
-    filename: 'main.js',
+    filename: 'server.js',
     chunkFilename: `[name].js`,
   },
   resolve: {

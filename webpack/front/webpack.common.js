@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = ({ outputFilename, isMinify }) => ({
   entry: './src/front/main',
+  // entry: ['./src/front/main', 'babel-polyfill'],
   output: {
     path: path.resolve(process.cwd(), 'dist/front'),
     filename: `${outputFilename}.js`,
