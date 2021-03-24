@@ -7,11 +7,13 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    // "noImplicitAny": true,
+    // "esModuleInterop": true,
     "target": "es2019",
-    "sourceMap": true,
-    "outDir": "./dist",
+    "sourceMap": false,
+    "outDir": "./dist_2",
     "rootDir": "./",
-    // "baseUrl": "./",
+    "baseUrl": "./",
     "incremental": true,
     "jsx": "react-jsx",
     "allowJs": true,
@@ -19,7 +21,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["src"],
+  "include": ["front", "server"],
   "exclude": ["node_modules", "dist", "test", "**/*.spec.ts", "webpack"]
   // "include": [
   //   "./src/front"

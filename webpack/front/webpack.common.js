@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = ({ outputFilename, isMinify }) => ({
   // entry: './src/front/main',
-  entry: ['./src/front/main', 'babel-polyfill'],
+  entry: ['./front/main', 'babel-polyfill'],
   output: {
     path: path.resolve(process.cwd(), 'dist/front'),
     filename: `${outputFilename}.js`,
@@ -64,13 +64,14 @@ module.exports = ({ outputFilename, isMinify }) => ({
         },
       },
     },
+    minimize: isMinify,
   },
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(process.cwd(), 'src/front/index.html'),
+      template: path.resolve(process.cwd(), 'front/index.html'),
       filename: 'index.html',
       inject: 'body',
       minify: isMinify,

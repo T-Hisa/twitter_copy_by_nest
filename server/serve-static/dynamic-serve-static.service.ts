@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AbstractHttpAdapter } from '@nestjs/core';
 import { Configuration, Entry, EntryFunc } from 'webpack';
 import * as webpack from 'webpack'
-// import * as webpackDevMiddleware from 'webpack-dev-middleware';
+// import webpackDevMiddleware from 'webpack-dev-middleware';
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 // import * as webpackHotMiddleware from 'webpack-hot-middleware';
