@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const path = require("path");
-const webpack = require("webpack");
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-  entry: ["./client/App.tsx", "babel-polyfill"],
+  entry: ['./client/App.tsx', 'babel-polyfill'],
   resolve: {
     alias: {
-      "@": path.resolve(process.cwd(), "./"),
-      apis: path.resolve(process.cwd(), "./apis/$api.ts"),
+      '@': path.resolve(process.cwd(), './'),
+      apis: path.resolve(process.cwd(), './apis/$api.ts'),
     },
-    extensions: [".ts", ".tsx", ".js", ".jsx"],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
   module: {
     rules: [
@@ -18,17 +18,17 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
           },
         ],
       },
       {
         test: /\.json$/,
         exclude: /node_modules/,
-        type: "javascript/auto",
+        type: 'javascript/auto',
         use: [
           {
-            loader: "json-loader",
+            loader: 'json-loader',
           },
         ],
       },
@@ -37,7 +37,7 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: "ts-loader",
+            loader: 'ts-loader',
           },
         ],
       },
@@ -48,22 +48,22 @@ module.exports = {
       cacheGroups: {
         vendors: {
           test: /node_modules/,
-          name: "vendor",
+          name: 'vendor',
           enforce: true,
-          chunks: "all",
+          chunks: 'all',
         },
       },
     },
   },
   output: {
-    filename: "js/[name]-[hash].js",
-    path: path.join(process.cwd(), "dist/public"),
-    publicPath: "/",
+    filename: 'js/[name]-[hash].js',
+    path: path.join(process.cwd(), 'dist/public'),
+    publicPath: '/',
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env.WS_HOST": JSON.stringify(process.env.WS_HOST),
-      "process.env.WS_PORT": JSON.stringify(process.env.WS_PORT),
+      'process.env.WS_HOST': JSON.stringify(process.env.WS_HOST),
+      'process.env.WS_PORT': JSON.stringify(process.env.WS_PORT),
     }),
   ],
 };
