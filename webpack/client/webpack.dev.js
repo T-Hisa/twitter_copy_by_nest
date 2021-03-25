@@ -4,10 +4,10 @@ const commonConf = require('./webpack.common');
 // const webpack = require("webpack")
 
 const outputFilename = '[name]';
-const isMinify = false;
+const isProd = false;
 
 module.exports = () =>
-  webpackMerge(commonConf({ outputFilename, isMinify }), {
+  webpackMerge(commonConf({ outputFilename, isProd }), {
     mode: 'development',
     devtool: 'source-map',
     // watch: true,

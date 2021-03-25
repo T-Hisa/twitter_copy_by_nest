@@ -2,11 +2,11 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = ({ outputFilename, isMinify }) => ({
+module.exports = ({ outputFilename, isProd }) => ({
   // entry: './src/front/main',
-  entry: ['./front/main', 'babel-polyfill'],
+  entry: ['./client/main', 'babel-polyfill'],
   output: {
-    path: path.resolve(process.cwd(), 'dist/front'),
+    path: path.resolve(process.cwd(), 'dist/client'),
     filename: `${outputFilename}.js`,
     chunkFilename: `${outputFilename}.js`,
   },
@@ -32,11 +32,11 @@ module.exports = ({ outputFilename, isMinify }) => ({
         ],
       },
       {
-        test: /\.s(c|a)ss$/,
+        test: /\.s?(c|a)ss$/,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'postcss-loader',
+          // 'postcss-loader',
           'sass-loader',
         ],
       },
@@ -64,17 +64,17 @@ module.exports = ({ outputFilename, isMinify }) => ({
         },
       },
     },
-    minimize: isMinify,
+    minimize: isProd,
   },
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(process.cwd(), 'front/index.html'),
-      filename: 'index.html',
+      template: path.resolve(process.cwd(), 'client/index.html'),
+      // filename: 'index.html',
       inject: 'body',
-      minify: isMinify,
+      minify: isProd,
     }),
   ],
 });

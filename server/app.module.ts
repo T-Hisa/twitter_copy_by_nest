@@ -8,7 +8,7 @@ import { AppService } from './app.service';
 import { BoardModule } from './boards.module';
 import { SampleModule } from './sample/sample.module';
 import { DynamicServeStaticModule } from './serve-static/dynamic-serve-static.module';
-import * as frontWebpackConfig from '../webpack/front/webpack.dev';
+import * as frontWebpackConfig from '../webpack/client/webpack.dev';
 import { Configuration } from 'webpack';
 
 @Module({

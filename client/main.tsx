@@ -1,10 +1,18 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import "./scss/main.scss"
 
 console.log('sampleaasswsssa')
 ReactDOM.render(
   <React.StrictMode>
-    sample  sample
+    <div className="sample">
+      sample  sample
+      <span>SampmleSpan!!!!!!!</span>
+      <i className="fab fa-twitter"></i>
+      <i className="fab fa-twitter-square"></i>
+      <i className="fas fa-home"></i>
+      <i className="fas fa-bell"></i>
+    </div>
   </React.StrictMode>,
   document.getElementById("root")
 );
