@@ -1,19 +1,26 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+
+// import reducer from "./reducers"
 import "./scss/main.scss"
+
+import Container from "./containers/Container"
+
+const enhancer = applyMiddleware(thunk)
+// const store = createStore({reducer}, enhancer)
+
 
 console.log('sampleaasswsssa')
 ReactDOM.render(
-  <React.StrictMode>
-    <div className="sample">
-      sample  sample
-      <span>SampmleSpan!!!!!!!</span>
-      <i className="fab fa-twitter"></i>
-      <i className="fab fa-twitter-square"></i>
-      <i className="fas fa-home"></i>
-      <i className="fas fa-bell"></i>
-    </div>
-  </React.StrictMode>,
+  // <Provider store={store}>
+  <Router>
+    <Container />
+  </Router>,
+  // </Provider>
   document.getElementById("root")
 );
 

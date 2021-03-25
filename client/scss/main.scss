@@ -1,7 +1,22 @@
+@import "~bootstrap/scss/bootstrap";
+@import "./components/sidebar";
+@import "./components/home";
+
 .sample {
+
   color:red;
 
   span {
     color: blue;
   }
+}
+
+.d-flex {
+  display: flex;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

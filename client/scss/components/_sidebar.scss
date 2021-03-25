@@ -1,0 +1,56 @@
+.sidebar {
+  border-right: 1px solid lightgray;
+
+  .menu-list {
+    // color: white;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 60px;
+    margin-top: 10px;
+    padding: 0 10px;
+    font-size: 24px;
+
+    li {
+      padding: 0;
+      margin: 5px 0;
+      width: 46px;
+      height: 46px;
+      position: relative;
+      border-radius: 50%;
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(29, 161, 242, 0.2);
+      }
+
+      .icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
+      }
+    }
+
+    .main-icon {
+      font-size: 28px;
+      color: $primary;
+    }
+
+    .tweet {
+      margin-top: 15px;
+      position: relative;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      background-color: rgba(29, 161, 242, 0.9);
+      
+      &:hover {
+        background-color: rgb(29, 161, 242);
+      }
+
+      .tweet-btn {
+        color: white;
+      }
+    }
+  }
+}
