@@ -1,10 +1,10 @@
 import { Controller, Get, MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { BoardSchema } from '../board.schema';
-import { User, UserSchema } from '../user.schema';
+import { BoardSchema } from '../boards/board.schema';
+import { User, UserSchema } from '../users/user.schema';
 import { SampleController } from './sample.controller';
-import { SampleMiddleware } from './sample.middleware';
+import { SampleMiddleware, SampleMiddlewareFunction } from './sample.middleware';
 import { SampleService } from './sample.service';
 
 @Module({
@@ -36,5 +36,6 @@ export class SampleModule implements NestModule {
       // )
       // .forRoutes({path: 'sample', method: RequestMethod.GET})
       .forRoutes(SampleController)
+    consumer.apply(SampleMiddlewareFunction).forRoutes('/sapmle*')
   }
 }

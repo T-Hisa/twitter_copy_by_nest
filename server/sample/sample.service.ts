@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Board, BoardDocument } from '../board.schema';
-import { User, UserDocument } from '../user.schema';
+import { Board, BoardDocument } from '../boards/board.schema';
+import { User, UserDocument } from '../users/user.schema';
 import { SampleInterface } from './sample.interface';
 import * as path from 'path'
 import * as fs from 'fs'

@@ -1,4 +1,4 @@
-import { BoardInterface } from "./boards.interface";
+import { BoardInterface } from "./board.interface";
 
 export class BoardModel /*implements BoardInterface*/ {
   constructor(

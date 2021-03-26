@@ -2,23 +2,18 @@ import * as path from 'path';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { BoardModule } from './boards/boards.module';
-import { SampleModule } from './sample/sample.module';
-import { DynamicServeStaticModule } from './serve-static/dynamic-serve-static.module';
-import * as frontWebpackConfig from '../webpack/client/webpack.dev';
+import { BoardModule } from '../boards/boards.module';
+import { SampleModule } from '../sample/sample.module';
+import { DynamicServeStaticModule } from '../serve-static/dynamic-serve-static.module';
+import * as frontWebpackConfig from '../../webpack/client/webpack.dev';
 import { Configuration } from 'webpack';
-import { SampleMiddleware } from './sample/sample.middleware';
+import { RootMiddleware } from './root.midddleware';
+import { RootController } from './root.controller';
 
 @Module({
   imports: [
     BoardModule,
     SampleModule,
-    ConfigModule.forRoot({
-      envFilePath: '.development.env',
-    }),
     MongooseModule.forRoot(
       'mongodb://localhost:27017/sample' /*, {
       connectionFactory: (connection) => {
@@ -36,8 +31,4 @@ import { SampleMiddleware } from './sample/sample.middleware';
   controllers: [],
   providers: [],
 })
-export class CoreModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(SampleMiddleware).forRoutes('/*')
-  }
-}
+export class RootModule {}

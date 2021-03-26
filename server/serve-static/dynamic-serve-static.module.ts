@@ -33,7 +33,6 @@ export class DynamicServeStaticModule implements OnModuleInit {
   }
 
   public async onModuleInit() {
-    console.log('env', process.env.NODE_ENV);
     if (process.env.NODE_ENV !== 'development') return;
 
     const { httpAdapter } = this.httpAdapterHost;

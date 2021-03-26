@@ -2,16 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { AbstractHttpAdapter } from '@nestjs/core';
 import { Configuration, Entry, EntryFunc } from 'webpack';
 import * as webpack from 'webpack'
-// import webpackDevMiddleware from 'webpack-dev-middleware';
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
-// import * as webpackHotMiddleware from 'webpack-hot-middleware';
 import * as history from "connect-history-api-fallback";
 
 @Injectable()
 export class DynamicServeStaticService {
   async init(app: AbstractHttpAdapter, options: Configuration) {
-    console.log('webpackOptions', options)
     // const compiler: Compiler = webpack({
     //   ...options,
     //   mode: "development",
@@ -19,12 +16,10 @@ export class DynamicServeStaticService {
     //   // plugins: [...options.plugins, new webpack.HotModuleReplacementPlugin()],
     // });
     const compiler = webpack(options);
-    console.log('compiller', compiler)
     const WDM = webpackDevMiddleware(compiler)
     app.use(WDM)
     const WHM = webpackHotMiddleware(compiler)
     app.use(WHM)
-    console.log('debug')
     app.use(history())
   }
 

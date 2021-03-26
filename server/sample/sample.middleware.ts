@@ -5,18 +5,20 @@ import * as path from 'path'
 
 @Injectable()
 export class SampleMiddleware implements NestMiddleware {
-  constructor(private readonly sampleService: SampleService) {}
+  // constructor(private readonly sampleService: SampleService) {}
   async use(req: Request, res: Response, next: NextFunction) {
     console.log('sample middleware!!', req.path)
-    if (/[^\\/]+\.[^\\/]+$/.test(req.path)) {
-    // if (true) {
-      const fileName = '/index.js'
-      const file = this.getAssetPath(fileName)
-      console.log('file', file)
-      res.sendFile(file, (e) => {
-        // if (e) res.status(e.).end()
-        console.log(e)
-      })
+    // if (/[^\\/]+\.[^\\/]+$/.test(req.path)) {
+    if (true) {
+      console.log('debug')
+      // const fileName = '/index.js'
+      // const file = this.getAssetPath(fileName)
+      // console.log('file', file)
+      // res.sendFile(file, (e) => {
+      //   // if (e) res.status(e.).end()
+      //   console.log(e)
+      // })
+      // return next()
     } else {
       console.log('next')
       return next()
