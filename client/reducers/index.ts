@@ -1,14 +1,6 @@
 import { combineReducers } from "redux"
+import {boards} from './boards'
 
-const boards = (boardsModel: any = {}, action: any) => {
-  switch (action.type) {
-    case "a":
-      console.log("a")
-      return {}
-    default:
-      return {}
-  }
-}
 
 export default combineReducers({
   boards
