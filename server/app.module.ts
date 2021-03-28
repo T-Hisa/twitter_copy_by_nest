@@ -11,14 +11,16 @@ import { DynamicServeStaticModule } from './serve-static/dynamic-serve-static.mo
 import * as clientWebpackConfig from '../webpack/client/webpack.dev';
 import { Configuration } from 'webpack';
 import { SampleMiddleware } from './sample/sample.middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     BoardModule,
-    SampleModule,
-    ConfigModule.forRoot({
-      envFilePath: '.development.env',
-    }),
+    // SampleModule,
+    AuthModule,
+    // ConfigModule.forRoot({
+    //   envFilePath: '.development.env',
+    // }),
     MongooseModule.forRoot(
       'mongodb://localhost:27017/sample' /*, {
       connectionFactory: (connection) => {

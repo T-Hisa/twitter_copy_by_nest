@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Next, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Next, Post, Request, Res } from '@nestjs/common';
 import { NextFunction, Response } from 'express';
 import { CreateBoardDto } from './boards.create.dto';
 import { BoardsService } from './boards.service';
@@ -15,7 +15,6 @@ export class BoardsController {
   //   next();
   //   // return 'this is board'
   // }
-
   @Post('/get-boards')
   async getBoards() {
     const boards = await this.boardsService.findAll();

@@ -9,10 +9,12 @@ import * as frontWebpackConfig from '../../webpack/client/webpack.dev';
 import { Configuration } from 'webpack';
 import { RootMiddleware } from './root.midddleware';
 import { RootController } from './root.controller';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
     BoardModule,
+    AuthModule,
     // SampleModule,
     MongooseModule.forRoot(
       'mongodb://localhost:27017/sample' /*, {
