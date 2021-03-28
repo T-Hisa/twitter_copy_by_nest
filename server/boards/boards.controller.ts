@@ -22,8 +22,9 @@ export class BoardsController {
   }
 
   @Post('/create-board')
-  async createBoard(@Body() createBoardDto: CreateBoardDto) {
+  async createBoard(@Request() req, @Body() createBoardDto: CreateBoardDto) {
     console.log('sendData', createBoardDto)
+    console.log('rea.user', req.user)
     const boards = await this.boardsService.createBoard(createBoardDto)
     console.log('boards', boards)
     return boards

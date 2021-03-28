@@ -6,7 +6,7 @@ import { login } from '../actions';
 import { CreateBoardInterface } from '../../types/boards.interface';
 
 interface LoginState {
-  username: string;
+  _id: string;
   password: string;
 }
 
@@ -17,15 +17,15 @@ class Login extends React.Component<any, LoginState> {
     super(props);
     this.loginBtnRef = React.createRef();
     this.state = {
-      username: '',
+      _id: '',
       password: '',
     };
   }
 
   controlLoginBtn(data: LoginState) {
     const loginBtn = this.loginBtnRef.current;
-    const { username, password } = data;
-    if (username && password) {
+    const { _id, password } = data;
+    if (_id && password) {
       loginBtn.className = 'login-btn';
     } else {
       loginBtn.className = 'login-btn disabled';
@@ -33,17 +33,17 @@ class Login extends React.Component<any, LoginState> {
   }
 
   onInputUserField(e: React.KeyboardEvent<HTMLInputElement>): void {
-    const username: string = e.currentTarget.value;
-    this.setState({ username });
+    const _id: string = e.currentTarget.value;
+    this.setState({ _id });
     const { password } = this.state;
-    this.controlLoginBtn({ username, password });
+    this.controlLoginBtn({ _id, password });
   }
 
   onInputPasswordField(e: React.KeyboardEvent<HTMLInputElement>): void {
     const password: string = e.currentTarget.value;
     this.setState({ password });
-    const { username } = this.state;
-    this.controlLoginBtn({ username, password });
+    const { _id } = this.state;
+    this.controlLoginBtn({ _id, password });
   }
 
   onFocusField(e: React.MouseEvent<HTMLInputElement>): void {
@@ -74,7 +74,7 @@ class Login extends React.Component<any, LoginState> {
     field.style.opacity = '1';
     brotherSpanElement.style.color = 'black';
     parentContainer.style.border = '1px solid gray';
-    const flag = id === 'username' ? 'username' : 'password';
+    const flag = id === '_id' ? '_id' : 'password';
     if (!this.state[flag]) {
       brotherSpanElement.style.fontSize = '20px';
       brotherSpanElement.style.top = '20%';
@@ -84,9 +84,9 @@ class Login extends React.Component<any, LoginState> {
   }
 
   onClickLoginBtn(e: React.MouseEvent<HTMLAnchorElement>): void {
-    const { username, password } = this.state;
+    const { _id, password } = this.state;
     console.log('ログイン処理を行う');
-    if (username && password) {
+    if (_id && password) {
       console.log('ログイン！')
       this.props.login(this.state)
     }
@@ -99,10 +99,10 @@ class Login extends React.Component<any, LoginState> {
         <div className="login-header">Twitterにログイン</div>
         <div className="login-field-container">
           <span className="login-field-description">
-            電話、メールまたはユーザー名
+            IDを入力
           </span>
           <input
-            id="username"
+            id="_id"
             onBlur={this.onBlurField.bind(this)}
             onFocus={this.onFocusField.bind(this)}
             onInput={this.onInputUserField.bind(this)}
