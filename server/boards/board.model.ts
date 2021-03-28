@@ -1,5 +1,3 @@
-import { BoardInterface } from "./board.interface";
-
 export class BoardModel /*implements BoardInterface*/ {
   constructor(
     private body: string,

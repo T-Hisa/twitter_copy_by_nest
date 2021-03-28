@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {BoardModel} from '../types/BoardModel'
+import { BoardModel } from '../types/BoardModel';
+import { createBoard } from '../actions';
+import { CreateBoardInterface } from '../../types/boards.interface';
 
 interface HomeProps {
   boards?: BoardModel[];
 }
 
-class Home extends React.Component<HomeProps, {}> {
+class Home extends React.Component<any, any> {
   textareaRef: React.RefObject<HTMLTextAreaElement>;
 
   constructor(props: any) {
@@ -23,6 +25,21 @@ class Home extends React.Component<HomeProps, {}> {
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
     this.setState({ body });
+  }
+
+  onClickSample(e: any) {
+    e.preventDefault()
+  }
+
+
+  onClickTweet(e: React.MouseEvent<HTMLAnchorElement>): void {
+    const data: CreateBoardInterface = {
+      body: 'sample',
+      user: 'sample-id',
+      date: new Date().getTime()
+    }
+    console.log('clicked!!!!!!!')
+    this.props.createBoard(data)
   }
 
   renderHeader(): JSX.Element {
@@ -65,7 +82,7 @@ class Home extends React.Component<HomeProps, {}> {
                 <i className="far fa-calendar"></i>
               </li>
             </ul>
-            <a className="send-tweet-btn bg-primary">ツイートする</a>
+            <a onClick={this.onClickTweet.bind(this)} className="send-tweet-btn bg-primary">ツイートする</a>
           </div>
         </div>
       </div>
@@ -73,11 +90,7 @@ class Home extends React.Component<HomeProps, {}> {
   }
 
   renderBoard(board: BoardModel): JSX.Element {
-    return (
-      <React.StrictMode>
-        {board.body}
-      </React.StrictMode>
-    )
+    return <React.StrictMode>{board.body}</React.StrictMode>;
   }
 
   render(): JSX.Element {
@@ -85,15 +98,14 @@ class Home extends React.Component<HomeProps, {}> {
       <div className="home-container">
         {this.renderHeader()}
         {this.renderTweet()}
-        <div className="empty-zone"/>
-        {
-          this.props.boards && this.props.boards.map(board => (
-            this.renderBoard(board)
-          ))
-        }
+        <div className="empty-zone" />
+        {this.props.boards &&
+          this.props.boards.map((board) => this.renderBoard(board))}
       </div>
     );
   }
 }
 
-export default Home;
+const mapDispatchToProps = { createBoard };
+
+export default connect(null, mapDispatchToProps)(Home);

@@ -1,7 +1,7 @@
-import { Controller, Get, Next, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Next, Post, Res } from '@nestjs/common';
 import { NextFunction, Response } from 'express';
+import { CreateBoardDto } from './boards.create.dto';
 import { BoardsService } from './boards.service';
-// import { BoardModel } from "./boards.model"
 // import { BoardInterface } from "./boards.interface"
 
 @Controller()
@@ -17,7 +17,16 @@ export class BoardsController {
   }
 
   @Post('/get-boards')
-  getBoards() {
-    return { data: 'sample' };
+  async getBoards() {
+    const boards = await this.boardsService.findAll();
+    return boards;
+  }
+
+  @Post('/create-board')
+  async createBoard(@Body() createBoardDto: CreateBoardDto) {
+    console.log('sendData', createBoardDto)
+    const boards = await this.boardsService.createBoard(createBoardDto)
+    console.log('boards', boards)
+    return boards
   }
 }

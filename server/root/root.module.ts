@@ -13,7 +13,7 @@ import { RootController } from './root.controller';
 @Module({
   imports: [
     BoardModule,
-    SampleModule,
+    // SampleModule,
     MongooseModule.forRoot(
       'mongodb://localhost:27017/sample' /*, {
       connectionFactory: (connection) => {

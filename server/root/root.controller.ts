@@ -1,7 +1,6 @@
 import { Controller, Get, Next } from "@nestjs/common";
 import { NextFunction } from "express";
 // import { BoardsService } from "./boards.service";
-// import { BoardModel } from "./boards.model"
 // import { BoardInterface } from "./boards.interface"
 
 @Controller()
