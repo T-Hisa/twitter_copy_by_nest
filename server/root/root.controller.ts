@@ -1,4 +1,4 @@
-import { Controller, Get, Next } from "@nestjs/common";
+import { Controller, Get, Next, Redirect } from "@nestjs/common";
 import { NextFunction } from "express";
 // import { BoardsService } from "./boards.service";
 // import { BoardInterface } from "./boards.interface"
@@ -6,11 +6,17 @@ import { NextFunction } from "express";
 @Controller()
 export class RootController {
   // constructor(private readonly boardsService: BoardsService) {}
-  @Get()
-  getBoards(@Next() next: NextFunction): any {
-    // const boards = this.boardsService.findAll()
-    console.log('root Controller!')
-    next()
-    // return 'this is board'
-  }
+  // @Get('/')
+  // rootGet(@Next() next: NextFunction): any {
+  //   console.log('rootController')
+  //   next()
+  //   // return 'this is board'
+  // }
+
+  // @Get('/*')
+  // @Redirect('/')
+  // redirectRoot(@Next() next: NextFunction) {
+  //   console.log('redirect')
+  //   next()
+  // }
 }

@@ -7,14 +7,14 @@ import { BoardsService } from './boards.service';
 @Controller()
 export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
-  @Get()
-  sampleGet(@Next() next: NextFunction, @Res() res: Response): any {
-    const boards = this.boardsService.findAll();
-    console.log('boards Controller!');
-    // console.log('res', res)
-    next();
-    // return 'this is board'
-  }
+  // @Get('/*')
+  // sampleGet(@Next() next: NextFunction, @Res() res: Response): any {
+  //   const boards = this.boardsService.findAll();
+  //   console.log('boards Controller!');
+  //   // console.log('res', res)
+  //   next();
+  //   // return 'this is board'
+  // }
 
   @Post('/get-boards')
   async getBoards() {

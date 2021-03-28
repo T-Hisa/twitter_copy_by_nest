@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
@@ -9,6 +9,7 @@ import reducer from "./reducers"
 import "./scss/main.scss"
 
 import Container from "./containers/Container"
+import Login from "./containers/Login"
 
 import "./actions"
 
@@ -20,7 +21,8 @@ console.log('sampleaasswsssa')
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Container />
+      <Route exact path="/login" component={Login} />
+      <Route path="/" component={Container} />
     </Router>
   </Provider>,
   document.getElementById("root")

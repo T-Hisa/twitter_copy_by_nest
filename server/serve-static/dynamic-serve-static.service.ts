@@ -15,12 +15,12 @@ export class DynamicServeStaticService {
     //   entry: await this.appendHotMiddlewareToEntry(options.entry),
     //   // plugins: [...options.plugins, new webpack.HotModuleReplacementPlugin()],
     // });
+    app.use(history())
     const compiler = webpack(options);
     const WDM = webpackDevMiddleware(compiler)
     app.use(WDM)
     const WHM = webpackHotMiddleware(compiler)
     app.use(WHM)
-    app.use(history())
   }
 
 

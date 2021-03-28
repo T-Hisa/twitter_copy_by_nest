@@ -28,7 +28,7 @@ import { RootController } from './root.controller';
       webpackConfig: frontWebpackConfig() as Configuration,
     }),
   ],
-  controllers: [],
+  controllers: [RootController],
   providers: [],
 })
 export class RootModule {}

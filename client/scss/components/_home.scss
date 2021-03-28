@@ -68,7 +68,6 @@
         }
 
         .send-tweet-btn {
-          cursor: pointer;
           width: 120px;
           height: 38px;
           border-radius: 19px;
@@ -77,10 +76,6 @@
           text-align: center;
           color: white;
           font-weight: bold;
-
-          &:hover {
-            text-decoration: none;
-          }
         }
       }
     }

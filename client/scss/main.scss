@@ -1,6 +1,7 @@
 @import "~bootstrap/scss/bootstrap";
 @import "./components/sidebar";
 @import "./components/home";
+@import "./components/login";
 
 .sample {
 
@@ -8,6 +9,14 @@
 
   span {
     color: blue;
+  }
+}
+
+a {
+  cursor: pointer;
+  color: $primary;
+  &:hover {
+    text-decoration: none;
   }
 }
 

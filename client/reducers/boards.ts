@@ -5,8 +5,7 @@ export const boards = (boardsModel: any = {}, action: any) => {
     case GET_BOARDS:
       console.log('a');
       return action.data
-      return {};
     default:
-      return {};
+      return boardsModel;
   }
 };
