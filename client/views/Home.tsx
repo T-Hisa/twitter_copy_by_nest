@@ -20,8 +20,6 @@ class Home extends React.Component<any, any> {
   onInputTextarea(e: React.KeyboardEvent<HTMLTextAreaElement>): void {
     const body: string = e.currentTarget.value;
     const textarea: HTMLTextAreaElement = this.textareaRef.current;
-    console.log('height', textarea.style.height);
-    console.log('scrollHeight', textarea.scrollHeight);
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
     this.setState({ body });
