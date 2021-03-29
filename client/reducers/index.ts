@@ -1,9 +1,11 @@
 import { combineReducers } from "redux"
 import {boards} from './boards'
+import {login_user} from './login_user'
 
 
 export default combineReducers({
-  boards
+  boards,
+  login_user
 })
 
 // import users, { verifiedOtherUserIds } from "./users"

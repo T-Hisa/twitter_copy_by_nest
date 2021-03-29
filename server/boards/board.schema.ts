@@ -6,8 +6,8 @@ export type BoardDocument = Board & mongoose.Document;
 
 @Schema()
 export class Board {
-  @Prop({ required: true, default: new mongoose.Types.ObjectId()})
-  _id: string;
+  @Prop({ required: true })
+  _id: mongoose.Schema.Types.ObjectId;
 
   @Prop({ required: true })
   body: string;

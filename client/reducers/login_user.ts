@@ -1,11 +1,12 @@
 import { LOGIN } from '../actions'
 
-export const user = (userModel: any = {}, action: any) => {
+export const login_user = (loginUserModel: any = {}, action: any) => {
   switch (action.type) {
     case LOGIN:
       console.log('action', action)
-      return userModel
+      return action.data
     default:
-      return userModel
+      console.log('defaultaction in loginUser')
+      return loginUserModel
   }
 }

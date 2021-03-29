@@ -20,3 +20,7 @@ export const createBoard = (data: any) => async (dispatch: any) => {
   //   dispatch({ type: CREATE_BOARD })
   // })
 }
+
+export const getBoardsForHome = async (dispatch: any) => {
+  axios.post('get-boards-for-home-display')
+}

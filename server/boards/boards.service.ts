@@ -21,4 +21,8 @@ export class BoardsService {
     console.log('create board now!', createBoard)
     return createBoard.save()
   }
+
+  // async getBoardsForHomeDisplay(): Promise<Board[]> {
+  //   const boardsForHomeDisplay = await this.boardModel
+  // }
 }

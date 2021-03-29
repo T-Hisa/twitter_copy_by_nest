@@ -7,9 +7,11 @@ import { CreateBoardInterface } from '../../types/boards.interface';
 
 interface HomeProps {
   boards?: BoardModel[];
+  createBoard: any
+  login_user_for_home: any
 }
 
-class Home extends React.Component<any, any> {
+class Home extends React.Component<HomeProps, any> {
   textareaRef: React.RefObject<HTMLTextAreaElement>;
 
   constructor(props: any) {
@@ -104,6 +106,19 @@ class Home extends React.Component<any, any> {
   }
 }
 
+const mapStateToProps = (state: any, props: any) => {
+
+  console.log('state', state)
+  console.log('state.login_user', state.login_user)
+  console.log('state.login_user.boards', state.login_user.boards)
+  const boards = state.login_user.boards
+  return {}
+  // const boards = state.login_user?.boards
+  // return {
+  //   boards
+  // }
+}
+
 const mapDispatchToProps = { createBoard };
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

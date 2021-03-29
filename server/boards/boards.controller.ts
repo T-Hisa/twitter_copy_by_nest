@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Next, Post, Request, Res } from '@nestjs/common';
 import { NextFunction, Response } from 'express';
+import * as mongoose from 'mongoose';
 import { CreateBoardDto } from './boards.create.dto';
 import { BoardsService } from './boards.service';
 // import { BoardInterface } from "./boards.interface"
@@ -7,14 +8,6 @@ import { BoardsService } from './boards.service';
 @Controller()
 export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
-  // @Get('/*')
-  // sampleGet(@Next() next: NextFunction, @Res() res: Response): any {
-  //   const boards = this.boardsService.findAll();
-  //   console.log('boards Controller!');
-  //   // console.log('res', res)
-  //   next();
-  //   // return 'this is board'
-  // }
   @Post('/get-boards')
   async getBoards() {
     const boards = await this.boardsService.findAll();
@@ -24,6 +17,7 @@ export class BoardsController {
   @Post('/create-board')
   async createBoard(@Request() req, @Body() createBoardDto: CreateBoardDto) {
     console.log('sendData', createBoardDto)
+    createBoardDto._id = new mongoose.Types.ObjectId
     console.log('rea.user', req.user)
     const boards = await this.boardsService.createBoard(createBoardDto)
     console.log('boards', boards)
