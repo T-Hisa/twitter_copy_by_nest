@@ -56,21 +56,21 @@ var insertBoards = async (db) => {
       user: user1_Id,
       like_users: [],
       like_count: 0,
-      date: new Date().getTime(),
+      timestamp: new Date().getTime(),
     },
     {
       body: 'サンプル2',
       user: user1_Id,
       like_users: [],
       like_count: 0,
-      date: new Date().getTime(),
+      timestamp: new Date().getTime(),
     },
     {
       body: 'サンプル',
       user: user2_Id,
       like_users: [],
       like_count: 0,
-      date: new Date().getTime(),
+      timestamp: new Date().getTime(),
     },
   ]);
   // await db.collection('users').updateMany({

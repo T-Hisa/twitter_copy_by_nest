@@ -6,5 +6,5 @@ export interface BoardModel {
   iamge?: File
   like_user_ids?: string[]
   re_post_user_ids?: string[]
-  timestamp: Date
+  timestamp: number
 }

@@ -4,6 +4,6 @@ export class CreateBoardDto {
   _id: mongoose.Types.ObjectId;
   body: string;
   user: string;
-  date: Date;
+  timestamp: number;
   image?: string;
 }

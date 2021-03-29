@@ -25,7 +25,7 @@ export class Board {
   like_count: number;
 
   @Prop({ required: true })
-  date: number;
+  timestamp: number;
 }
 
 export const BoardSchema = SchemaFactory.createForClass(Board);

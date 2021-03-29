@@ -36,7 +36,7 @@ class Home extends React.Component<HomeProps, any> {
     const data: CreateBoardInterface = {
       body: 'sample',
       user: 'sample-id',
-      date: new Date().getTime()
+      timestamp: new Date().getTime()
     }
     console.log('clicked!!!!!!!')
     this.props.createBoard(data)

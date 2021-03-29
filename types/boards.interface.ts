@@ -4,5 +4,5 @@ export interface CreateBoardInterface {
   // user: mongoose.ObjectId
   user: string
   image?: File
-  date: number
+  timestamp: number
 }

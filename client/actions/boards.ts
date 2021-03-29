@@ -1,8 +1,9 @@
 import axios from 'axios';
-import options from '../axiosOption';
+import { commonFunc } from '../axiosCommon';
 
 export const GET_BOARDS = 'GET_BOARDS';
 export const CREATE_BOARD = 'CREATE_BOARD';
+export const GET_BOARDS_FOR_HOME = 'GET_BOARDS_FOR_HOME';
 
 export const getBoards = () => (dispatch: any) => {
   axios.post('get-boards').then((res) => {
@@ -16,21 +17,22 @@ export const createBoard = (sendData: any) => async (
 ) => {
   console.log('createBoard', sendData);
   console.log('state', state());
-  if (state().login_user?.access_token) {
-    const token = state().login_user.access_token;
-    try {
-      const { data } = await axios.post(
-        'create-board',
-        sendData,
-        options(token),
-      );
-      dispatch({ type: CREATE_BOARD, data });
-    } catch (e) {
-      alert('予期せぬエラーが発生しました。再度ログインし直してください。');
-    }
-  } else {
-    alert('ログインしてください');
-  }
+  const token = state().login_user.access_token;
+  const { data } = await commonFunc('create-board', token, sendData);
+  // if (state().login_user?.access_token) {
+  //   try {
+  //     const { data } = await axios.post(
+  //       'create-board',
+  //       sendData,
+  //       options(token),
+  //     );
+  dispatch({ type: CREATE_BOARD, data });
+  //   } catch (e) {
+  //     alert('予期せぬエラーが発生しました。再度ログインし直してください。');
+  //   }
+  // } else {
+  //   alert('ログインしてください');
+  // }
   // const options = {
   //   method: 'POST',
   //   headers: {'authorization-bearer': state().login_user.access_token},
@@ -45,6 +47,8 @@ export const createBoard = (sendData: any) => async (
   // })
 };
 
-export const getBoardsForHome = async (dispatch: any) => {
-  axios.post('get-boards-for-home-display');
+export const getBoardsForHome = () => async (dispatch: any, state: any) => {
+  const token = state().login_user.access_token;
+  const { data } = await commonFunc('get-boards-for-home-display', token);
+  dispatch({ type: GET_BOARDS_FOR_HOME, data });
 };
