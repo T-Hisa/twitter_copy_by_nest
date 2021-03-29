@@ -20,6 +20,7 @@ export class BoardsController {
   // async getBoardsForHomeDisplay() {
   //   const boardsForHomeDisplay = await this.boardsService
   // }
+
   @UseGuards(AuthGuard('jwt'))
   @Post('/create-board')
   async createBoard(@Request() req, @Body() createBoardDto: CreateBoardDto) {
