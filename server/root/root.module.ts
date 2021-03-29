@@ -13,6 +13,11 @@ import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
+    DynamicServeStaticModule.forRoot({
+      renderPath: '/*',
+      rootPath: path.join(process.cwd(), 'dist/src/front'),
+      webpackConfig: frontWebpackConfig() as Configuration,
+    }),
     BoardModule,
     AuthModule,
     // SampleModule,
@@ -24,11 +29,6 @@ import { AuthModule } from '../auth/auth.module';
       }
     }*/,
     ),
-    DynamicServeStaticModule.forRoot({
-      renderPath: '/*',
-      rootPath: path.join(process.cwd(), 'dist/src/front'),
-      webpackConfig: frontWebpackConfig() as Configuration,
-    }),
   ],
   controllers: [RootController],
   providers: [],

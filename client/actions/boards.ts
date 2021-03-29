@@ -9,8 +9,15 @@ export const getBoards = () => (dispatch: any) => {
   });
 };
 
-export const createBoard = (data: any) => async (dispatch: any) => {
+export const createBoard = (data: any) => async (dispatch: any, state: any) => {
   console.log('createBoard', data)
+  console.log('state', state())
+  const options = {
+    method: 'POST',
+    headers: {'authorization-bearer': state().login_user.access_token},
+    data,
+    url: 'create-board'
+  }
   const res = await axios.post('create-board', data)
   dispatch({ type: CREATE_BOARD })
   // axios.post('create-board', data).then(res => {

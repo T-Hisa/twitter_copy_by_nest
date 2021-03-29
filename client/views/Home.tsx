@@ -40,6 +40,7 @@ class Home extends React.Component<HomeProps, any> {
     }
     console.log('clicked!!!!!!!')
     this.props.createBoard(data)
+    // window.location.href = 'http://localhost:3000/create-board'
   }
 
   renderHeader(): JSX.Element {

@@ -9,7 +9,6 @@ export class UsersService {
 
   async findOne(username: string): Promise<User | null> {
     const user = await this.userModel.findOne({_id: username}).exec()
-    console.log('user', user)
     return user
   }
 }
