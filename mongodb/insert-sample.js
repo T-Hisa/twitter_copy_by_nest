@@ -29,6 +29,7 @@ const insertUsers = async (db) => {
       like_boards_count: 0,
       following_userids: [],
       follower_userids: [],
+      bookmark_boards: [],
     },
     {
       _id: 'sample-id2',
@@ -41,6 +42,7 @@ const insertUsers = async (db) => {
       like_boards_count: 0,
       following_userids: [],
       follower_userids: [],
+      bookmark_boards: [],
     },
   ]);
 };
@@ -49,7 +51,6 @@ var insertBoards = async (db) => {
   const users = await db.collection('users').find().toArray();
   const user1_Id = users[0]._id;
   const user2_Id = users[1]._id;
-  // return Promise.all([
   await db.collection('boards').insertMany([
     {
       body: 'サンプル1',
@@ -57,28 +58,43 @@ var insertBoards = async (db) => {
       like_users: [],
       like_count: 0,
       timestamp: Date.now(),
+      reply_count: 0,
     },
     {
       body: 'サンプル2',
       user: user1_Id,
       like_users: [],
       like_count: 0,
-      timestamp: Date.now(),
+      timestamp: Date.now() + 1,
+      reply_count: 0,
     },
     {
-      body: 'サンプル',
+      body: 'サンプル3',
       user: user2_Id,
       like_users: [],
       like_count: 0,
-      timestamp: Date.now(),
+      timestamp: Date.now() + 2,
+      reply_count: 0,
     },
   ]);
-  // await db.collection('users').updateMany({
 
-  // })
-  // db.collection("boards")
-  //   .createIndex({ _id: 1 }, { unique: true, background: true })
-  // ]);
+  const board = await db.collection('boards').find().next();
+  const board_id = board._id;
+  await db.collection('boards').insertOne({
+    body: 'サンプル4',
+    user: user1_Id,
+    like_users: [],
+    like_count: 0,
+    timestamp: Date.now(),
+    reply_to: board_id,
+    reply_count: 0,
+  });
+  await db.collection('boards').updateOne(
+    { _id: board_id },
+    {
+      $inc: { reply_count: 1 },
+    },
+  );
 };
 
 const insertBoardIdToUsers = async (db) => {
@@ -115,7 +131,7 @@ const insertBoardIdToUsers = async (db) => {
     users.map((user) => {
       console.log('user._id', user._id);
       promises.push(
-        db.collection('boards').update(
+        db.collection('boards').updateMany(
           {
             _id: { $in: user.like_boards },
           },
@@ -127,43 +143,68 @@ const insertBoardIdToUsers = async (db) => {
       );
     });
   }
-  // const results = await Promise.all(promises);
   await Promise.all(promises);
-  // console.log('results', results.pop());
-  // console.log('resultsCoount', results.length);
+};
+
+const repost_generate = async (db) => {
+  const user = await db.collection('users').find().next();
+  const uid = user._id;
+  const board = await db.collection('boards').find().next();
+  const board_id = board._id;
+  const repost_boards = await db.collection('repost_boards').insertMany([
+    {
+      origin_board: board_id,
+      user: uid,
+      repost_when: Date.now(),
+    },
+    {
+      origin_board: board_id,
+      user: uid,
+      repost_when: Date.now() + 1,
+      body: 'リツイートサンプル1',
+      like_users: [],
+      like_count: 0,
+      reply_count: 0,
+    },
+  ]);
+  console.log('repost_boards.ops', repost_boards.ops);
+  const repost_1 = repost_boards.ops[0]
+  const repost_2 = repost_boards.ops[1]
+  const repost_user_id = repost_1.user
+  console.log('repoost_user', repost_user_id)
+  await db.collection('users').updateOne(
+    {
+      _id: repost_user_id
+    },
+    {
+      $push: {
+        repost_boards: repost_1._id
+      },
+    },
+  )
+  await db.collection('users').updateOne(
+    {
+      _id: repost_user_id
+    },
+    {
+      $push: {
+        repost_boards: repost_2._id
+      }
+    }
+  )
 };
 
 MongoClient.connect(CONNECTION_URL, OPTIONS, async (error, client) => {
-  var db = client.db(DATABASE);
+  const db = client.db(DATABASE);
   try {
     await db.dropDatabase();
     await insertUsers(db);
     await insertBoards(db);
     await insertBoardIdToUsers(db);
-    // await insertBoard(db)
-    // await insertDatas(db)
+    await repost_generate(db);
+    // await sample(db)
   } catch (e) {
     console.error('error has occured!!', e);
   }
   client.close();
 });
-// MongoClient.connect(CONNECTION_URL, OPTIONS, (error, client) => {
-//   var db = client.db(DATABASE);
-//   db.dropDatabase().then(() => {
-//     Promise.all([
-//       // dropCollections(db),
-//       insertBoards(db),
-//       insertUsers(db),
-//       // insertPrivileges(db)
-//     ])
-//       .then(() => {
-//         insertBoard(db);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       })
-//       .finally(() => {
-//         client.close();
-//       });
-//   });
-// });

@@ -1,6 +1,13 @@
+@import "./variables";
 .board-wrapper {
   display: flex;
   padding: 10px 0;
+  border-bottom: 0.5px solid $border_color;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $background_color;
+  }
 
   .board-thumbnail-wrapper {
     text-align: center;
@@ -42,6 +49,16 @@
       width: 80%;
       font-size: 20px;
       padding: 10px 2px;
+
+      .comment-wrapper {
+        display: flex;
+        align-items: center;
+      }
+
+      .reply-count {
+        margin-left: 12px;
+        font-size: 16px;
+      }
     }
   }
 }

@@ -9,4 +9,6 @@ export interface BoardModel {
   repost_user_ids?: string[]
   like_count: number
   timestamp: number
+  reply_count: number
+  reply_to: string
 }

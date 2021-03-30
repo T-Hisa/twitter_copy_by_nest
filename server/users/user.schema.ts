@@ -32,16 +32,20 @@ export class User {
   like_boards: Board[];
 
   @Prop({ required: true })
-  boards_count: number
+  boards_count: number;
 
   @Prop({ required: true })
-  like_boards_count: number
+  like_boards_count: number;
 
-  @Prop([String])
+  @Prop({ type: [String], ref: 'User' })
   following_userids: string[];
 
-  @Prop([String])
+  @Prop({ type: [String], ref: 'User' })
   follower_userids: string[];
+
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Board' }])
+  bookmark_boards: Board[];
+
   // @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
   // users: User
 }

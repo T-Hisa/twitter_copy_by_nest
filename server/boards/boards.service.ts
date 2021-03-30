@@ -29,13 +29,18 @@ export class BoardsService {
     const following_user_ids = [loginUser._id, ...loginUser.following_userids];
     console.log('following_userids', following_user_ids);
     const boardsForHomeDisplay = await this.boardModel
-      .find({ user: { $in: following_user_ids } })
-      .sort({timestamp: -1})
+      .find({
+        $and: [
+          { user: { $in: following_user_ids } },
+          { reply_to: { $exists: false } },
+        ],
+      })
+      .sort({ timestamp: -1 })
       .skip(0)
       .limit(10)
       .populate('user')
       .exec();
-    console.log('boardsForHomeDisplay', boardsForHomeDisplay)
+    console.log('boardsForHomeDisplay', boardsForHomeDisplay);
     return boardsForHomeDisplay;
   }
 }

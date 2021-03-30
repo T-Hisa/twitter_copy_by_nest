@@ -16,7 +16,7 @@ export class Board {
   user: User;
 
   @Prop()
-  image: string
+  image: string;
 
   @Prop([{ type: mongoose.Schema.Types.String, ref: 'User' }])
   like_users: User[];
@@ -26,6 +26,12 @@ export class Board {
 
   @Prop({ required: true })
   timestamp: number;
+
+  @Prop()
+  reply_to: mongoose.Schema.Types.ObjectId;
+
+  @Prop({ default: 0 })
+  reply_count: number;
 }
 
 export const BoardSchema = SchemaFactory.createForClass(Board);
