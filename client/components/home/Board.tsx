@@ -47,7 +47,7 @@ const Board: React.FC<BoardProps> = props => {
 
   const renderCount = (number: number): JSX.Element => {
     return (
-      <span className="reply-count">
+      <span className="count-display">
         {number}
       </span>
     )
@@ -72,22 +72,25 @@ const Board: React.FC<BoardProps> = props => {
             {board.iamge && <img src="board.image" alt="投稿した画像" />}
           </div>
           <ul className="board-menu">
-            <li className="comment-wrapper">
+            <li className="board-menu-wrapper">
               <i className="far fa-comment"></i>
               {
                 board.reply_count > 0 && renderCount(board.reply_count)
               }
             </li>
-            <li className="retweet-wrapper">
+            <li className="board-menu-wrapper">
               <i className="fas fa-retweet"></i>
+              {
+                board.repost_count > 0 && renderCount(board.repost_count)
+              }
             </li>
-            <li className="heart-wrapper">
+            <li className="board-menu-wrapper">
               <i className="far fa-heart"></i>
             </li>
-            <li className="share-wrapper">
+            <li className="board-menu-wrapper">
               <i className="fas fa-share"></i>
             </li>
-            <li className="chart-wrapper">
+            <li className="board-menu-wrapper">
               <i className="fas fa-chart-bar"></i>
             </li>
           </ul>

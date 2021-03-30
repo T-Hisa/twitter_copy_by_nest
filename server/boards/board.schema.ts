@@ -12,7 +12,7 @@ export class Board {
   @Prop({ required: true })
   body: string;
 
-  @Prop({ type: mongoose.Schema.Types.String, ref: 'User' })
+  @Prop({ type: mongoose.Schema.Types.String, ref: 'User', required: true })
   user: User;
 
   @Prop()
@@ -32,6 +32,15 @@ export class Board {
 
   @Prop({ default: 0 })
   reply_count: number;
+
+  @Prop({ default: 0})
+  repost_count: number
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Board' })
+  origin_board: Board
+
+  @Prop()
+  origin_timestamp: number;
 }
 
 export const BoardSchema = SchemaFactory.createForClass(Board);

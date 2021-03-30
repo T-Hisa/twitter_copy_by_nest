@@ -59,6 +59,7 @@ var insertBoards = async (db) => {
       like_count: 0,
       timestamp: Date.now(),
       reply_count: 0,
+      repost_count: 0,
     },
     {
       body: 'サンプル2',
@@ -67,6 +68,7 @@ var insertBoards = async (db) => {
       like_count: 0,
       timestamp: Date.now() + 1,
       reply_count: 0,
+      repost_count: 0,
     },
     {
       body: 'サンプル3',
@@ -75,26 +77,9 @@ var insertBoards = async (db) => {
       like_count: 0,
       timestamp: Date.now() + 2,
       reply_count: 0,
+      repost_count: 0,
     },
   ]);
-
-  const board = await db.collection('boards').find().next();
-  const board_id = board._id;
-  await db.collection('boards').insertOne({
-    body: 'サンプル4',
-    user: user1_Id,
-    like_users: [],
-    like_count: 0,
-    timestamp: Date.now(),
-    reply_to: board_id,
-    reply_count: 0,
-  });
-  await db.collection('boards').updateOne(
-    { _id: board_id },
-    {
-      $inc: { reply_count: 1 },
-    },
-  );
 };
 
 const insertBoardIdToUsers = async (db) => {
@@ -146,52 +131,86 @@ const insertBoardIdToUsers = async (db) => {
   await Promise.all(promises);
 };
 
-const repost_generate = async (db) => {
+const replyBoard = async (db) => {
+  const users = await db.collection('users').find().toArray();
+  const user1_Id = users[0]._id;
+  const board = await db.collection('boards').find().next();
+  const board_id = board._id;
+  await db.collection('boards').insertOne({
+    body: 'サンプル4',
+    user: user1_Id,
+    like_users: [],
+    like_count: 0,
+    timestamp: Date.now(),
+    reply_to: board_id,
+    reply_count: 0,
+    repost_count: 0,
+  });
+  await db.collection('boards').updateOne(
+    { _id: board_id },
+    {
+      $inc: { reply_count: 1 },
+    },
+  );
+};
+
+const repostBoardGenerate = async (db) => {
   const user = await db.collection('users').find().next();
   const uid = user._id;
   const board = await db.collection('boards').find().next();
   const board_id = board._id;
-  const repost_boards = await db.collection('repost_boards').insertMany([
+  const origin_timestamp = board.timestamp;
+  const repost_boards = await db.collection('boards').insertMany([
     {
       origin_board: board_id,
       user: uid,
-      repost_when: Date.now(),
+      timestamp: Date.now(),
+      origin_timestamp: origin_timestamp,
     },
     {
       origin_board: board_id,
       user: uid,
-      repost_when: Date.now() + 1,
+      timestamp: Date.now() + 1,
       body: 'リツイートサンプル1',
       like_users: [],
       like_count: 0,
       reply_count: 0,
+      repost_count: 0,
     },
   ]);
   console.log('repost_boards.ops', repost_boards.ops);
-  const repost_1 = repost_boards.ops[0]
-  const repost_2 = repost_boards.ops[1]
-  const repost_user_id = repost_1.user
-  console.log('repoost_user', repost_user_id)
+  const repost_1 = repost_boards.ops[0];
+  const repost_2 = repost_boards.ops[1];
+  const repost_user_id = repost_1.user;
+  console.log('repoost_user', repost_user_id);
   await db.collection('users').updateOne(
     {
-      _id: repost_user_id
+      _id: repost_user_id,
     },
     {
       $push: {
-        repost_boards: repost_1._id
+        repost_boards: repost_1._id,
       },
     },
-  )
+  );
   await db.collection('users').updateOne(
     {
-      _id: repost_user_id
+      _id: repost_user_id,
     },
     {
       $push: {
-        repost_boards: repost_2._id
-      }
-    }
-  )
+        repost_boards: repost_2._id,
+      },
+    },
+  );
+  await db.collection('boards').updateOne(
+    {
+      _id: repost_1._id,
+    },
+    {
+      $inc: { repost_count: 2 },
+    },
+  );
 };
 
 MongoClient.connect(CONNECTION_URL, OPTIONS, async (error, client) => {
@@ -201,7 +220,8 @@ MongoClient.connect(CONNECTION_URL, OPTIONS, async (error, client) => {
     await insertUsers(db);
     await insertBoards(db);
     await insertBoardIdToUsers(db);
-    await repost_generate(db);
+    await replyBoard(db);
+    await repostBoardGenerate(db);
     // await sample(db)
   } catch (e) {
     console.error('error has occured!!', e);

@@ -11,4 +11,5 @@ export interface BoardModel {
   timestamp: number
   reply_count: number
   reply_to: string
+  repost_count: number
 }

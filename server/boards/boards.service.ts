@@ -24,15 +24,17 @@ export class BoardsService {
   }
 
   async getBoardsForHomeDisplay(id: string): Promise<Board[]> {
+    const allBoardObject = await this.boardModel.find().exec()
+    console.log('allBoardObject', allBoardObject)
     const loginUser = await this.userModel.findById(id).exec();
-    console.log('loginUser', loginUser);
     const following_user_ids = [loginUser._id, ...loginUser.following_userids];
-    console.log('following_userids', following_user_ids);
+    // const promises = []
     const boardsForHomeDisplay = await this.boardModel
       .find({
         $and: [
           { user: { $in: following_user_ids } },
           { reply_to: { $exists: false } },
+          { body: { $exists: true } },
         ],
       })
       .sort({ timestamp: -1 })
@@ -40,7 +42,6 @@ export class BoardsService {
       .limit(10)
       .populate('user')
       .exec();
-    console.log('boardsForHomeDisplay', boardsForHomeDisplay);
     return boardsForHomeDisplay;
   }
 }
