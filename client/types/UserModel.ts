@@ -1,6 +1,7 @@
 export interface UserModel {
-  id: string
-  thumbnail?: File
+  _id: string
+  username: string
+  thumbnail?: string
   following_userid?: string[]
   follower_userid?: string[]
   board_ids?: string[]

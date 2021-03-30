@@ -1,0 +1,47 @@
+.board-wrapper {
+  display: flex;
+  padding: 10px 0;
+
+  .board-thumbnail-wrapper {
+    text-align: center;
+    margin: 0 10px;
+
+    .board-thumbnail {
+      max-width: 48px;
+      width: 48px;
+    }
+  }
+
+  .board-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .user-info-wrapper {
+      display: flex;
+      align-items: center;
+
+      .username {
+        font-weight: bold;
+      }
+
+      .userid {
+        font-size: 14px;
+        color: gray;
+        padding-left: 4px;
+      }
+
+      .dot {
+        font-size: 10px;
+      }
+    }
+
+    .board-menu {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      font-size: 20px;
+      padding: 10px 2px;
+    }
+  }
+}

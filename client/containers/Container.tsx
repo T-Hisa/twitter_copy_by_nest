@@ -4,32 +4,31 @@ import { connect } from 'react-redux';
 import Home from '../views/Home';
 import Sidebar from '../components/Sidebar';
 
-import { getBoards, getBoardsForHome } from '../actions';
+import { getBoardsForHome } from '../actions';
 
 interface Props {
   sample: any;
 }
 
 class Container extends React.Component<any, any> {
-  componentDidMount() {
-    this.props.getBoards()
-  }
+  // componentDidMount() {
+  //   this.props.getBoardsForHome()
+  // }
 
   sample() {
     console.log('props', this.props)
-    this.props.getBoardsForHome()
+    // console.log('state', this.state)
   }
 
   render(): JSX.Element {
     return (
       <div className="d-flex">
         <Sidebar />
-        <Home />
+        <Route exact path="/" component={Home}></Route>
+        <Route path="/*" >
+          <Redirect to="/"/>
+        </Route>
         <div onClick={this.sample.bind(this)}>
-          samplesample
-          samplesample
-          samplesample
-          samplesample
         </div>
       </div>
     );
@@ -40,6 +39,6 @@ const mapStateToProps = (state: any): any => {
   return state
 }
 
-const mapDispatchToProps = {getBoards, getBoardsForHome}
+const mapDispatchToProps = {getBoardsForHome}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

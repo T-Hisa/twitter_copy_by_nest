@@ -8,8 +8,7 @@ import thunk from "redux-thunk";
 import reducer from "./reducers"
 import "./scss/main.scss"
 
-import Container from "./containers/Container"
-import Login from "./containers/Login"
+import App from './App'
 
 import "./actions"
 
@@ -21,8 +20,7 @@ console.log('sampleaasswsssa')
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Route exact path="/login" component={Login} />
-      <Route path="/" component={Container} />
+      <App />
     </Router>
   </Provider>,
   document.getElementById("root")

@@ -24,8 +24,6 @@ export class BoardsService {
   }
 
   async getBoardsForHomeDisplay(id: string): Promise<Board[]> {
-    console.log('id', id)
-    // const loginUser = (await this.userModel.find({_id: id}).exec())[0];
     const loginUser = await this.userModel.findById(id).exec();
     console.log('loginUser', loginUser);
     const following_user_ids = [loginUser._id, ...loginUser.following_userids];
@@ -35,6 +33,7 @@ export class BoardsService {
       .sort({timestamp: -1})
       .skip(0)
       .limit(10)
+      .populate('user')
       .exec();
     console.log('boardsForHomeDisplay', boardsForHomeDisplay)
     return boardsForHomeDisplay;
