@@ -1,63 +1,98 @@
-@import "./variables";
-.board-wrapper {
+@import './variables';
+.board-container {
   display: flex;
-  padding: 10px 0;
+  flex-direction: column;
   border-bottom: 0.5px solid $border_color;
   cursor: pointer;
+  padding: 10px 0;
 
   &:hover {
     background-color: $background_color;
   }
 
-  .board-thumbnail-wrapper {
-    text-align: center;
-    margin: 0 10px;
+  .board-info {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+    color: darkslategray;
+    font-weight: bold;
+    font-size: 16px;
 
-    .board-thumbnail {
-      max-width: 48px;
-      width: 48px;
+    .text {
+      margin-left: 10px;
+      font-size: 12px;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
-  .board-content-wrapper {
+  .board-wrapper {
     display: flex;
-    flex-direction: column;
-    width: 100%;
+    padding: 5px 0;
 
-    .user-info-wrapper {
-      display: flex;
-      align-items: center;
+    .board-thumbnail-wrapper {
+      text-align: center;
+      margin: 0 10px;
 
-      .username {
-        font-weight: bold;
-      }
-
-      .userid {
-        font-size: 14px;
-        color: gray;
-        padding-left: 4px;
-      }
-
-      .dot {
-        font-size: 10px;
+      .board-thumbnail {
+        max-width: 48px;
+        width: 48px;
       }
     }
 
-    .board-menu {
+    .board-content-wrapper {
       display: flex;
-      justify-content: space-between;
-      width: 80%;
-      font-size: 20px;
-      padding: 10px 2px;
+      flex-direction: column;
+      width: 100%;
 
-      .board-menu-wrapper {
+      .user-info-wrapper {
         display: flex;
-        align-items: center;
+
+        .username {
+          font-weight: bold;
+        }
+
+        .userid {
+          font-size: 14px;
+          color: gray;
+          padding-left: 4px;
+        }
+
+        .dot {
+          font-size: 10px;
+        }
+
+        .time-display {
+          color: gray;
+        }
       }
 
-      .count-display {
-        margin-left: 12px;
-        font-size: 16px;
+      .board-menu {
+        display: flex;
+        justify-content: space-between;
+        width: 80%;
+        font-size: 20px;
+        padding: 10px 2px;
+
+        .board-menu-wrapper {
+          display: flex;
+          align-items: center;
+
+          .count-display {
+            margin-left: 12px;
+            font-size: 16px;
+          }
+        }
+
+        .repost .done {
+          color: green;
+        }
+
+        .like .done {
+          color: red;
+        }
       }
     }
   }

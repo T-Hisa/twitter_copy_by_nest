@@ -10,7 +10,7 @@ import BoardComponent from '../components/home/Board'
 interface HomeProps {
   boards?: BoardModel[];
   createBoard: any;
-  login_user_for_home: any;
+  login_user: any;
   getBoardsForHome: any;
 }
 
@@ -98,19 +98,17 @@ class Home extends React.Component<HomeProps, any> {
         {this.renderHeader()}
         {this.renderTweet()}
         <div className="empty-zone" />
-        {this.props.boards.map((board) => <BoardComponent board={board} key={board._id}/>)}
+        {this.props.boards.map((board) => <BoardComponent board={board} login_user={this.props.login_user} key={board._id}/>)}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state: any, props: any) => {
-  console.log('props', props);
-  console.log('state', state);
-  console.log('state.login_user', state.login_user);
-  console.log('state.login_user.boards', state.login_user.boards);
+  // console.log('state!', state)
+  const login_user = state.login_user
   const boards = state.boards;
-  return { boards };
+  return { boards, login_user };
 };
 
 const mapDispatchToProps = { createBoard, getBoardsForHome };

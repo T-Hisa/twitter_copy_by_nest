@@ -90,7 +90,7 @@ export class BoardsService {
         board.origin_board,
       );
       const already_quote_flag =
-        quote_origin_board_ids.indexOf(repost_origin_board_parse_string) === -1;
+        quote_origin_board_ids.indexOf(repost_origin_board_parse_string) > -1;
       if (already_quote_flag) return false;
       if (already_repost_index[repost_origin_board_parse_string]) {
         return false;
@@ -101,10 +101,7 @@ export class BoardsService {
     const repost_board_ids_for_display = repost_boards_for_display.map(
       (board) => board._id,
     );
-    console.log('already_repost_index', already_repost_index);
     already_repost_index = {};
-    console.log('already_repost_index after', already_repost_index);
-    console.log('repost_board_ids_for_display', repost_board_ids_for_display);
     let boardsForHomeDisplay = await this.boardModel
       .find({
         $or: [
