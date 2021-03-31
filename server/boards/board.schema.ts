@@ -21,7 +21,7 @@ export class Board {
   @Prop([{ type: mongoose.Schema.Types.String, ref: 'User' }])
   like_users: User[];
 
-  @Prop({ required: true, default: 0 })
+  @Prop()
   like_count: number;
 
   @Prop({ required: true })
@@ -30,11 +30,17 @@ export class Board {
   @Prop()
   reply_to: mongoose.Schema.Types.ObjectId;
 
-  @Prop({ default: 0 })
+  @Prop()
   reply_count: number;
 
-  @Prop({ default: 0})
+  @Prop()
+  full_repost_count: number
+
+  @Prop()
   repost_count: number
+
+  @Prop()
+  quote_post_count: number
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Board' })
   origin_board: Board

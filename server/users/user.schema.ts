@@ -25,8 +25,8 @@ export class User {
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Board' }])
   boards: Board[];
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Board' }])
-  repost_boards: Board[];
+  // @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Board' }])
+  // repost_boards: Board[];
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Board' }])
   like_boards: Board[];
