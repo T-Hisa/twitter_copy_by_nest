@@ -63,6 +63,15 @@ const Board: React.FC<BoardProps> = (props) => {
     </div>
   );
 
+  const sample = (e: React.MouseEvent<HTMLDivElement>) => {
+    console.log(e)
+    console.log(e.target)
+    const icon_container = e.target as HTMLLIElement;
+    console.log('icon_container', icon_container)
+    const first_child = icon_container.firstChild
+    console.log('first_child', first_child)
+  }
+
   const renderCommon = (
     board: BoardModel,
     isQuote: boolean,
@@ -85,8 +94,11 @@ const Board: React.FC<BoardProps> = (props) => {
             </div>
             <div className="board-content">
               {board.body}
-              {board.iamge && <img src="board.image" alt="投稿した画像" />}
+              {board.image && <img src="board.image" alt="投稿した画像" />}
             </div>
+            {
+              isQuote && renderQuote(board.origin_board)
+            }
             {renderMenu(board, repost_id)}
           </div>
         </div>
@@ -96,29 +108,49 @@ const Board: React.FC<BoardProps> = (props) => {
 
   const renderQuote = (board: BoardModel) => {
     return (
-      <React.StrictMode>
-        {board.body}
-      </React.StrictMode>
+      <div className="quote-wrapper">
+        <div className="quote-content-wrapper">
+          <div className="quote-user-info-wrapper">
+            <img className="quote-thumbail" src="" alt="画像"/>
+            <span className="username">{board.user.username}</span>
+            <span className="c-gray userid">@{board.user._id}</span>
+            <span className="dot">・</span>
+            <span className="c-gray">{displayDate(board.timestamp)}</span>
+          </div>
+          <div className="quote-content">
+            {board.body}
+            {board.image && <img src="" alt="投稿した画像"/>}
+          </div>
+        </div>
+      </div>
     );
   };
 
     const renderMenu = (board: BoardModel, repost_id: string) => {
     return (
       <ul className="board-menu">
-        <li className="board-menu-wrapper">
-          <i className="far fa-comment"></i>
-          {board.reply_count > 0 && renderCount(board.reply_count)}
+        <li className="board-menu-wrapper common">
+          <div onMouseOver={sample} className="icon-wrapper">
+            <i className="far fa-comment icon"></i>
+          </div>
+          <div className="display-number-wrapper">
+            {board.reply_count > 0 && renderCount(board.reply_count)}
+          </div>
         </li>
         <li className="board-menu-wrapper repost">
           {board.repost_count > 0 &&
           login_user.repost_boards.indexOf(repost_id) > -1 ? (
             <React.StrictMode>
-              <i className="fas fa-retweet done"></i>
+              <div className="icon-wrapper">
+                <i className="fas fa-retweet icon done"></i>
+              </div>
               {renderCountWithDone(board.repost_count)}
             </React.StrictMode>
           ) : (
             <React.StrictMode>
-              <i className="fas fa-retweet"></i>
+              <div className="icon-wrapper">
+                <i className="fas fa-retweet icon"></i>
+              </div>
               {renderCount(board.repost_count)}
             </React.StrictMode>
           )}
@@ -127,21 +159,29 @@ const Board: React.FC<BoardProps> = (props) => {
           {board.like_count > 0 &&
           login_user.like_boards.indexOf(board._id) > -1 ? (
             <React.StrictMode>
-              <i className="fas fa-heart done"></i>
+              <div className="icon-wrapper">
+                <i className="fas fa-heart done icon"></i>
+              </div>
               {renderCountWithDone(board.like_count)}
             </React.StrictMode>
           ) : (
             <React.StrictMode>
-              <i className="far fa-heart"></i>
+              <div className="icon-wrapper">
+                <i className="far fa-heart icon"></i>
+              </div>
               {renderCount(board.like_count)}
             </React.StrictMode>
           )}
         </li>
-        <li className="board-menu-wrapper">
-          <i className="fas fa-share"></i>
+        <li className="board-menu-wrapper common">
+          <div className="icon-wrapper">
+            <i className="fas fa-share icon"></i>
+          </div>
         </li>
-        <li className="board-menu-wrapper">
-          <i className="fas fa-chart-bar"></i>
+        <li className="board-menu-wrapper common">
+          <div className="icon-wrapper">
+            <i className="fas fa-chart-bar icon"></i>
+          </div>
         </li>
       </ul>
     )

@@ -49,23 +49,46 @@
 
       .user-info-wrapper {
         display: flex;
+      }
 
-        .username {
-          font-weight: bold;
+      .username {
+        font-weight: bold;
+      }
+
+      .userid {
+        font-size: 14px;
+        color: gray;
+        padding-left: 4px;
+      }
+
+      .dot {
+        font-size: 10px;
+      }
+
+      .quote-wrapper {
+        border: 1px solid gray;
+        display: flex;
+        flex-direction: column;
+        border-radius: 15px;
+        width: 95%;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid lightgray;
+
+        &:hover {
+          background-color: rgba(211, 211, 211, 0.2);
         }
 
-        .userid {
-          font-size: 14px;
-          color: gray;
-          padding-left: 4px;
-        }
+        .quote-content-wrapper {
+          .quote-user-info-wrapper {
+            display: flex;
 
-        .dot {
-          font-size: 10px;
-        }
-
-        .time-display {
-          color: gray;
+            .quote-thumbnail {
+              width: 15px;
+              height: 15px;
+              border-radius: 50%;
+            }
+          }
         }
       }
 
@@ -79,21 +102,58 @@
         .board-menu-wrapper {
           display: flex;
           align-items: center;
+        }
+      }
 
-          .count-display {
-            margin-left: 12px;
-            font-size: 16px;
-          }
+      .count-display {
+        margin-left: 12px;
+        font-size: 16px;
+      }
+
+      .icon-wrapper {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-size: 16px;
+        position: relative;
+
+        &:hover {
+          background-color: blue;
         }
 
-        .repost .done {
+        .icon {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translateY(-50%) translateX(-50%);
+        }
+      }
+
+      .common {
+      }
+
+      .repost {
+        &:hover {
+          background-color: green;
+        }
+
+        .done {
           color: green;
         }
+      }
 
-        .like .done {
+      .like {
+        &:hover {
+          background-color: red;
+        }
+        .done {
           color: red;
         }
       }
     }
   }
+}
+
+.c-gray {
+  color: gray;
 }
