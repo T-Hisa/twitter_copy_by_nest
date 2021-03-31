@@ -231,17 +231,6 @@ const repostBoardGenerate = async (db) => {
       quote_post_count: 0,
     },
   ]);
-  const repost_board_ids = repost_boards.ops.map((board) => board._id);
-  await db.collection('users').updateOne(
-    {
-      _id: uid,
-    },
-    {
-      $push: {
-        boards: { $each: repost_board_ids },
-      },
-    },
-  );
   await db.collection('boards').findOneAndUpdate(
     {
       _id: onlyRetweetBoardId,
