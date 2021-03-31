@@ -18,7 +18,7 @@ export class BoardsService {
     let options = {
       path: 'like_users'
     }
-    boardsObject = this.userModel.populate(boardsObject, options)
+    boardsObject = await this.userModel.populate(boardsObject, options)
     return boardsObject
   }
 }

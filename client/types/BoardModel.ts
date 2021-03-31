@@ -12,4 +12,5 @@ export interface BoardModel {
   reply_count: number
   reply_to: string
   repost_count: number
+  origin_board?: BoardModel
 }

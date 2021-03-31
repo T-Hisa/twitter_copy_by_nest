@@ -31,10 +31,10 @@ export class BoardsService {
   }
 
   async getBoardsForHomeDisplay(id: string): Promise<Board[]> {
-    const allBoards = await this.boardModel.find().exec()
-    console.log('allBoards', allBoards)
-    const amount = allBoards.length
-    console.log('amount', amount)
+    const allBoards = await this.boardModel.find().exec();
+    console.log('allBoards', allBoards);
+    const amount = allBoards.length;
+    console.log('amount', amount);
     const loginUser = await this.userModel.findById(id).exec();
     const following_user_ids = [loginUser._id, ...loginUser.following_userids];
     const repost_boards = await this.boardModel
@@ -54,7 +54,7 @@ export class BoardsService {
       .limit(20)
       .exec();
 
-    console.log('repost_boards', repost_boards)
+    console.log('repost_boards', repost_boards);
 
     const quote_post_boards = await this.boardModel
       .find(
@@ -73,21 +73,24 @@ export class BoardsService {
       .limit(20)
       .exec();
 
-    console.log('quote_post_boards', quote_post_boards)
+    console.log('quote_post_boards', quote_post_boards);
 
     const full_repost_boards = repost_boards.concat(quote_post_boards);
     console.log('full_repost_boards', full_repost_boards);
     const quote_origin_board_ids = quote_post_boards.map((board) => {
-      return this.parseString(board.origin_board)
+      return this.parseString(board.origin_board);
     });
     const full_repost_origin_board_ids = full_repost_boards.map((board) => {
-      return board.origin_board
+      return board.origin_board;
     });
     // 表示用に引用投稿が含まれないもの かつ 再投稿するにあたって、それ自身（再投稿元）の重複も無くす処理
     let already_repost_index = {};
     const repost_boards_for_display = repost_boards.filter((board) => {
-      const repost_origin_board_parse_string = this.parseString(board.origin_board)
-      const already_quote_flag = quote_origin_board_ids.indexOf(repost_origin_board_parse_string) === -1;
+      const repost_origin_board_parse_string = this.parseString(
+        board.origin_board,
+      );
+      const already_quote_flag =
+        quote_origin_board_ids.indexOf(repost_origin_board_parse_string) === -1;
       if (already_quote_flag) return false;
       if (already_repost_index[repost_origin_board_parse_string]) {
         return false;
@@ -95,12 +98,14 @@ export class BoardsService {
       already_repost_index[repost_origin_board_parse_string] = true;
       return true;
     });
-    const repost_board_ids_for_display = repost_boards_for_display.map(board => board._id)
-    console.log('already_repost_index', already_repost_index)
+    const repost_board_ids_for_display = repost_boards_for_display.map(
+      (board) => board._id,
+    );
+    console.log('already_repost_index', already_repost_index);
     already_repost_index = {};
-    console.log('already_repost_index after', already_repost_index)
-    console.log('repost_board_ids_for_display', repost_board_ids_for_display)
-    const boardsForHomeDisplay = await this.boardModel
+    console.log('already_repost_index after', already_repost_index);
+    console.log('repost_board_ids_for_display', repost_board_ids_for_display);
+    let boardsForHomeDisplay = await this.boardModel
       .find({
         $or: [
           {
@@ -123,15 +128,18 @@ export class BoardsService {
       .sort({ timestamp: -1 })
       .skip(0)
       .limit(20)
-      .populate('user')
+      .populate({ path: 'user' })
       .populate('origin_board')
+      .populate({
+        path: 'origin_board.user',
+        model: User
+      })
       .exec();
-    // const boardsExcludeMultiple = await this.boardModel.find({});
-    // console.log('boardsForHomeDisplay', boardsForHomeDisplay);
+    boardsForHomeDisplay = (await this.userModel.populate(boardsForHomeDisplay, {path: 'origin_board.user'}) as any) as BoardDocument[]
     return boardsForHomeDisplay;
   }
 
   parseString(str: any): string {
-    return JSON.parse(JSON.stringify(str))
+    return JSON.parse(JSON.stringify(str));
   }
 }

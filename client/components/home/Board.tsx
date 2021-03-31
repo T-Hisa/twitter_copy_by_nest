@@ -2,6 +2,7 @@ import * as React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { BoardModel } from "../../types/BoardModel";
+import { UserModel } from "../../types/UserModel";
 
 interface BoardProps {
   board: BoardModel
@@ -53,12 +54,22 @@ const Board: React.FC<BoardProps> = props => {
     )
   }
 
-  return (
-    <div className="board-wrapper" key={board._id}>
+  const renderInfo = (word: string): JSX.Element => (
+    <div className="board-info">
+      {word}さんがリツイートしました
+    </div>
+  )
+
+  const renderCommon = (board: BoardModel, user?: UserModel):JSX.Element => {
+    return (
+      <React.StrictMode>
         <div className="board-thumbnail-wrapper">
           <img className="board-thumbnail" src="" alt="サムネイル" />
         </div>
         <div className="board-content-wrapper">
+          {
+            user && renderInfo(user.username)
+          }
           <div className="user-info-wrapper">
             <span className="username">{board.user.username}</span>
             <span className="userid">@{board.user._id}</span>
@@ -95,7 +106,29 @@ const Board: React.FC<BoardProps> = props => {
             </li>
           </ul>
         </div>
-      </div>
+      </React.StrictMode>
+    )
+  }
+
+  const renderQuote = (board: BoardModel) => {
+    return(
+      <React.StrictMode>
+        引用ツイートがここに入ります
+        {board.body}
+      </React.StrictMode>
+    )
+  }
+
+  return (
+    <div className="board-wrapper" key={board._id}>
+      {
+        !board.origin_board
+          ? renderCommon(board, null)
+          : board.body
+            ? renderQuote(board)
+            : renderCommon(board.origin_board, board.user)
+      }
+    </div>
   )
 }
 
