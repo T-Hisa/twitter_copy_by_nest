@@ -19,9 +19,9 @@ class Container extends React.Component<any, any> {
     return (
       <div className="d-flex">
         <Sidebar />
-        <Route exact path="/" component={Home}></Route>
+        <Route exact path="/home" component={Home}></Route>
         <Route path="/*" >
-          <Redirect to="/"/>
+          <Redirect to="/home"/>
         </Route>
         <div onClick={this.sample.bind(this)}>
         </div>

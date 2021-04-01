@@ -190,6 +190,7 @@ const mapStateToProps = (state: any, props: any) => {
   // console.log('state!', state)
   const login_user = state.login_user;
   const boards = state.boards;
+  console.log('prrops', props)
   return { boards, login_user };
 };
 
