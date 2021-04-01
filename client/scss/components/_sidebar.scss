@@ -1,7 +1,10 @@
-@import "./variables";
+@import './variables';
 
 .sidebar {
   border-right: 1px solid $border_color;
+  @media (min-width: 1200px) {
+    width: 280px;
+  }
 
   .menu-list {
     // color: white;
@@ -12,25 +15,8 @@
     padding: 0 10px;
     font-size: 24px;
 
-    li {
-      padding: 0;
-      margin: 5px 0;
-      width: 46px;
-      height: 46px;
-      position: relative;
-      border-radius: 50%;
-
-      &:hover {
-        cursor: pointer;
-        background-color: rgba(29, 161, 242, 0.2);
-      }
-
-      .icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateY(-50%) translateX(-50%);
-      }
+    @media (min-width: 1200px) {
+      align-items: flex-start;
     }
 
     .main-icon {
@@ -38,20 +24,97 @@
       color: $primary;
     }
 
+    .icon-wrapper {
+      cursor: pointer;
+      padding: 0;
+      margin: 5px 0;
+      width: 46px;
+      height: 46px;
+      position: relative;
+      border-radius: 28px;
+      display: flex;
+      font-size: 24px;
+
+      &:hover {
+        background-color: rgba(29, 161, 242, 0.2);
+        color: rgb(29, 161, 242);
+      }
+
+      .menu-detail {
+        font-weight: bold;
+        display: none;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateY(-50%) translateX(-50%);
+    }
+
+    @media (min-width: 1200px) {
+      .icon-wrapper {
+        width: auto;
+        display: flex;
+        align-items: center;
+        padding: 5px 20px;
+
+        .icon {
+          position: static;
+          transform: translate(0);
+        }
+
+        .menu-detail {
+          display: block;
+          font-weight: bold;
+          margin-left: 15px;
+          font-size: 18px;
+        }
+      }
+    }
+
     .tweet {
+      cursor: pointer;
       margin-top: 15px;
       position: relative;
       border-radius: 50%;
       width: 45px;
       height: 45px;
       background-color: rgba(29, 161, 242, 0.9);
-      
+      color: white;
+
       &:hover {
         background-color: rgb(29, 161, 242);
       }
 
-      .tweet-btn {
-        color: white;
+      .do-tweet {
+        display: none;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .tweet {
+        margin-top: 15px;
+        border-radius: 50%;
+        width: auto;
+        height: auto;
+        background-color: rgba(29, 161, 242, 0.9);
+        width: 180px;
+        height: 40px;
+        padding: 10px 20px;
+        border-radius: 20px;
+        text-align: center;
+
+        .tweet-btn {
+          display: none;
+        }
+
+        .do-tweet {
+          display: block;
+          font-size: 16px;
+          line-height: 20px;
+        }
       }
     }
   }

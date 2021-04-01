@@ -30,3 +30,32 @@ ul {
   padding: 0;
   margin: 0;
 }
+
+.disabled {
+  cursor: default;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.icon-wrapper {
+  cursor: pointer;
+  padding: 0;
+  margin: 5px 0;
+  width: 46px;
+  height: 46px;
+  position: relative;
+  border-radius: 28px;
+  display: flex;
+  font-size: 24px;
+
+  &:hover {
+    background-color: rgba(51, 153, 255,0.2);;
+  }
+
+  .icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+}

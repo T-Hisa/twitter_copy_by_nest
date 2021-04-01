@@ -22,6 +22,50 @@ class Login extends React.Component<any, LoginState> {
     };
   }
 
+  render(): JSX.Element {
+    return (
+      <div className="login-container">
+        <i className="fab fa-twitter main-icon"></i>
+        <div className="login-header">Twitterにログイン</div>
+        <div className="login-field-container">
+          <span className="login-field-description">
+            IDを入力
+          </span>
+          <input
+            id="_id"
+            onBlur={this.onBlurField.bind(this)}
+            onFocus={this.onFocusField.bind(this)}
+            onInput={this.onInputUserField.bind(this)}
+            className="login-field"
+            type="text"
+          />
+        </div>
+        <div className="login-field-container">
+          <span className="login-field-description">パスワード</span>
+          <input
+            id="password"
+            onBlur={this.onBlurField.bind(this)}
+            onFocus={this.onFocusField.bind(this)}
+            onInput={this.onInputPasswordField.bind(this)}
+            className="login-field"
+            type="text"
+          />
+        </div>
+        <a
+          onClick={this.onClickLoginBtn.bind(this)}
+          ref={this.loginBtnRef}
+          className="login-btn disabled"
+        >
+          ログイン
+        </a>
+        <div className="help-menu-container">
+          <a className="forget-pass">パスワードをお忘れですか？</a>
+          <a className="new-account">アカウント作成</a>
+        </div>
+      </div>
+    );
+  }
+
   controlLoginBtn(data: LoginState) {
     const loginBtn = this.loginBtnRef.current;
     const { _id, password } = data;
@@ -90,50 +134,6 @@ class Login extends React.Component<any, LoginState> {
       console.log('ログイン！')
       this.props.login(this.state)
     }
-  }
-
-  render(): JSX.Element {
-    return (
-      <div className="login-container">
-        <i className="fab fa-twitter main-icon"></i>
-        <div className="login-header">Twitterにログイン</div>
-        <div className="login-field-container">
-          <span className="login-field-description">
-            IDを入力
-          </span>
-          <input
-            id="_id"
-            onBlur={this.onBlurField.bind(this)}
-            onFocus={this.onFocusField.bind(this)}
-            onInput={this.onInputUserField.bind(this)}
-            className="login-field"
-            type="text"
-          />
-        </div>
-        <div className="login-field-container">
-          <span className="login-field-description">パスワード</span>
-          <input
-            id="password"
-            onBlur={this.onBlurField.bind(this)}
-            onFocus={this.onFocusField.bind(this)}
-            onInput={this.onInputPasswordField.bind(this)}
-            className="login-field"
-            type="text"
-          />
-        </div>
-        <a
-          onClick={this.onClickLoginBtn.bind(this)}
-          ref={this.loginBtnRef}
-          className="login-btn disabled"
-        >
-          ログイン
-        </a>
-        <div className="help-menu-container">
-          <a className="forget-pass">パスワードをお忘れですか？</a>
-          <a className="new-account">アカウント作成</a>
-        </div>
-      </div>
-    );
   }
 }
 

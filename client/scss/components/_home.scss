@@ -1,4 +1,4 @@
-@import "./variables";
+@import './variables';
 
 .home-container {
   width: 600px;
@@ -48,8 +48,6 @@
         width: 95%;
         padding-bottom: 10px;
         border-bottom: 1px solid $border_color;
-        // display: flex;
-        // align-items: center;
 
         .tag-text {
           font-size: 13px;
@@ -65,8 +63,24 @@
         .tweet-select-list {
           font-size: 20px;
 
-          li {
-            padding-right: 20px;
+          .icon-wrapper {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24zpx;
+            position: relative;
+            margin-right: 10px;
+
+            &:hover {
+              background-color: rgba(51, 153, 255, 0.2);
+            }
+
+            .icon {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translateY(-50%) translateX(-50%);
+            }
           }
         }
 

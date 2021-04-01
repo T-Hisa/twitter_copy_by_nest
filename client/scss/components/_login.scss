@@ -75,12 +75,6 @@
     background-color: $primary;
   }
 
-  .disabled {
-    cursor: default;
-    opacity: 0.5;
-    pointer-events: none;
-  }
-
   .help-menu-container {
     display: flex;
     justify-content: space-around;

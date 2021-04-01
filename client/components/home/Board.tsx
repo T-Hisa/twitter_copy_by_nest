@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { BoardModel } from '../../types/BoardModel';
 import { UserModel } from '../../types/UserModel';
-import { displayDate } from '../../utils';
+import { displayDate, displayTooltip } from '../../utils';
 
 interface BoardProps {
   board: BoardModel;
@@ -18,7 +18,6 @@ const Board: React.FC<BoardProps> = (props) => {
   };
 
   const renderCountWithDone = (count: number): JSX.Element => {
-    console.log('renderCountWithDone!!!!');
     return <span className="count-display done">{count}</span>;
   };
 
@@ -82,11 +81,9 @@ const Board: React.FC<BoardProps> = (props) => {
           <div className="board-content-wrapper">
             <div className="user-info-wrapper">
               <span className="username">{board.user.username}</span>
-              <span className="userid">@{board.user._id}</span>
+              <span className="c-gray userid">@{board.user._id}</span>
               <span className="dot">・</span>
-              <span className="time-display">
-                {displayDate(board.timestamp)}
-              </span>
+              <span className="c-gray">{displayDate(board.timestamp)}</span>
             </div>
             <div className="board-content">
               {board.body}
@@ -135,6 +132,9 @@ const Board: React.FC<BoardProps> = (props) => {
           onMouseOver={mouseOverEvent}
           onMouseLeave={mouseLeaveEvent}
           onClick={onClickReply}
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title={displayTooltip('reply')}
           className="for-mouse-over common"
         />
         <li className="board-menu-wrapper">
@@ -159,6 +159,9 @@ const Board: React.FC<BoardProps> = (props) => {
           onMouseOver={mouseOverEvent}
           onMouseLeave={mouseLeaveEvent}
           onClick={onClickRepost}
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title={displayTooltip('repost')}
           className="for-mouse-over repost"
         />
         <li className="board-menu-wrapper">
@@ -183,14 +186,27 @@ const Board: React.FC<BoardProps> = (props) => {
           onMouseOver={mouseOverEvent}
           onMouseLeave={mouseLeaveEvent}
           onClick={onClickLike}
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title={displayTooltip('like')}
           className="for-mouse-over like"
         />
         <li className="board-menu-wrapper">
-          <div className="icon-wrapper common">
+          <div
+            className="icon-wrapper common"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title={displayTooltip('share')}
+          >
             <i className="fas fa-share icon common"></i>
           </div>
         </li>
-        <li className="board-menu-wrapper">
+        <li
+          className="board-menu-wrapper"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title={displayTooltip('analytics')}
+        >
           <div className="icon-wrapper common">
             <i className="fas fa-chart-bar icon common"></i>
           </div>

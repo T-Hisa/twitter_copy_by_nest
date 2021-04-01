@@ -15,11 +15,6 @@ class Container extends React.Component<any, any> {
   //   this.props.getBoardsForHome()
   // }
 
-  sample() {
-    console.log('props', this.props)
-    // console.log('state', this.state)
-  }
-
   render(): JSX.Element {
     return (
       <div className="d-flex">
@@ -32,6 +27,11 @@ class Container extends React.Component<any, any> {
         </div>
       </div>
     );
+  }
+
+  sample() {
+    console.log('props', this.props)
+    // console.log('state', this.state)
   }
 }
 
