@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { BoardModel } from '../../types/BoardModel';
 import { UserModel } from '../../types/UserModel';
+import { displayDate } from '../../utils';
 
 interface BoardProps {
   board: BoardModel;
@@ -11,43 +12,8 @@ interface BoardProps {
 
 const Board: React.FC<BoardProps> = (props) => {
   const { board, login_user } = props;
-  // console.log(login_user.repost_boards.indexOf(board._id), board.body)
-
-  const displayDate = (timestamp: number): string => {
-    const now = Date.now();
-    const subtraction = now - timestamp;
-    switch (true) {
-      case subtraction < 1000:
-        return '現在';
-      case subtraction < 60000:
-        const sec = Math.floor(subtraction / 1000);
-        return `${sec}秒前`;
-      case subtraction < 3600000:
-        const minutes = Math.floor(subtraction / 60000);
-        return `${minutes}分`;
-      case subtraction < 86400000:
-        const hour = Math.floor(subtraction / 3600000);
-        return `${hour}時間`;
-      case subtraction < 172800000:
-        return '昨日';
-      case subtraction < 259200000:
-        return '2日前';
-      default:
-        const nowDate = new Date(now);
-        const date = new Date(timestamp);
-        const nowYear = `${nowDate.getFullYear()}`;
-        const boardYear = `${date.getFullYear()}`;
-        const boardMonth = `${date.getMonth() + 1}`;
-        const boardDay = `${date.getDate()}`;
-        const commonWord = `${boardMonth}月${boardDay}日`;
-        const displayWord =
-          nowYear === boardYear ? `${boardYear}年${commonWord}` : commonWord;
-        return displayWord;
-    }
-  };
 
   const renderCount = (count: number): JSX.Element => {
-    // console.log('flag', flag)
     return <span className="count-display">{count}</span>;
   };
 
@@ -63,20 +29,48 @@ const Board: React.FC<BoardProps> = (props) => {
     </div>
   );
 
-  const sample = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log(e)
-    console.log(e.target)
-    const icon_container = e.target as HTMLLIElement;
-    console.log('icon_container', icon_container)
-    const first_child = icon_container.firstChild
-    console.log('first_child', first_child)
-  }
+  const mouseOverEvent = (e: React.MouseEvent<HTMLDivElement>): void => {
+    const forMouseOverEl: HTMLDivElement = e.target as HTMLDivElement;
+    const prevEl: HTMLLIElement = forMouseOverEl.previousElementSibling as HTMLLIElement;
+    const previousElFirstChild: HTMLDivElement = prevEl.firstChild as HTMLDivElement;
+    const className: string = previousElFirstChild.className;
+    switch (true) {
+      case className.indexOf('common') > -1:
+        previousElFirstChild.style.backgroundColor = 'rgba(51, 153, 255, 0.2)';
+        break;
+      case className.indexOf('repost') > -1:
+        previousElFirstChild.style.backgroundColor = 'rgba(1, 255, 0, 0.2)';
+        break;
+      case className.indexOf('like') > -1:
+        previousElFirstChild.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
+      default:
+    }
+  };
+
+  const mouseLeaveEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+    const forMouseReaveEl: HTMLDivElement = e.target as HTMLDivElement;
+    const prevEl: HTMLLIElement = forMouseReaveEl.previousElementSibling as HTMLLIElement;
+    const previousElFirstChild: HTMLDivElement = prevEl.firstChild as HTMLDivElement;
+    previousElFirstChild.style.background = 'none';
+  };
+
+  const onClickReply = () => {
+    console.log('click reply!!');
+  };
+
+  const onClickRepost = () => {
+    console.log('click repost!!!');
+  };
+
+  const onClickLike = () => {
+    console.log('click like!!!');
+  };
 
   const renderCommon = (
     board: BoardModel,
     isQuote: boolean,
     user: UserModel,
-    repost_id: string
+    repost_id: string,
   ): JSX.Element => {
     return (
       <React.StrictMode>
@@ -90,15 +84,15 @@ const Board: React.FC<BoardProps> = (props) => {
               <span className="username">{board.user.username}</span>
               <span className="userid">@{board.user._id}</span>
               <span className="dot">・</span>
-              <span className="time-display">{displayDate(board.timestamp)}</span>
+              <span className="time-display">
+                {displayDate(board.timestamp)}
+              </span>
             </div>
             <div className="board-content">
               {board.body}
               {board.image && <img src="board.image" alt="投稿した画像" />}
             </div>
-            {
-              isQuote && renderQuote(board.origin_board)
-            }
+            {isQuote && renderQuote(board.origin_board)}
             {renderMenu(board, repost_id)}
           </div>
         </div>
@@ -111,7 +105,7 @@ const Board: React.FC<BoardProps> = (props) => {
       <div className="quote-wrapper">
         <div className="quote-content-wrapper">
           <div className="quote-user-info-wrapper">
-            <img className="quote-thumbail" src="" alt="画像"/>
+            <img className="quote-thumbail" src="" alt="画像" />
             <span className="username">{board.user.username}</span>
             <span className="c-gray userid">@{board.user._id}</span>
             <span className="dot">・</span>
@@ -119,73 +113,91 @@ const Board: React.FC<BoardProps> = (props) => {
           </div>
           <div className="quote-content">
             {board.body}
-            {board.image && <img src="" alt="投稿した画像"/>}
+            {board.image && <img src="" alt="投稿した画像" />}
           </div>
         </div>
       </div>
     );
   };
 
-    const renderMenu = (board: BoardModel, repost_id: string) => {
+  const renderMenu = (board: BoardModel, repost_id: string) => {
     return (
       <ul className="board-menu">
-        <li className="board-menu-wrapper common">
-          <div onMouseOver={sample} className="icon-wrapper">
+        <li className="board-menu-wrapper">
+          <div className="icon-wrapper common">
             <i className="far fa-comment icon"></i>
           </div>
           <div className="display-number-wrapper">
             {board.reply_count > 0 && renderCount(board.reply_count)}
           </div>
         </li>
-        <li className="board-menu-wrapper repost">
+        <div
+          onMouseOver={mouseOverEvent}
+          onMouseLeave={mouseLeaveEvent}
+          onClick={onClickReply}
+          className="for-mouse-over common"
+        />
+        <li className="board-menu-wrapper">
           {board.repost_count > 0 &&
           login_user.repost_boards.indexOf(repost_id) > -1 ? (
             <React.StrictMode>
-              <div className="icon-wrapper">
+              <div className="icon-wrapper repost">
                 <i className="fas fa-retweet icon done"></i>
               </div>
               {renderCountWithDone(board.repost_count)}
             </React.StrictMode>
           ) : (
             <React.StrictMode>
-              <div className="icon-wrapper">
+              <div className="icon-wrapper repost">
                 <i className="fas fa-retweet icon"></i>
               </div>
               {renderCount(board.repost_count)}
             </React.StrictMode>
           )}
         </li>
-        <li className="board-menu-wrapper like">
+        <div
+          onMouseOver={mouseOverEvent}
+          onMouseLeave={mouseLeaveEvent}
+          onClick={onClickRepost}
+          className="for-mouse-over repost"
+        />
+        <li className="board-menu-wrapper">
           {board.like_count > 0 &&
           login_user.like_boards.indexOf(board._id) > -1 ? (
             <React.StrictMode>
-              <div className="icon-wrapper">
+              <div className="icon-wrapper like">
                 <i className="fas fa-heart done icon"></i>
               </div>
               {renderCountWithDone(board.like_count)}
             </React.StrictMode>
           ) : (
             <React.StrictMode>
-              <div className="icon-wrapper">
+              <div className="icon-wrapper like">
                 <i className="far fa-heart icon"></i>
               </div>
               {renderCount(board.like_count)}
             </React.StrictMode>
           )}
         </li>
-        <li className="board-menu-wrapper common">
-          <div className="icon-wrapper">
-            <i className="fas fa-share icon"></i>
+        <div
+          onMouseOver={mouseOverEvent}
+          onMouseLeave={mouseLeaveEvent}
+          onClick={onClickLike}
+          className="for-mouse-over like"
+        />
+        <li className="board-menu-wrapper">
+          <div className="icon-wrapper common">
+            <i className="fas fa-share icon common"></i>
           </div>
         </li>
-        <li className="board-menu-wrapper common">
-          <div className="icon-wrapper">
-            <i className="fas fa-chart-bar icon"></i>
+        <li className="board-menu-wrapper">
+          <div className="icon-wrapper common">
+            <i className="fas fa-chart-bar icon common"></i>
           </div>
         </li>
       </ul>
-    )
-  }
+    );
+  };
 
   return (
     <div className="board-container" key={board._id}>

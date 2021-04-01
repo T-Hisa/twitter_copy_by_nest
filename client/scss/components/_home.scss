@@ -1,7 +1,8 @@
 @import "./variables";
 
 .home-container {
-  width: 100%;
+  width: 600px;
+  border-right: 1px solid $border_color;
 
   .home-header {
     font-size: 20px;

@@ -98,6 +98,7 @@
         width: 80%;
         font-size: 20px;
         padding: 10px 2px;
+        position: relative;
 
         .board-menu-wrapper {
           display: flex;
@@ -118,7 +119,7 @@
         position: relative;
 
         &:hover {
-          background-color: blue;
+          background-color: rgba(51, 153, 255,0.2);;
         }
 
         .icon {
@@ -129,27 +130,41 @@
         }
       }
 
+      .for-mouse-over {
+        position: absolute;
+        width: 60px;
+        height: 30px;
+
+        &.repost {
+          left: 21%
+        }
+
+        &.like {
+          left: 47%;
+        }
+      }
+
       .common {
       }
 
-      .repost {
-        &:hover {
-          background-color: green;
-        }
+      // .repost {
+      //   &:hover {
+      //     background-color: green;
+      //   }
 
-        .done {
-          color: green;
-        }
-      }
+      //   .done {
+      //     color: green;
+      //   }
+      // }
 
-      .like {
-        &:hover {
-          background-color: red;
-        }
-        .done {
-          color: red;
-        }
-      }
+      // .like {
+      //   &:hover {
+      //     background-color: red;
+      //   }
+      //   .done {
+      //     color: red;
+      //   }
+      // }
     }
   }
 }
