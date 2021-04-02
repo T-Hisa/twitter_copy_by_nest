@@ -55,6 +55,16 @@ class Sidebar extends React.Component<any, {}> {
             <i className="fas fa-check-circle icon"></i>
           </li> */}
         </ul>
+        <div className="account-info-container">
+          <div className="account-info-wrapper">
+            <img className="thumbnail" src="" alt="サム"/>
+            <div className="account-info">
+              <div className="username">{this.props.user.username}</div>
+              <div className="c-gray">@{this.props.user._id}</div>
+            </div>
+          </div>
+          <i className="fas fa-ellipsis-h icon"></i>
+        </div>
       </div>
     );
   }

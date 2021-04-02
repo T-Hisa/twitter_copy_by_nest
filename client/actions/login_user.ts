@@ -18,10 +18,10 @@ export const login = (data: any) => async (dispatch: any) => {
 };
 
 export const reload = () => async (dispatch: any) => {
-  const localToken = localStorage.getItem('token');
-  if (localToken) {
-    const res: any = await commonFunc('reload', localToken);
-    if (res) dispatch({ type: RELOAD, data: res?.data })
+  const token = localStorage.getItem('token');
+  if (token) {
+    const res: any = await commonFunc('reload', token);
+    if (res) dispatch({ type: RELOAD, data: res.data })
   }
 };
 

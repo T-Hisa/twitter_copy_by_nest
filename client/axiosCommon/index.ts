@@ -7,8 +7,9 @@ const options = (token) => ({
   },
 });
 
-export const commonFunc = async (url, token, data?) => {
+export const commonFunc = async (url, data?) => {
   let receiveData;
+  const token = localStorage.getItem('token')
   if (token) {
     try {
       receiveData = await axios.post(url, data, options(token));

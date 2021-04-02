@@ -1,42 +1,6 @@
 @import "~bootstrap/scss/bootstrap";
+@import "./common";
 @import "./components/sidebar";
 @import "./components/home";
 @import "./components/login";
 @import "./components/board";
-
-.sample {
-
-  color:red;
-
-  span {
-    color: blue;
-  }
-}
-
-a {
-  cursor: pointer;
-  color: $primary;
-  &:hover {
-    text-decoration: none;
-  }
-}
-
-.d-flex {
-  display: flex;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.disabled {
-  cursor: default;
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.active {
-  color: rgb(29, 161, 242);
-}

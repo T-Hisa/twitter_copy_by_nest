@@ -17,28 +17,28 @@ class Container extends React.Component<any, any> {
 
   render(): JSX.Element {
     return (
-      <div className="d-flex">
-        <Sidebar />
+      <div className="main-container d-flex">
+        <Sidebar user={this.props.login_user} />
         <Route exact path="/" component={Home}></Route>
-        <Route path="/*" >
-          <Redirect to="/"/>
+        <Route path="/*">
+          <Redirect to="/" />
         </Route>
-        <div onClick={this.sample.bind(this)}>
-        </div>
+        <div onClick={this.sample.bind(this)}></div>
       </div>
     );
   }
 
   sample() {
-    console.log('props', this.props)
+    console.log('props', this.props);
     // console.log('state', this.state)
   }
 }
 
 const mapStateToProps = (state: any): any => {
-  return state
-}
+  console.log('llogin_user', state.login_user)
+  return { login_user: state.login_user };
+};
 
-const mapDispatchToProps = {getBoardsForHome}
+const mapDispatchToProps = { getBoardsForHome };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

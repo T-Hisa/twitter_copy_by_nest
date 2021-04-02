@@ -15,8 +15,9 @@ export const createBoard = (sendData: any) => async (
   dispatch: any,
   state: any,
 ) => {
-  const token = state().login_user.access_token;
-  const receiveData = await commonFunc('create-board', token, sendData);
+  // const token = state().login_user.access_token;
+  // const receiveData = await commonFunc('create-board', token, sendData);
+  const receiveData = await commonFunc('create-board', sendData);
   const data = receiveData?.data
   if (data) {
     dispatch({ type: CREATE_BOARD, data });
@@ -26,7 +27,7 @@ export const createBoard = (sendData: any) => async (
 };
 
 export const getBoardsForHome = () => async (dispatch: any, state: any) => {
-  const token = state().login_user.access_token;
-  const { data } = await commonFunc('get-boards-for-home-display', token);
+  // const token = state().login_user.access_token;
+  const { data } = await commonFunc('get-boards-for-home-display');
   dispatch({ type: GET_BOARDS_FOR_HOME, data });
 };

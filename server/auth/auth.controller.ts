@@ -29,6 +29,7 @@ export class AuthController {
   async reload(@Request() req) {
     const access_token = await this.authService.login(req.user)
     const user = await this.authService.reload(req.user._id)
+    console.log('access_token', access_token)
     const data = { user, ...access_token };
     return data
   }

@@ -2,6 +2,15 @@
 
 .sidebar {
   border-right: 1px solid $border_color;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-left: 60px;
+  margin-top: 10px;
+
   @media (min-width: 1200px) {
     width: 280px;
   }
@@ -10,9 +19,6 @@
     // color: white;
     flex-direction: column;
     align-items: center;
-    margin-left: 60px;
-    margin-top: 10px;
-    padding: 0 10px;
     font-size: 24px;
 
     @media (min-width: 1200px) {
@@ -36,8 +42,8 @@
       font-size: 24px;
 
       &:hover {
-        background-color: rgba(29, 161, 242, 0.2);
-        color: rgb(29, 161, 242);
+        background-color:  $background_primary_thin_trans;
+        color: $background_primary;
       }
 
       .menu-detail {
@@ -58,7 +64,7 @@
         width: auto;
         display: flex;
         align-items: center;
-        padding: 5px 20px;
+        padding: 5px 10px;
 
         .icon {
           position: static;
@@ -81,11 +87,11 @@
       border-radius: 50%;
       width: 45px;
       height: 45px;
-      background-color: rgba(29, 161, 242, 0.9);
+      background-color: $background_primary_thin_trans;
       color: white;
 
       &:hover {
-        background-color: rgb(29, 161, 242);
+        background-color: $background_primary;
       }
 
       .do-tweet {
@@ -99,7 +105,7 @@
         border-radius: 50%;
         width: auto;
         height: auto;
-        background-color: rgba(29, 161, 242, 0.9);
+        background-color: $background_primary_dark_trans;
         width: 180px;
         height: 40px;
         padding: 10px 20px;
@@ -116,6 +122,46 @@
           line-height: 20px;
         }
       }
+    }
+  }
+
+  .account-info-container {
+    display: flex;
+    align-items: center;
+    width: 240px;
+    justify-content: space-between;
+    border-radius: 25px;
+    padding: 0 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $background_primary_thin_trans;
+    }
+
+    .account-info-wrapper {
+      display: flex;
+      align-items: center;
+
+      .thumbnail {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+      }
+
+      .account-info {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+
+        .username {
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+      }
+    }
+    .icon {
+      font-weight: normal;
     }
   }
 }

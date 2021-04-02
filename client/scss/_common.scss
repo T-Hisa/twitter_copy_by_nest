@@ -1,0 +1,31 @@
+a {
+  cursor: pointer;
+  color: $primary;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.d-flex {
+  display: flex;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.disabled {
+  cursor: default;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.active {
+  color: rgb(29, 161, 242);
+}
+
+.main-container {
+  height: 100vh;
+}

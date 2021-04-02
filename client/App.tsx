@@ -32,7 +32,7 @@ class App extends React.Component<any, any> {
   render() {
     return (
       <React.StrictMode>
-        {this.props.login_user.access_token
+        {this.props.login_user
           ? this.renderRegular()
           : this.renderLogin()}
       </React.StrictMode>
