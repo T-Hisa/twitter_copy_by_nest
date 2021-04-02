@@ -12,6 +12,7 @@ interface BoardProps {
 
 const Board: React.FC<BoardProps> = (props) => {
   const { board, login_user } = props;
+  // const [todos, setTodos] = useState<Todo[]>([]);
 
   const renderCount = (count: number): JSX.Element => {
     return <span className="count-display">{count}</span>;
@@ -65,6 +66,10 @@ const Board: React.FC<BoardProps> = (props) => {
     console.log('click like!!!');
   };
 
+  const onClickBoard = (board: BoardModel) => {
+    console.log('body', board.body);
+  };
+
   const renderCommon = (
     board: BoardModel,
     isQuote: boolean,
@@ -74,7 +79,12 @@ const Board: React.FC<BoardProps> = (props) => {
     return (
       <React.StrictMode>
         {user && renderInfo(user.username)}
-        <div className="board-wrapper">
+        <div
+          onClick={() => {
+            onClickBoard(board);
+          }}
+          className="board-wrapper"
+        >
           <div className="board-thumbnail-wrapper">
             <img className="board-thumbnail" src="" alt="サムネイル" />
           </div>
@@ -85,8 +95,8 @@ const Board: React.FC<BoardProps> = (props) => {
               <span className="dot">・</span>
               <span className="c-gray">{displayDate(board.timestamp)}</span>
             </div>
-            <div className="board-content">
-              {board.body}
+            <div className="board-content" id={`body-${board._id}`}>
+              {/* {board.body} */}
               {board.image && <img src="board.image" alt="投稿した画像" />}
             </div>
             {isQuote && renderQuote(board.origin_board)}
@@ -214,6 +224,26 @@ const Board: React.FC<BoardProps> = (props) => {
       </ul>
     );
   };
+
+
+  // 投稿した直後に描画すると、 body の部分だけ反映されないので、setTimeout を用いて遅れて描画させる
+  setTimeout(() => {
+    if (board.body) {
+      let text = board.body.replace(/\n/g, '<br/>');
+      // board.body = board.body.replace(/\n/g, '<br/>');
+      const bodyEl: HTMLDivElement = document.getElementById(`body-${board._id}`) as HTMLDivElement
+      if (board.body.match(/\n/)) {
+        console.log('debug1')
+        console.log('bodyEl', bodyEl)
+      }
+      if (bodyEl) {
+        if (board.body.match(/\n/)) {
+          console.log('debug!!!')
+        }
+        bodyEl.innerHTML = text
+      }
+    }
+  }, 100)
 
   return (
     <div className="board-container" key={board._id}>

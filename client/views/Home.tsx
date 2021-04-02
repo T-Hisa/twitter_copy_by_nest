@@ -37,7 +37,7 @@ class Home extends React.Component<HomeProps, HomeState> {
   }
 
   componentDidUpdate() {
-    console.log('props at Home', this.props);
+    // console.log('props at Home', this.props);
   }
 
   render(): JSX.Element {
@@ -178,9 +178,14 @@ class Home extends React.Component<HomeProps, HomeState> {
   }
 
   onClickTweet(): void {
-    if (this.state.body) {
+    let body = this.state.body
+    const initialNotEmptyPosition = this.state.body.search(/\S/)
+    if (initialNotEmptyPosition > 0) {
+      body = body.substr(initialNotEmptyPosition)
+    }
+    if (body) {
       const data: CreateBoardInterface = {
-        body: this.state.body,
+        body: body,
         user: this.props.login_user._id,
         timestamp: Date.now(),
       };
@@ -193,10 +198,12 @@ class Home extends React.Component<HomeProps, HomeState> {
 }
 
 const mapStateToProps = (state: any, props: any) => {
-  // console.log('state!', state)
+  // ('state!', state)
   const login_user = state.login_user;
+  // for (let board of state.boards) {
+  //   console.log('board.body', board.body)
+  // }
   const boards = state.boards;
-  console.log('prrops', props);
   return { boards, login_user };
 };
 

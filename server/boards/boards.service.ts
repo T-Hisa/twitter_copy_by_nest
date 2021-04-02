@@ -27,7 +27,10 @@ export class BoardsService {
   async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
     const createBoard = new this.boardModel(createBoardDto);
     console.log('create board now!', createBoard);
-    return createBoard.save();
+    const saveBoard = await createBoard.save();
+    const saveBoardPopulate = await this.boardModel.findById(saveBoard._id).populate('user')
+    console.log('saveBoardPopulate', saveBoardPopulate)
+    return saveBoardPopulate;
   }
 
   async getBoardsForHomeDisplay(id: string): Promise<Board[]> {

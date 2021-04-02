@@ -6,4 +6,10 @@ export class CreateBoardDto {
   user: string;
   timestamp: number;
   image?: string;
+  like_users?: string[];
+  like_count?: number;
+  reply_count?: number;
+  repost_count?: number;
+  full_repost_count?: number;
+  quote_post_count?: number;
 }
