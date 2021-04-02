@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Home from '../views/Home';
-// import BoardDetail from '../views/BoardDetail'
+import BoardDetail from '../views/BoardDetail'
 import Sidebar from '../components/Sidebar';
 
 import { getBoardsForHome } from '../actions';
@@ -22,7 +22,7 @@ class Container extends React.Component<any, any> {
       <div className="main-container d-flex">
         <Sidebar user={this.props.login_user} />
         <Route exact path="/home" component={Home}></Route>
-        {/* <Route exact path="/:bid" component={BoardDetail}></Route> */}
+        <Route exact path="/:uid/status/:bid" component={BoardDetail}></Route>
         <Route path="/*">
           <Redirect to="/home" />
         </Route>

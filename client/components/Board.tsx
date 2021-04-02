@@ -74,14 +74,14 @@ const Board: React.FC<BoardProps> = (props) => {
   };
 
   const onClickBoard = () => {
-    props.history.push(`/${board._id}`)
+    props.history.push(`/${login_user._id}/status/${board._id}`)
   }
 
-  const renderBoardDetail = (board: BoardModel, props: BoardProps) => {
-    console.log('body', board.body);
-    props.history.push(`/${board._id}`)
-    // this.props.history.push(`/${board._id}`)
-  };
+  // const renderBoardDetail = (board: BoardModel, props: BoardProps) => {
+  //   console.log('body', board.body);
+  //   props.history.push(`/${login_user._id}/status/${board._id}/`)
+  //   // this.props.history.push(`/${board._id}`)
+  // };
 
   const renderCommon = (
     board: BoardModel,

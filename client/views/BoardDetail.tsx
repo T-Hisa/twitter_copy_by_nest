@@ -6,7 +6,7 @@ import { BoardModel } from '../types/BoardModel';
 import { CreateBoardInterface } from '../../types/boards.interface';
 import { RouteProps } from '../types/RouteProps';
 
-// import { getBoardDetail } from '../actions';
+import { getBoardDetail } from '../actions';
 
 interface BoardDetailProps extends RouteProps {
   boardDetail: any;
@@ -19,27 +19,27 @@ interface BoardDetailState {
 
 class BoardDetail extends React.Component<any, any> {
   componentDidMount() {
-    const bid = this.props.match.params.bid
-    console.log('boardDidMount!')
-    this.props.getBoardDetail(bid).then(boardDetail => {
-      console.log('boardDetail', boardDetail)
-      // this.setState({boardDetail})
-    })
+    const bid = this.props.match.params.bid;
+    console.log('boardDidMount!', bid);
+    this.props.getBoardDetail(bid).then((boardDetail) => {
+      console.log('boardDetail', boardDetail);
+      this.setState({ boardDetail });
+    });
   }
 
   render() {
     return (
       <React.StrictMode>
-
+        <div>sample</div>
       </React.StrictMode>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state: any, props: any) => {
   // ('state!', state)
   const login_user = state.login_user;
-  const bid = props.match.params.id
+  const bid = props.match.params.id;
   // const board = state.board
   // for (let board of state.boards) {
   //   console.log('board.body', board.body)
@@ -48,6 +48,6 @@ const mapStateToProps = (state: any, props: any) => {
   return { boards, login_user };
 };
 
-// const mapDispatchToProps = { getBoardDetail };
+const mapDispatchToProps = { getBoardDetail };
 
-export default connect(null, null)(BoardDetail);
+export default connect(null, mapDispatchToProps)(BoardDetail);

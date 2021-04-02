@@ -19,8 +19,8 @@ export class BoardsService {
     @InjectModel(User.name) private userModel: Model<UserDocument>, // @InjectConnection() private connection: Connection
   ) {}
 
-  async findAll(): Promise<Board[]> {
-    const boardsObject = await this.boardModel.find().populate('user').exec();
+  async findOne(id: string): Promise<Board> {
+    const boardsObject = await this.boardModel.findById(id).populate('user').exec();
     return boardsObject;
   }
 
