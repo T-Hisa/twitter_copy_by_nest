@@ -7,7 +7,13 @@ import { connect } from 'react-redux';
 import Container from './containers/Container';
 import Login from './containers/Login';
 
+import { reload } from './actions';
+
 class App extends React.Component<any, any> {
+  componentDidMount(): void {
+    this.props.reload()
+  }
+
   renderRegular() {
     return <Route path="/" component={Container}></Route>;
   }
@@ -39,4 +45,6 @@ const mapStateToProps = (state: any) => {
   return state;
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = { reload };
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

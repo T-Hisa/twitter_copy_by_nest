@@ -18,10 +18,19 @@ export class AuthController {
   async login(@Request() req) {
     console.log('req.user', req.user);
     const user = req.user;
-    const access_token = await this.authService.login(req.user);
+    const access_token = await this.authService.login(user);
     // {...user, ...access_token} のように記述すると、なぜか user 側のデータのみ構造がおかしくなるので、userのまま
     const data = { user, ...access_token };
     return data;
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('/reload')
+  async reload(@Request() req) {
+    const access_token = await this.authService.login(req.user)
+    const user = await this.authService.reload(req.user._id)
+    const data = { user, ...access_token };
+    return data
   }
 
   @Post('/logout')

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ERROR } from '../actions';
 
 const options = (token) => ({
   headers: {
@@ -12,11 +13,24 @@ export const commonFunc = async (url, token, data?) => {
     try {
       receiveData = await axios.post(url, data, options(token));
     } catch (e) {
-      alert('予期せぬエラーが発生しました。再度ログインし直してください。');
+      localStorage.removeItem('token');
+      alert('有効期限が過ぎました。再度ログインし直してください。');
+      receiveData = null;
     }
   } else {
     alert('ログインしてください');
-    axios.post('/logout')
   }
-  return receiveData
+  return receiveData;
 };
+
+export const commonErrorFunc = (dispatch) => {
+  return dispatch({ type: ERROR });
+};
+
+// const postData = (url: string, token, data): any => {
+//   try {
+//     return axios.post(url, data, options(token))
+//   } catch (e) {
+//     alert('予期せぬエラーが発生しました。再度ログインし直してください。');
+//   }
+// }

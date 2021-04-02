@@ -6,8 +6,8 @@ export const boards = (boardsModel: any = [], action: any) => {
       console.log('GET_BOARDS::', action.data);
       return action.data;
     case CREATE_BOARD:
-      console.log('board', action.data);
-      return { ...boardsModel, ...action.data };
+      boardsModel.unshift(action.data)
+      return boardsModel
     case GET_BOARDS_FOR_HOME:
       console.log('GET_BOARDS_FOR_HOME', action.data)
       return action.data

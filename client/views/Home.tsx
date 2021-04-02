@@ -5,7 +5,7 @@ import { BoardModel } from '../types/BoardModel';
 import { createBoard } from '../actions';
 import { CreateBoardInterface } from '../../types/boards.interface';
 import { getBoardsForHome } from '../actions';
-import BoardComponent from '../components/home/Board';
+import BoardComponent from '../components/Board';
 
 import { displayTooltip } from '../utils';
 
@@ -34,6 +34,10 @@ class Home extends React.Component<HomeProps, HomeState> {
       body: '',
       focusFlag: false,
     };
+  }
+
+  componentDidUpdate() {
+    console.log('props at Home', this.props);
   }
 
   render(): JSX.Element {
@@ -72,8 +76,9 @@ class Home extends React.Component<HomeProps, HomeState> {
             ref={this.textareaRef}
             onInput={this.onInputTextarea.bind(this)}
             onFocus={this.onFocusTextarea.bind(this)}
-            placeholder="いまどうしてる?"
+            placeholder="いまどうしてる？"
             rows={1}
+            value={this.state.body}
           ></textarea>
 
           {this.state.focusFlag && this.renderTag()}
@@ -180,6 +185,7 @@ class Home extends React.Component<HomeProps, HomeState> {
         timestamp: Date.now(),
       };
       this.props.createBoard(data);
+      this.setState({ body: '' });
     } else {
       alert('投稿内容を入力してください');
     }
@@ -190,7 +196,7 @@ const mapStateToProps = (state: any, props: any) => {
   // console.log('state!', state)
   const login_user = state.login_user;
   const boards = state.boards;
-  console.log('prrops', props)
+  console.log('prrops', props);
   return { boards, login_user };
 };
 

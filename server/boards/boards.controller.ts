@@ -21,6 +21,7 @@ export class BoardsController {
   @Post('/create-board')
   async createBoard(@Request() req, @Body() createBoardDto: CreateBoardDto) {
     createBoardDto._id = new mongoose.Types.ObjectId
+    console.log('createBoarDto', createBoardDto)
     const boards = await this.boardsService.createBoard(createBoardDto)
     return boards
   }

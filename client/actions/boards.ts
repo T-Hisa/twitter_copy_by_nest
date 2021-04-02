@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { commonFunc } from '../axiosCommon';
+import { commonFunc, commonErrorFunc } from '../axiosCommon';
 
 export const GET_BOARDS = 'GET_BOARDS';
 export const CREATE_BOARD = 'CREATE_BOARD';
@@ -15,11 +15,14 @@ export const createBoard = (sendData: any) => async (
   dispatch: any,
   state: any,
 ) => {
-  console.log('createBoard', sendData);
-  console.log('state', state());
   const token = state().login_user.access_token;
-  const { data } = await commonFunc('create-board', token, sendData);
-  dispatch({ type: CREATE_BOARD, data });
+  const receiveData = await commonFunc('create-board', token, sendData);
+  const data = receiveData?.data
+  if (data) {
+    dispatch({ type: CREATE_BOARD, data });
+  } else {
+    commonErrorFunc(dispatch)
+  }
 };
 
 export const getBoardsForHome = () => async (dispatch: any, state: any) => {
