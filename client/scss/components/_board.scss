@@ -47,6 +47,20 @@
       flex-direction: column;
       width: 100%;
 
+      .board-header {
+        display: flex;
+        justify-content: space-between;
+
+        .more-btn{
+          color: gray;
+          margin-right: 10px;
+        }
+
+        .icon {
+          font-weight: normal;
+        }
+      }
+
       .user-info-wrapper {
         display: flex;
       }
@@ -119,7 +133,8 @@
         position: relative;
 
         &:hover {
-          background-color: rgba(51, 153, 255,0.2);;
+          background-color: rgba(51, 153, 255,0.2);
+          color: blue;
         }
 
         .icon {

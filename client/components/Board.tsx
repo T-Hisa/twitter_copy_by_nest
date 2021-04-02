@@ -36,12 +36,15 @@ const Board: React.FC<BoardProps> = (props) => {
     const className: string = previousElFirstChild.className;
     switch (true) {
       case className.indexOf('common') > -1:
+        previousElFirstChild.style.color = 'blue';
         previousElFirstChild.style.backgroundColor = 'rgba(51, 153, 255, 0.2)';
         break;
-      case className.indexOf('repost') > -1:
+        case className.indexOf('repost') > -1:
+        previousElFirstChild.style.color = 'green';
         previousElFirstChild.style.backgroundColor = 'rgba(1, 255, 0, 0.2)';
         break;
-      case className.indexOf('like') > -1:
+        case className.indexOf('like') > -1:
+        previousElFirstChild.style.color = 'red';
         previousElFirstChild.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
       default:
     }
@@ -52,6 +55,7 @@ const Board: React.FC<BoardProps> = (props) => {
     const prevEl: HTMLLIElement = forMouseReaveEl.previousElementSibling as HTMLLIElement;
     const previousElFirstChild: HTMLDivElement = prevEl.firstChild as HTMLDivElement;
     previousElFirstChild.style.background = 'none';
+    previousElFirstChild.style.color = 'black';
   };
 
   const onClickReply = () => {
@@ -89,14 +93,24 @@ const Board: React.FC<BoardProps> = (props) => {
             <img className="board-thumbnail" src="" alt="サムネイル" />
           </div>
           <div className="board-content-wrapper">
-            <div className="user-info-wrapper">
-              <span className="username">{board.user.username}</span>
-              <span className="c-gray userid">@{board.user._id}</span>
-              <span className="dot">・</span>
-              <span className="c-gray">{displayDate(board.timestamp)}</span>
+            <div className="board-header">
+              <div className="user-info-wrapper">
+                <span className="username">{board.user.username}</span>
+                <span className="c-gray userid">@{board.user._id}</span>
+                <span className="dot">・</span>
+                <span className="c-gray">{displayDate(board.timestamp)}</span>
+              </div>
+              <div
+                className="icon-wrapper  more-btn"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title={displayTooltip('more')}
+              >
+                <i className="fas fa-ellipsis-h icon"></i>
+              </div>
             </div>
-            <div className="board-content" id={`body-${board._id}`}>
-              {/* {board.body} */}
+            <div className="board-content">
+              <div className="body" id={`body-${board._id}`} />
               {board.image && <img src="board.image" alt="投稿した画像" />}
             </div>
             {isQuote && renderQuote(board.origin_board)}
@@ -225,25 +239,26 @@ const Board: React.FC<BoardProps> = (props) => {
     );
   };
 
-
   // 投稿した直後に描画すると、 body の部分だけ反映されないので、setTimeout を用いて遅れて描画させる
   setTimeout(() => {
     if (board.body) {
       let text = board.body.replace(/\n/g, '<br/>');
       // board.body = board.body.replace(/\n/g, '<br/>');
-      const bodyEl: HTMLDivElement = document.getElementById(`body-${board._id}`) as HTMLDivElement
+      const bodyEl: HTMLDivElement = document.getElementById(
+        `body-${board._id}`,
+      ) as HTMLDivElement;
       if (board.body.match(/\n/)) {
-        console.log('debug1')
-        console.log('bodyEl', bodyEl)
+        console.log('debug1');
+        console.log('bodyEl', bodyEl);
       }
       if (bodyEl) {
         if (board.body.match(/\n/)) {
-          console.log('debug!!!')
+          console.log('debug!!!');
         }
-        bodyEl.innerHTML = text
+        bodyEl.innerHTML = text;
       }
     }
-  }, 100)
+  }, 100);
 
   return (
     <div className="board-container" key={board._id}>

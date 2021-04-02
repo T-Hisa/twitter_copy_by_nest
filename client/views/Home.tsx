@@ -177,11 +177,11 @@ class Home extends React.Component<HomeProps, HomeState> {
     }
   }
 
-  onClickTweet(): void {
-    let body = this.state.body
-    const initialNotEmptyPosition = this.state.body.search(/\S/)
+  async onClickTweet(): Promise<void> {
+    let body = this.state.body;
+    const initialNotEmptyPosition = this.state.body.search(/\S/);
     if (initialNotEmptyPosition > 0) {
-      body = body.substr(initialNotEmptyPosition)
+      body = body.substr(initialNotEmptyPosition);
     }
     if (body) {
       const data: CreateBoardInterface = {
@@ -189,11 +189,23 @@ class Home extends React.Component<HomeProps, HomeState> {
         user: this.props.login_user._id,
         timestamp: Date.now(),
       };
-      this.props.createBoard(data);
-      this.setState({ body: '' });
+      this.setState({ focusFlag: false });
+      await this.postBoard(data);
     } else {
       alert('投稿内容を入力してください');
     }
+  }
+
+  async postBoard(board: CreateBoardInterface) {
+    const textArea: HTMLTextAreaElement = this.textareaRef.current;
+    const grandParentContainer: HTMLDivElement = textArea.parentElement
+      .parentElement as HTMLDivElement;
+    textArea.style.color = 'gray';
+    grandParentContainer.style.backgroundColor = 'rgba(200, 200, 200, 0.1)';
+    await this.props.createBoard(board);
+    textArea.style.color = 'black';
+    grandParentContainer.style.background = 'none';
+    this.setState({ body: '' });
   }
 }
 
