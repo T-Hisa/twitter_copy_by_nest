@@ -11,12 +11,25 @@ import { RootMiddleware } from './root.midddleware';
 import { RootController } from './root.controller';
 import { AuthModule } from '../auth/auth.module';
 
+console.log("path.resolve(__dirname, dist/client')", path.resolve(process.cwd(), 'dist', 'client'))
+console.log("path.join(__dirname, '../client')", path.join(__dirname, '../client'))
+
+
 @Module({
   imports: [
     DynamicServeStaticModule.forRoot({
-      renderPath: '/*',
-      rootPath: path.join(process.cwd(), 'dist/src/front'),
+      // renderPath: '/*',
+      // serveRoot: "/*",
+      // rootPath: process.env.NODE_ENV === 'development'
+      //   // ? path.join(process.cwd(), 'client')
+      //   ? path.join(process.cwd(), 'client')
+        // : path.join(process.cwd(), 'dist/client'),
+      rootPath: path.resolve(process.cwd(), 'dist', 'client'),
+      // rootPath: path.resolve(__dirname, '..', 'dist', 'client'),
       webpackConfig: frontWebpackConfig() as Configuration,
+      serveStaticOptions: {
+        redirect: true
+      }
     }),
     BoardModule,
     AuthModule,

@@ -13,10 +13,12 @@ export class RootController {
   //   // return 'this is board'
   // }
 
-  // @Get('/*')
-  // @Redirect('/')
-  // redirectRoot(@Next() next: NextFunction) {
-  //   console.log('redirect')
-  //   next()
-  // }
+  // ここでこの記述をしておかないと、例えば、 /home/static など、ネストしたURLリクエストがあった際にエラーを吐き出してしまう。
+  @Get('/**/*')
+  @Redirect('/')
+  redirectRoot() {
+    console.log('redirect')
+    // next()
+    // return 'sample'
+  }
 }
