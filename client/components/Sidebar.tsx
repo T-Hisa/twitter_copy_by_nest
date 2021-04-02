@@ -14,7 +14,7 @@ class Sidebar extends React.Component<any, {}> {
           <li className="icon-wrapper">
             <i className="fab fa-twitter icon main-icon"></i>
           </li>
-          <li className={this.customClass('')}>
+          <li className={this.customClass('home')}>
             <i className="fas fa-home icon"></i>
             <div className="menu-detail">ホーム</div>
           </li>
@@ -70,7 +70,7 @@ class Sidebar extends React.Component<any, {}> {
   }
 
   customClass(path: string): string {
-    const pathName = this.props.match.path
+    const pathName = this.props.location.pathname
     if (pathName.indexOf(path) > -1) {
       return 'icon-wrapper active'
     } else {

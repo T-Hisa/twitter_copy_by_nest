@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import Home from '../views/Home';
+// import BoardDetail from '../views/BoardDetail'
 import Sidebar from '../components/Sidebar';
 
 import { getBoardsForHome } from '../actions';
@@ -19,9 +21,10 @@ class Container extends React.Component<any, any> {
     return (
       <div className="main-container d-flex">
         <Sidebar user={this.props.login_user} />
-        <Route exact path="/" component={Home}></Route>
+        <Route exact path="/home" component={Home}></Route>
+        {/* <Route exact path="/:bid" component={BoardDetail}></Route> */}
         <Route path="/*">
-          <Redirect to="/" />
+          <Redirect to="/home" />
         </Route>
         <div onClick={this.sample.bind(this)}></div>
       </div>

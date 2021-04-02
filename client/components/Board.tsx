@@ -1,11 +1,14 @@
 import * as React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { BoardModel } from '../types/BoardModel';
-import { UserModel } from '../types/UserModel';
+
 import { displayDate, displayTooltip } from '../utils';
 
-interface BoardProps {
+import { BoardModel } from '../types/BoardModel';
+import { UserModel } from '../types/UserModel';
+import { RouteProps } from '../types/RouteProps';
+
+interface BoardProps extends RouteProps {
   board: BoardModel;
   login_user: any;
 }
@@ -39,11 +42,11 @@ const Board: React.FC<BoardProps> = (props) => {
         previousElFirstChild.style.color = 'blue';
         previousElFirstChild.style.backgroundColor = 'rgba(51, 153, 255, 0.2)';
         break;
-        case className.indexOf('repost') > -1:
+      case className.indexOf('repost') > -1:
         previousElFirstChild.style.color = 'green';
         previousElFirstChild.style.backgroundColor = 'rgba(1, 255, 0, 0.2)';
         break;
-        case className.indexOf('like') > -1:
+      case className.indexOf('like') > -1:
         previousElFirstChild.style.color = 'red';
         previousElFirstChild.style.backgroundColor = 'rgba(255, 0, 0, 0.1)';
       default:
@@ -70,8 +73,14 @@ const Board: React.FC<BoardProps> = (props) => {
     console.log('click like!!!');
   };
 
-  const onClickBoard = (board: BoardModel) => {
+  const onClickBoard = () => {
+    props.history.push(`/${board._id}`)
+  }
+
+  const renderBoardDetail = (board: BoardModel, props: BoardProps) => {
     console.log('body', board.body);
+    props.history.push(`/${board._id}`)
+    // this.props.history.push(`/${board._id}`)
   };
 
   const renderCommon = (
@@ -84,9 +93,7 @@ const Board: React.FC<BoardProps> = (props) => {
       <React.StrictMode>
         {user && renderInfo(user.username)}
         <div
-          onClick={() => {
-            onClickBoard(board);
-          }}
+          onClick={onClickBoard}
           className="board-wrapper"
         >
           <div className="board-thumbnail-wrapper">
@@ -271,4 +278,4 @@ const Board: React.FC<BoardProps> = (props) => {
   );
 };
 
-export default Board;
+export default withRouter(Board);

@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { BoardModel } from '../types/BoardModel';
 import { createBoard } from '../actions';
-import { CreateBoardInterface } from '../../types/boards.interface';
 import { getBoardsForHome } from '../actions';
 import BoardComponent from '../components/Board';
 
+import { BoardModel } from '../types/BoardModel';
+import { CreateBoardInterface } from '../../types/boards.interface';
+import { RouteProps } from '../types/RouteProps';
+
 import { displayTooltip } from '../utils';
 
-interface HomeProps {
+interface HomeProps extends RouteProps {
   boards?: BoardModel[];
   createBoard: any;
   login_user: any;

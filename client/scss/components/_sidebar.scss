@@ -87,7 +87,8 @@
       border-radius: 50%;
       width: 45px;
       height: 45px;
-      background-color: $background_primary_thin_trans;
+      background-color: $background_primary_dark_trans;
+      font-weight: bold;
       color: white;
 
       &:hover {
