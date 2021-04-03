@@ -2,18 +2,26 @@
 
 .sidebar {
   border-right: 1px solid $border_color;
-
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-
-  margin-left: 60px;
   margin-top: 10px;
+  padding-right: 10px;
+  width: 50px;
+
+  @media(min-width: 600px) {
+    width: 10%;
+  }
 
   @media (min-width: 1200px) {
-    width: 280px;
+    width: 240px;
   }
+
+  @media(max-width: 600px) {
+    padding: 0;
+  }
+
 
   .menu-list {
     // color: white;
@@ -129,11 +137,15 @@
   .account-info-container {
     display: flex;
     align-items: center;
-    width: 240px;
+    width: 200px;
     justify-content: space-between;
     border-radius: 25px;
-    padding: 0 10px;
+    padding-right: 10px;
     cursor: pointer;
+
+    @media(max-width: 1200px) {
+      width: 50px;
+    }
 
     &:hover {
       background-color: $background_primary_thin_trans;
@@ -154,15 +166,22 @@
         flex-direction: column;
         margin-left: 10px;
 
+        @media(max-width: 1200px) {
+          display: none;
+        }
         .username {
           font-size: 18px;
           font-weight: bold;
         }
-
       }
+
     }
     .icon {
       font-weight: normal;
+      @media(max-width: 1200px) {
+        display: none;
+      }
     }
+
   }
 }

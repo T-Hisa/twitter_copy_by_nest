@@ -63,7 +63,9 @@ class Sidebar extends React.Component<any, {}> {
               <div className="c-gray">@{this.props.user._id}</div>
             </div>
           </div>
-          <i className="fas fa-ellipsis-h icon"></i>
+          <div className="icon-wrapper">
+            <i className="fas fa-ellipsis-h icon"></i>
+          </div>
         </div>
       </div>
     );
