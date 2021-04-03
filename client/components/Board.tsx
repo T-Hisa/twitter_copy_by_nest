@@ -2,15 +2,18 @@ import * as React from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { displayDate, displayTooltip } from '../utils';
+import { displayTooltip } from '../utils';
 
 import { BoardModel } from '../types/BoardModel';
 import { UserModel } from '../types/UserModel';
 import { RouteProps } from '../types/RouteProps';
 
+import CommonBoard from './CommonBoard';
+
 interface BoardProps extends RouteProps {
   board: BoardModel;
   login_user: any;
+  handleClickReply: any;
 }
 
 const Board: React.FC<BoardProps> = (props) => {
@@ -61,8 +64,14 @@ const Board: React.FC<BoardProps> = (props) => {
     previousElFirstChild.style.color = 'black';
   };
 
-  const onClickReply = () => {
-    console.log('click reply!!');
+  const onClickReply = (e: React.MouseEvent<HTMLDivElement>) => {
+    const replyEl: HTMLDivElement = e.target as HTMLDivElement;
+    const prevEl: HTMLLIElement = replyEl.previousElementSibling as HTMLLIElement;
+    const previousElFirstChild: HTMLDivElement = prevEl.firstChild as HTMLDivElement;
+    console.log('replyEl', replyEl);
+    previousElFirstChild.style.background = 'none';
+    previousElFirstChild.style.color = 'black';
+    props.handleClickReply(board);
   };
 
   const onClickRepost = () => {
@@ -74,8 +83,8 @@ const Board: React.FC<BoardProps> = (props) => {
   };
 
   const onClickBoard = () => {
-    props.history.push(`/${login_user._id}/status/${board._id}`)
-  }
+    props.history.push(`/${login_user._id}/status/${board._id}`);
+  };
 
   // const renderBoardDetail = (board: BoardModel, props: BoardProps) => {
   //   console.log('body', board.body);
@@ -92,59 +101,20 @@ const Board: React.FC<BoardProps> = (props) => {
     return (
       <React.StrictMode>
         {user && renderInfo(user.username)}
-        <div
-          onClick={onClickBoard}
-          className="board-wrapper"
-        >
+        {/* <div onClick={onClickBoard} className="board-wrapper"> */}
+        <div className="board-wrapper">
           <div className="board-thumbnail-wrapper">
             <img className="board-thumbnail" src="" alt="サムネイル" />
           </div>
           <div className="board-content-wrapper">
-            <div className="board-header">
-              <div className="user-info-wrapper">
-                <span className="username">{board.user.username}</span>
-                <span className="c-gray userid">@{board.user._id}</span>
-                <span className="dot">・</span>
-                <span className="c-gray">{displayDate(board.timestamp)}</span>
-              </div>
-              <div
-                className="icon-wrapper  more-btn"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title={displayTooltip('more')}
-              >
-                <i className="fas fa-ellipsis-h icon"></i>
-              </div>
-            </div>
-            <div className="board-content">
-              <div className="body" id={`body-${board._id}`} />
-              {board.image && <img src="board.image" alt="投稿した画像" />}
-            </div>
-            {isQuote && renderQuote(board.origin_board)}
+            <CommonBoard
+              board={board}
+              isQuote={isQuote}
+            />
             {renderMenu(board, repost_id)}
           </div>
         </div>
       </React.StrictMode>
-    );
-  };
-
-  const renderQuote = (board: BoardModel) => {
-    return (
-      <div className="quote-wrapper">
-        <div className="quote-content-wrapper">
-          <div className="quote-user-info-wrapper">
-            <img className="quote-thumbail" src="" alt="画像" />
-            <span className="username">{board.user.username}</span>
-            <span className="c-gray userid">@{board.user._id}</span>
-            <span className="dot">・</span>
-            <span className="c-gray">{displayDate(board.timestamp)}</span>
-          </div>
-          <div className="quote-content">
-            {board.body}
-            {board.image && <img src="" alt="投稿した画像" />}
-          </div>
-        </div>
-      </div>
     );
   };
 

@@ -21,6 +21,7 @@ class Container extends React.Component<any, any> {
     return (
       <div className="main-container d-flex">
         <Sidebar user={this.props.login_user} />
+        {/* <Route exact path="/compose/tweet" component={Modal}/> */}
         <Route exact path="/home" component={Home}></Route>
         <Route exact path="/:uid/status/:bid" component={BoardDetail}></Route>
         <Route path="/*">

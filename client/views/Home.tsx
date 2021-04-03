@@ -1,9 +1,12 @@
 import * as React from 'react';
+
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createBoard } from '../actions';
 import { getBoardsForHome } from '../actions';
+
 import BoardComponent from '../components/Board';
+import Modal from '../components/Modal';
 
 import { BoardModel } from '../types/BoardModel';
 import { CreateBoardInterface } from '../../types/boards.interface';
@@ -21,20 +24,26 @@ interface HomeProps extends RouteProps {
 interface HomeState {
   body: string;
   focusFlag: boolean;
+
+  controlReplyModal: boolean;
+  selectedBoard?: BoardModel;
 }
 
 class Home extends React.Component<HomeProps, HomeState> {
   textareaRef: React.RefObject<HTMLTextAreaElement>;
   tweetBtnRef: React.RefObject<HTMLAnchorElement>;
+  modalRef: React.RefObject<any>;
 
   constructor(props: HomeProps) {
     super(props);
     this.textareaRef = React.createRef();
     this.tweetBtnRef = React.createRef();
+    this.modalRef = React.createRef();
     this.props.getBoardsForHome();
     this.state = {
       body: '',
       focusFlag: false,
+      controlReplyModal: false,
     };
   }
 
@@ -44,21 +53,30 @@ class Home extends React.Component<HomeProps, HomeState> {
 
   render(): JSX.Element {
     return (
-      <div className="home-container">
-        {this.renderHeader()}
-        {this.renderTweet()}
+      <React.StrictMode>
+        <div className="home-container">
+          {this.renderHeader()}
+          {this.renderTweet()}
 
-        {/* 空白を入れる */}
-        <div className="empty-zone" />
+          {/* 空白を入れる */}
+          <div className="empty-zone" />
 
-        {this.props.boards.map((board) => (
-          <BoardComponent
-            board={board}
-            login_user={this.props.login_user}
-            key={board._id}
-          />
-        ))}
-      </div>
+          {this.props.boards.map((board) => (
+            <BoardComponent
+              board={board}
+              login_user={this.props.login_user}
+              handleClickReply={this.handleClickReply.bind(this)}
+              key={board._id}
+            />
+          ))}
+        </div>
+        <Modal
+          isOpen={this.state.controlReplyModal}
+          handleCloseModal={this.handleCloseModal.bind(this)}
+          board={this.state.selectedBoard}
+          ref={this.modalRef}
+        />
+      </React.StrictMode>
     );
   }
 
@@ -208,6 +226,19 @@ class Home extends React.Component<HomeProps, HomeState> {
     textArea.style.color = 'black';
     grandParentContainer.style.background = 'none';
     this.setState({ body: '' });
+  }
+
+  handleClickReply(board: BoardModel) {
+    console.log('replyClicked!!!');
+    console.log('this.modalRef', this.modalRef);
+    console.log('this.modalRef.current', this.modalRef.current);
+    this.setState({ selectedBoard: board });
+    // this.modalRef.current.props.board = board
+    this.setState({ controlReplyModal: true });
+  }
+
+  handleCloseModal() {
+    this.setState({ controlReplyModal: false });
   }
 }
 

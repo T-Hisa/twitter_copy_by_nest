@@ -47,65 +47,6 @@
       flex-direction: column;
       width: 100%;
 
-      .board-header {
-        display: flex;
-        justify-content: space-between;
-
-        .more-btn{
-          color: gray;
-          margin-right: 10px;
-        }
-
-        .icon {
-          font-weight: normal;
-        }
-      }
-
-      .user-info-wrapper {
-        display: flex;
-      }
-
-      .username {
-        font-weight: bold;
-      }
-
-      .userid {
-        font-size: 14px;
-        color: gray;
-        padding-left: 4px;
-      }
-
-      .dot {
-        font-size: 10px;
-      }
-
-      .quote-wrapper {
-        border: 1px solid gray;
-        display: flex;
-        flex-direction: column;
-        border-radius: 15px;
-        width: 95%;
-        margin: 10px 0;
-        padding: 10px;
-        border: 1px solid lightgray;
-
-        &:hover {
-          background-color: rgba(211, 211, 211, 0.2);
-        }
-
-        .quote-content-wrapper {
-          .quote-user-info-wrapper {
-            display: flex;
-
-            .quote-thumbnail {
-              width: 15px;
-              height: 15px;
-              border-radius: 50%;
-            }
-          }
-        }
-      }
-
       .board-menu {
         display: flex;
         justify-content: space-between;
@@ -184,6 +125,63 @@
   }
 }
 
-.c-gray {
+
+
+.board-header {
+  display: flex;
+  justify-content: space-between;
+
+  .more-btn{
+    color: gray;
+    margin-right: 10px;
+  }
+
+  .icon {
+    font-weight: normal;
+  }
+}
+
+.user-info-wrapper {
+  display: flex;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.userid {
+  font-size: 14px;
   color: gray;
+  padding-left: 4px;
+}
+
+.dot {
+  font-size: 10px;
+}
+
+.quote-wrapper {
+  border: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  width: 95%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid lightgray;
+
+  &:hover {
+    background-color: rgba(211, 211, 211, 0.2);
+  }
+
+  .quote-content-wrapper {
+    .quote-user-info-wrapper {
+      display: flex;
+
+      .quote-thumbnail {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+      }
+    }
+  }
 }
