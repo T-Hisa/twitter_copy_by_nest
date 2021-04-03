@@ -47,9 +47,9 @@ class Sidebar extends React.Component<any, {}> {
             <i className="fas fa-ellipsis-h icon"></i>
             <div className="menu-detail">もっと見る</div>
           </li>
-          <li  className="tweet">
-            <i className="fas fa-pencil-ruler tweet-btn icon"></i>
-            <div className="do-tweet">ツイートする</div>
+          <li  className="post">
+            <i className="fas fa-pencil-ruler post-btn icon"></i>
+            <div className="do-post">ツイートする</div>
           </li>
           {/* <li>
             <i className="fas fa-check-circle icon"></i>

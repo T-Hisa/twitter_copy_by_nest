@@ -8,13 +8,23 @@ import { BoardModel } from '../types/BoardModel';
 interface CommonBoardProps {
   board: BoardModel
   isQuote: boolean
+  isReply: boolean
 }
 
 const CommonBoard: React.FC<CommonBoardProps> = (props) => {
   const { board } = props;
 
+  console.log('isReply', props.isReply)
+  const renderThumbnail = () => {
+    return (
+      <div className="reply-thumbnail">
+        <img className="thumbnail" src="" alt="サム"/>
+        <div className="reply-line"></div>
+      </div>
+    )
+  }
 
-  const renderQuote = (board: BoardModel) => {
+  const renderQuote = () => {
     return (
       <div className="quote-wrapper">
         <div className="quote-content-wrapper">
@@ -36,27 +46,32 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
 
   return (
     <React.StrictMode>
-      <div className="board-header">
-        <div className="user-info-wrapper">
-          <span className="username">{board.user.username}</span>
-          <span className="c-gray userid">@{board.user._id}</span>
-          <span className="dot">・</span>
-          <span className="c-gray">{displayDate(board.timestamp)}</span>
+      {
+        props.isReply && renderThumbnail()
+      }
+      <div className="board-content-wrapper">
+        <div className="board-header">
+          <div className="user-info-wrapper">
+            <span className="username">{board?.user.username}</span>
+            <span className="c-gray userid">@{board?.user._id}</span>
+            <span className="dot">・</span>
+            <span className="c-gray">{displayDate(board?.timestamp)}</span>
+          </div>
+          <div
+            className="icon-wrapper  more-btn"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title={displayTooltip('more')}
+          >
+            <i className="fas fa-ellipsis-h icon"></i>
+          </div>
         </div>
-        <div
-          className="icon-wrapper  more-btn"
-          data-bs-toggle="tooltip"
-          data-bs-placement="bottom"
-          title={displayTooltip('more')}
-        >
-          <i className="fas fa-ellipsis-h icon"></i>
+        <div className="board-content">
+          <div className="body" id={`body-${board?._id}`} />
+          {board?.image && <img src="board.image" alt="投稿した画像" />}
         </div>
+        {props.isQuote && renderQuote()}
       </div>
-      <div className="board-content">
-        <div className="body" id={`body-${board._id}`} />
-        {board.image && <img src="board.image" alt="投稿した画像" />}
-      </div>
-      {props.isQuote && renderQuote(board.origin_board)}
     </React.StrictMode>
   );
 };

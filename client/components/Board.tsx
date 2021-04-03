@@ -104,12 +104,13 @@ const Board: React.FC<BoardProps> = (props) => {
         {/* <div onClick={onClickBoard} className="board-wrapper"> */}
         <div className="board-wrapper">
           <div className="board-thumbnail-wrapper">
-            <img className="board-thumbnail" src="" alt="サムネイル" />
+            <img className="thumbnail" src="" alt="サム" />
           </div>
           <div className="board-content-wrapper">
             <CommonBoard
               board={board}
               isQuote={isQuote}
+              isReply={false}
             />
             {renderMenu(board, repost_id)}
           </div>
@@ -139,8 +140,7 @@ const Board: React.FC<BoardProps> = (props) => {
           className="for-mouse-over common"
         />
         <li className="board-menu-wrapper">
-          {board.repost_count > 0 &&
-          login_user.repost_boards.indexOf(repost_id) > -1 ? (
+          {login_user.repost_boards.indexOf(repost_id) > -1 ? (
             <React.StrictMode>
               <div className="icon-wrapper repost">
                 <i className="fas fa-retweet icon done"></i>
@@ -152,7 +152,9 @@ const Board: React.FC<BoardProps> = (props) => {
               <div className="icon-wrapper repost">
                 <i className="fas fa-retweet icon"></i>
               </div>
-              {renderCount(board.repost_count)}
+              {
+                board.repost_count > 0 && renderCount(board.repost_count)
+              }
             </React.StrictMode>
           )}
         </li>
@@ -166,8 +168,7 @@ const Board: React.FC<BoardProps> = (props) => {
           className="for-mouse-over repost"
         />
         <li className="board-menu-wrapper">
-          {board.like_count > 0 &&
-          login_user.like_boards.indexOf(board._id) > -1 ? (
+          {login_user.like_boards.indexOf(board._id) > -1 ? (
             <React.StrictMode>
               <div className="icon-wrapper like">
                 <i className="fas fa-heart done icon"></i>
@@ -179,7 +180,7 @@ const Board: React.FC<BoardProps> = (props) => {
               <div className="icon-wrapper like">
                 <i className="far fa-heart icon"></i>
               </div>
-              {renderCount(board.like_count)}
+              {board.like_count > 0 && renderCount(board.like_count)}
             </React.StrictMode>
           )}
         </li>

@@ -6,13 +6,15 @@ import { BoardModel } from '../types/BoardModel';
 import { displayDate, displayTooltip } from '../utils';
 
 import CommonBoard from './CommonBoard';
+import Tweet from './Tweet'
 
 interface ModalProps {
   isOpen: boolean;
-  board?: any;
+  board?: BoardModel;
 
   handleCloseModal: any;
 }
+
 
 class Modal extends React.Component<ModalProps, any> {
   constructor(props) {
@@ -36,6 +38,7 @@ class Modal extends React.Component<ModalProps, any> {
         insetBlockStart: '5%',
         insetInlineStart: '50%',
         transform: 'translateX(-50%)',
+        padding: '20px 10px'
       },
       overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
@@ -54,8 +57,14 @@ class Modal extends React.Component<ModalProps, any> {
         ariaHideApp={false}
       >
         <div className="modal-container">
-          <div className="thumbnail"></div>
-          <CommonBoard board={this.props.board} isQuote={this.boardIsQuote()} />
+          <CommonBoard
+            board={this.props.board}
+            isQuote={this.boardIsQuote()}
+            isReply={true}
+          />
+          <Tweet
+
+          />
         </div>
       </BaseModal>
     );

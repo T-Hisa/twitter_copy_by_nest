@@ -1,3 +1,5 @@
+@import './components/variables';
+
 a {
   cursor: pointer;
   color: $primary;
@@ -32,4 +34,17 @@ ul {
 
 .c-gray {
   color: gray;
+}
+
+.thumbnail {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+}
+
+.reply-line {
+  height: calc(100% - 48px);
+  width: 2px;
+  margin: 0 auto;
+  background-color: $reply-color;
 }

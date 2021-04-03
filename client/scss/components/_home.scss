@@ -19,12 +19,6 @@
     display: flex;
     border-bottom: 0.5px solid $border_color;
 
-    .thumbnail {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-    }
-
     .home-tweet {
       display: flex;
       flex-direction: column;

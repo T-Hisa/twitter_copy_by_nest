@@ -7,6 +7,7 @@ import { getBoardsForHome } from '../actions';
 
 import BoardComponent from '../components/Board';
 import Modal from '../components/Modal';
+import Tweet from '../components/Tweet'
 
 import { BoardModel } from '../types/BoardModel';
 import { CreateBoardInterface } from '../../types/boards.interface';
@@ -86,8 +87,9 @@ class Home extends React.Component<HomeProps, HomeState> {
 
   renderTweet(): JSX.Element {
     return (
+
       <div className="home-tweet-wrapper">
-        <img className="thumbnail" src="" alt="サムネイル" />
+        <img className="thumbnail" src="" alt="サム" />
         <div className="home-tweet">
           <textarea
             className="tweet-textarea"
@@ -234,6 +236,7 @@ class Home extends React.Component<HomeProps, HomeState> {
     console.log('this.modalRef.current', this.modalRef.current);
     this.setState({ selectedBoard: board });
     // this.modalRef.current.props.board = board
+    // this.modalRef.
     this.setState({ controlReplyModal: true });
   }
 
