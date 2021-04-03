@@ -17,7 +17,7 @@ async function bootstrap() {
     }
   }))
   // app.set('trust-proxy', 1)
-  // app.useStaticAssets(join(__dirname, '../public'));
+  app.useStaticAssets(join(process.cwd(), 'dist', 'client'));
   // app.setBaseViewsDir(join(__dirname, '../views'));
   await app.listen(3000);
 }

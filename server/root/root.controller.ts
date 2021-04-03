@@ -1,5 +1,6 @@
-import { Controller, Get, Next, Redirect } from "@nestjs/common";
+import { Controller, Get, Next, Redirect, Res } from "@nestjs/common";
 import { NextFunction } from "express";
+import { join } from 'path';
 // import { BoardsService } from "./boards.service";
 // import { BoardInterface } from "./boards.interface"
 
@@ -17,8 +18,11 @@ export class RootController {
   @Get('/**/*')
   @Redirect('/')
   redirectRoot() {
-    console.log('redirect')
-    // next()
-    // return 'sample'
   }
+
+  // redirectRoot(@Res() res: Response) {
+  //   res.sendFile('index.html', {
+  //   root: join(process.cwd(), 'dist', 'client')
+  //   });
+  // }
 }

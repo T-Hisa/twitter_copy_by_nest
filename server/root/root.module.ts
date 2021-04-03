@@ -18,8 +18,8 @@ console.log("path.join(__dirname, '../client')", path.join(__dirname, '../client
 @Module({
   imports: [
     DynamicServeStaticModule.forRoot({
-      // renderPath: '/*',
-      // serveRoot: "/*",
+      renderPath: '/*',
+      // serveRoot: 'path.resolve(process.cwd(), 'dist', 'client')',
       // rootPath: process.env.NODE_ENV === 'development'
       //   // ? path.join(process.cwd(), 'client')
       //   ? path.join(process.cwd(), 'client')
