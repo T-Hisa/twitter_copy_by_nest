@@ -19,8 +19,7 @@ interface BoardProps extends RouteProps {
 
 const Board: React.FC<BoardProps> = (props) => {
   const { board, login_user } = props;
-  // const [todos, setTodos] = useState<Todo[]>([]);
-  const [repostFlag, setFlag] = React.useState<boolean>(true);
+  // const [todos, setTodos] = React.useState<Todo[]>([]);
 
   const renderCount = (count: number): JSX.Element => {
     return <span className="count-display">{count}</span>;

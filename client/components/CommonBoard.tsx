@@ -6,24 +6,36 @@ import { displayDate, displayTooltip } from '../utils';
 import { BoardModel } from '../types/BoardModel';
 
 interface CommonBoardProps {
-  board: BoardModel
-  isQuote: boolean
-  isReply: boolean
-  isModal: boolean
+  board: BoardModel;
+  isQuote: boolean;
+  isReply: boolean;
+  isModal: boolean;
 }
 
 const CommonBoard: React.FC<CommonBoardProps> = (props) => {
   const { board } = props;
 
-  console.log('isReply', props.isReply)
+  // if (props.isModal) {
+  //   let text = board.body.replace(/\n/g, '<br/>');
+  //   // board.body = board.body.replace(/\n/g, '<br/>');
+  //   const bodyEl: HTMLDivElement = document.getElementById(
+  //     `body-modal-${board._id}`,
+  //   ) as HTMLDivElement;
+  //   if (board.body.match(/\n/)) {
+  //   }
+  //   if (bodyEl) {
+  //     bodyEl.innerHTML = text;
+  //   }
+  // }
+
   const renderThumbnail = () => {
     return (
       <div className="thumbnail-wrapper">
-        <img className="thumbnail" src="" alt="サム"/>
+        <img className="thumbnail" src="" alt="サム" />
         <div className="reply-line"></div>
       </div>
-    )
-  }
+    );
+  };
 
   const renderQuote = () => {
     return (
@@ -34,7 +46,9 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
             <span className="quote-username">{board?.user?.username}</span>
             <span className="c-gray quote-userid">@{board?.user?._id}</span>
             <span className="quote-dot">・</span>
-            <span className="c-gray quote-time">{displayDate(board?.timestamp)}</span>
+            <span className="c-gray quote-time">
+              {displayDate(board?.timestamp)}
+            </span>
           </div>
           <div className="quote-content">
             {board?.body}
@@ -47,9 +61,7 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
 
   return (
     <React.StrictMode>
-      {
-        props.isReply && renderThumbnail()
-      }
+      {props.isReply && renderThumbnail()}
       <div className="board-content-wrapper">
         <div className="board-header">
           <div className="user-info-wrapper">
@@ -58,20 +70,23 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
             <span className="dot">・</span>
             <span className="c-gray">{displayDate(board?.timestamp)}</span>
           </div>
-          {
-            !props.isModal && (
-              <div
-                className="icon-wrapper  more-btn"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title={displayTooltip('more')}
-              ><i className="fas fa-ellipsis-h icon"></i>
-              </div>
-            )
-          }
+          {!props.isModal && (
+            <div
+              className="icon-wrapper  more-btn"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title={displayTooltip('more')}
+            >
+              <i className="fas fa-ellipsis-h icon"></i>
+            </div>
+          )}
         </div>
         <div className="board-content">
-          <div className="body" id={`body-${board?._id}`} />
+          {props.isModal ? (
+            <div className="body" id={`body-modal-${board?._id}`} />
+          ) : (
+            <div className="body" id={`body-${board?._id}`} />
+          )}
           {board?.image && <img src="board.image" alt="投稿した画像" />}
         </div>
         {props.isQuote && renderQuote()}

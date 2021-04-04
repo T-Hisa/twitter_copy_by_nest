@@ -13,6 +13,8 @@ interface TweetProps {
   createBoard: any;
   login_user: UserModel
   isModal: boolean
+
+  handleRedraw?: () => {}
 }
 
 class Tweet extends React.Component<TweetProps, any> {
@@ -161,6 +163,7 @@ class Tweet extends React.Component<TweetProps, any> {
       };
       this.setState({ focusFlag: false });
       await this.postBoard(data);
+      this.props.handleRedraw()
     } else {
       alert('投稿内容を入力してください');
     }

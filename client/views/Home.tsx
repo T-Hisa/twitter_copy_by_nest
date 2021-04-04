@@ -6,7 +6,7 @@ import { getBoardsForHome } from '../actions';
 
 import BoardComponent from '../components/Board';
 import Modal from '../components/Modal';
-import Tweet from '../components/Tweet'
+import Tweet from '../components/Tweet';
 
 import { BoardModel } from '../types/BoardModel';
 import { RouteProps } from '../types/RouteProps';
@@ -25,6 +25,7 @@ interface HomeState {
 
   controlReplyModal: boolean;
   selectedBoard?: BoardModel;
+  redrawFlag: number;
 }
 
 class Home extends React.Component<HomeProps, HomeState> {
@@ -38,6 +39,7 @@ class Home extends React.Component<HomeProps, HomeState> {
       body: '',
       focusFlag: false,
       controlReplyModal: false,
+      redrawFlag: 0,
     };
   }
 
@@ -53,6 +55,7 @@ class Home extends React.Component<HomeProps, HomeState> {
           <Tweet
             isNotReply={true}
             isModal={false}
+            handleRedraw={this.handleRedrawFlag.bind(this)}
           />
 
           {/* 空白を入れる */}
@@ -82,27 +85,24 @@ class Home extends React.Component<HomeProps, HomeState> {
   }
 
   handleClickReply(board: BoardModel) {
-    console.log('replyClicked!!!');
-    console.log('this.modalRef', this.modalRef);
-    console.log('this.modalRef.current', this.modalRef.current);
     this.setState({ selectedBoard: board });
-    // this.modalRef.current.props.board = board
-    // this.modalRef.
     this.setState({ controlReplyModal: true });
   }
 
   handleCloseModal() {
     this.setState({ controlReplyModal: false });
   }
+
+  handleRedrawFlag() {
+    const redrawFlag = this.state.redrawFlag + 1;
+    this.setState({ redrawFlag });
+  }
 }
 
 const mapStateToProps = (state: any, props: any) => {
-  // ('state!', state)
   const login_user = state.login_user;
-  // for (let board of state.boards) {
-  //   console.log('board.body', board.body)
-  // }
   const boards = state.boards;
+  console.log('state,b ', state);
   return { boards, login_user };
 };
 
