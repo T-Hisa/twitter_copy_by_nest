@@ -1,12 +1,55 @@
-.modal-container {
+@import './variables';
+.header-modal {
   display: flex;
+  justify-content: space-between;
+  color: $primary;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 0.5px solid $border_color;
+
+  .cancel-btn-wrapper {
+    font-size: 30px;
+    margin-left: 10px;
+    position: relative;
+    padding: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    .cancel-btn {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translateY(-50%) translateX(-50%);
+    }
+
+    &:hover {
+      background-color: $background_primary_thin_trans;
+    }
+  }
+
+  .unsend-btn {
+    font-weight: bold;
+    margin-right: 10px;
+    padding: 5px 10px;
+    border-radius: 24px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $background_primary_thin_trans;
+    }
+  }
+}
+
+.modal-content-container {
+  display: flex;
+  padding-top: 10px;
 
   .board-content-wrapper {
     width: 100%;
   }
 
   .reply-thumbnail {
-    padding-right: 10px;
+    padding: 0 10px;
     text-align: center;
   }
 }

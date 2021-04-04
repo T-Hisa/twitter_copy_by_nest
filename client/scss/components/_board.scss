@@ -32,11 +32,6 @@
     display: flex;
     padding: 5px 0;
 
-    .board-thumbnail-wrapper {
-      text-align: center;
-      margin: 0 10px;
-    }
-
     .board-content-wrapper {
       display: flex;
       flex-direction: column;
@@ -69,7 +64,7 @@
         position: relative;
 
         &:hover {
-          background-color: rgba(51, 153, 255,0.2);
+          background-color: rgba(51, 153, 255, 0.2);
           color: blue;
         }
 
@@ -87,46 +82,22 @@
         height: 30px;
 
         &.repost {
-          left: 21%
+          left: 21%;
         }
 
         &.like {
           left: 47%;
         }
       }
-
-      .common {
-      }
-
-      // .repost {
-      //   &:hover {
-      //     background-color: green;
-      //   }
-
-      //   .done {
-      //     color: green;
-      //   }
-      // }
-
-      // .like {
-      //   &:hover {
-      //     background-color: red;
-      //   }
-      //   .done {
-      //     color: red;
-      //   }
-      // }
     }
   }
 }
-
-
 
 .board-header {
   display: flex;
   justify-content: space-between;
 
-  .more-btn{
+  .more-btn {
     color: gray;
     margin-right: 10px;
   }
@@ -144,10 +115,22 @@
   font-weight: bold;
 }
 
+.quote-username {
+  font-weight: bold;
+}
+
+.quote-userid {
+  font-size: 14px;
+  padding-left: 4px;
+}
+
 .userid {
   font-size: 14px;
-  color: gray;
   padding-left: 4px;
+}
+
+.quote-dot {
+  font-size: 10px;
 }
 
 .dot {
@@ -171,6 +154,7 @@
   .quote-content-wrapper {
     .quote-user-info-wrapper {
       display: flex;
+      align-items: center;
 
       .quote-thumbnail {
         width: 15px;

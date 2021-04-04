@@ -6,7 +6,7 @@ import { BoardModel } from '../types/BoardModel';
 import { displayDate, displayTooltip } from '../utils';
 
 import CommonBoard from './CommonBoard';
-import Tweet from './Tweet'
+import Tweet from './Tweet';
 
 interface ModalProps {
   isOpen: boolean;
@@ -14,7 +14,6 @@ interface ModalProps {
 
   handleCloseModal: any;
 }
-
 
 class Modal extends React.Component<ModalProps, any> {
   constructor(props) {
@@ -38,7 +37,8 @@ class Modal extends React.Component<ModalProps, any> {
         insetBlockStart: '5%',
         insetInlineStart: '50%',
         transform: 'translateX(-50%)',
-        padding: '20px 10px'
+        padding: '0',
+        borderRadius: '15px',
       },
       overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
@@ -56,16 +56,27 @@ class Modal extends React.Component<ModalProps, any> {
         contentLabel="sample Label"
         ariaHideApp={false}
       >
-        <div className="modal-container">
+        <div className="header-modal">
+          <div
+            className="cancel-btn-wrapper"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title={displayTooltip('cancel')}
+          >
+            <span onClick={this.props.handleCloseModal} className="cancel-btn">×</span>
+          </div>
+          <div className="unsend-btn">未送信ツイート</div>
+        </div>
+
+        <div className="modal-content-container">
           <CommonBoard
             board={this.props.board}
             isQuote={this.boardIsQuote()}
             isReply={true}
-          />
-          <Tweet
-
+            isModal={true}
           />
         </div>
+        <Tweet isNotReply={false} isModal={true} />
       </BaseModal>
     );
   }

@@ -15,8 +15,6 @@ import "./actions"
 const enhancer = applyMiddleware(thunk)
 const store = createStore(reducer, enhancer)
 
-
-console.log('sampleaasswsssa')
 ReactDOM.render(
   <Provider store={store}>
     <Router>

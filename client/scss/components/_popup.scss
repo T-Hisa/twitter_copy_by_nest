@@ -1,0 +1,28 @@
+.popup-container {
+  width: 200%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  .popup-wrapper {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    background-color: white;
+    border-radius: 5px;
+    width: 150px;
+    position: absolute;
+    box-shadow: 0 0 10px rgb(211, 211, 211);
+    cursor: pointer;
+
+
+    .popup-element {
+      padding: 10px 20px;
+
+      &:hover {
+        background-color: $background_color;
+      }
+    }
+  }
+}

@@ -1,7 +1,10 @@
 @import "~bootstrap/scss/bootstrap";
 @import "./common";
-@import "./components/sidebar";
+
+@import "./components/board";
 @import "./components/home";
 @import "./components/login";
-@import "./components/board";
 @import "./components/modal";
+@import "./components/popup";
+@import "./components/sidebar";
+@import "./components/tweet";

@@ -9,6 +9,7 @@ import { UserModel } from '../types/UserModel';
 import { RouteProps } from '../types/RouteProps';
 
 import CommonBoard from './CommonBoard';
+import EventEmitter from 'node:events';
 
 interface BoardProps extends RouteProps {
   board: BoardModel;
@@ -19,6 +20,7 @@ interface BoardProps extends RouteProps {
 const Board: React.FC<BoardProps> = (props) => {
   const { board, login_user } = props;
   // const [todos, setTodos] = useState<Todo[]>([]);
+  const [repostFlag, setFlag] = React.useState<boolean>(true);
 
   const renderCount = (count: number): JSX.Element => {
     return <span className="count-display">{count}</span>;
@@ -68,29 +70,120 @@ const Board: React.FC<BoardProps> = (props) => {
     const replyEl: HTMLDivElement = e.target as HTMLDivElement;
     const prevEl: HTMLLIElement = replyEl.previousElementSibling as HTMLLIElement;
     const previousElFirstChild: HTMLDivElement = prevEl.firstChild as HTMLDivElement;
-    console.log('replyEl', replyEl);
     previousElFirstChild.style.background = 'none';
     previousElFirstChild.style.color = 'black';
     props.handleClickReply(board);
   };
 
-  const onClickRepost = () => {
-    console.log('click repost!!!');
+  const getDivPosition = (
+    e: React.MouseEvent<HTMLDivElement>,
+  ): [number, number] => {
+    const x = pageXOffset;
+    const y = pageYOffset;
+    const positionParentEl = document.elementFromPoint(
+      e.pageX - x,
+      e.pageY - y,
+    );
+    const xPosition = positionParentEl.getBoundingClientRect().left;
+    const yPosition = positionParentEl.getBoundingClientRect().top;
+    return [xPosition, yPosition];
+  };
+
+  const handleResend = () => {
+    console.log('resend!');
+  };
+
+  const handleQuote = () => {
+    console.log('quote!');
+  };
+
+  const handlePopup = (x: number, y: number) => {
+    const rootEl = document.getElementById('root');
+    const popupContainer = document.createElement('div');
+    popupContainer.className = 'popup-container';
+    popupContainer.id = 'popup';
+    popupContainer.addEventListener('click', (event) => {
+      const popupContainerEl = document.getElementById('popup');
+      popupContainerEl.remove();
+      switch ((event.target as HTMLElement).id) {
+        case 'resend':
+          handleResend();
+          break;
+        case 'quote':
+          handleQuote();
+          break;
+        default:
+      }
+    });
+    const popupEl = document.createElement('div');
+    popupEl.className = 'popup-wrapper';
+    popupEl.style.left = `${x}px`;
+    popupEl.style.top = `${y}px`;
+
+    const firstChildEl = document.createElement('span');
+    firstChildEl.className = 'popup-element';
+    firstChildEl.id = 'resend';
+    firstChildEl.innerHTML = '<i class="fas fa-retweet"></i>　再投稿';
+    const secondChildEl = document.createElement('span');
+    secondChildEl.className = 'popup-element';
+    secondChildEl.id = 'quote';
+    secondChildEl.innerHTML = '<i class="fas fa-pen"></i>　引用投稿';
+    popupEl.appendChild(firstChildEl);
+    popupEl.appendChild(secondChildEl);
+    popupContainer.appendChild(popupEl);
+    setTimeout(() => {
+      rootEl.appendChild(popupContainer);
+    }, 1);
+  };
+
+  const onClickRepost = (e: React.MouseEvent<HTMLDivElement>) => {
+    const [x, y] = getDivPosition(e);
+    handlePopup(x, y);
   };
 
   const onClickLike = () => {
     console.log('click like!!!');
   };
 
-  const onClickBoard = () => {
-    props.history.push(`/${login_user._id}/status/${board._id}`);
+  const onClickBoard = (e: React.MouseEvent<HTMLElement>) => {
+    const target: HTMLElement = e.target as HTMLElement;
+    const className = target.classList.value;
+    switch (className) {
+      case 'thumbnail':
+        // onClickThumbnail()
+        return;
+      case 'quote-wrapper':
+      case 'quote-user-info-wrapper':
+      case 'quote-thumbnail':
+      case 'quote-username':
+      case 'quote-content':
+      case 'c-gray quote-userid':
+      case 'c-gray quote-dot':
+      case 'c-gray quote-time':
+        return;
+      // this.onClickQuote()
+      case 'for-mouse-over common':
+        onClickReply(e as React.MouseEvent<HTMLDivElement>);
+        return;
+      case 'for-mouse-over repost':
+        onClickRepost(e as React.MouseEvent<HTMLDivElement>);
+        return;
+      case 'for-mouse-over like':
+        onClickLike();
+        return;
+      case 'fas fa-share icon common':
+      case 'icon-wrapper commonshare':
+      // onClickShare()
+      case 'fas fa-chart-bar icon common':
+      case 'fas fa-ellipsis-h icon analyze':
+      // onClickAnalyze()
+      case 'icon-wrapper  more-btn':
+        // onClickMore()
+        return;
+      default:
+        props.history.push(`/${login_user._id}/status/${board._id}`);
+    }
   };
-
-  // const renderBoardDetail = (board: BoardModel, props: BoardProps) => {
-  //   console.log('body', board.body);
-  //   props.history.push(`/${login_user._id}/status/${board._id}/`)
-  //   // this.props.history.push(`/${board._id}`)
-  // };
 
   const renderCommon = (
     board: BoardModel,
@@ -101,9 +194,9 @@ const Board: React.FC<BoardProps> = (props) => {
     return (
       <React.StrictMode>
         {user && renderInfo(user.username)}
-        {/* <div onClick={onClickBoard} className="board-wrapper"> */}
-        <div className="board-wrapper">
-          <div className="board-thumbnail-wrapper">
+        <div onClick={onClickBoard} className="board-wrapper">
+          {/* <div className="board-wrapper"> */}
+          <div className="thumbnail-wrapper">
             <img className="thumbnail" src="" alt="サム" />
           </div>
           <div className="board-content-wrapper">
@@ -111,6 +204,7 @@ const Board: React.FC<BoardProps> = (props) => {
               board={board}
               isQuote={isQuote}
               isReply={false}
+              isModal={false}
             />
             {renderMenu(board, repost_id)}
           </div>
@@ -133,7 +227,6 @@ const Board: React.FC<BoardProps> = (props) => {
         <div
           onMouseOver={mouseOverEvent}
           onMouseLeave={mouseLeaveEvent}
-          onClick={onClickReply}
           data-bs-toggle="tooltip"
           data-bs-placement="bottom"
           title={displayTooltip('reply')}
@@ -152,16 +245,13 @@ const Board: React.FC<BoardProps> = (props) => {
               <div className="icon-wrapper repost">
                 <i className="fas fa-retweet icon"></i>
               </div>
-              {
-                board.repost_count > 0 && renderCount(board.repost_count)
-              }
+              {board.repost_count > 0 && renderCount(board.repost_count)}
             </React.StrictMode>
           )}
         </li>
         <div
           onMouseOver={mouseOverEvent}
           onMouseLeave={mouseLeaveEvent}
-          onClick={onClickRepost}
           data-bs-toggle="tooltip"
           data-bs-placement="bottom"
           title={displayTooltip('repost')}
@@ -187,7 +277,6 @@ const Board: React.FC<BoardProps> = (props) => {
         <div
           onMouseOver={mouseOverEvent}
           onMouseLeave={mouseLeaveEvent}
-          onClick={onClickLike}
           data-bs-toggle="tooltip"
           data-bs-placement="bottom"
           title={displayTooltip('like')}
@@ -195,7 +284,7 @@ const Board: React.FC<BoardProps> = (props) => {
         />
         <li className="board-menu-wrapper">
           <div
-            className="icon-wrapper common"
+            className="icon-wrapper common share"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
             title={displayTooltip('share')}
@@ -209,7 +298,7 @@ const Board: React.FC<BoardProps> = (props) => {
           data-bs-placement="bottom"
           title={displayTooltip('analytics')}
         >
-          <div className="icon-wrapper common">
+          <div className="icon-wrapper common analyze">
             <i className="fas fa-chart-bar icon common"></i>
           </div>
         </li>
@@ -217,7 +306,7 @@ const Board: React.FC<BoardProps> = (props) => {
     );
   };
 
-  // 投稿した直後に描画すると、 body の部分だけ反映されないので、setTimeout を用いて遅れて描画させる
+  // 投稿した直後に描画すると、 body の部分だけ反映されないので、setTimeout を用いてほんの少し遅れて描画させる
   setTimeout(() => {
     if (board.body) {
       let text = board.body.replace(/\n/g, '<br/>');
@@ -226,13 +315,8 @@ const Board: React.FC<BoardProps> = (props) => {
         `body-${board._id}`,
       ) as HTMLDivElement;
       if (board.body.match(/\n/)) {
-        console.log('debug1');
-        console.log('bodyEl', bodyEl);
       }
       if (bodyEl) {
-        if (board.body.match(/\n/)) {
-          console.log('debug!!!');
-        }
         bodyEl.innerHTML = text;
       }
     }

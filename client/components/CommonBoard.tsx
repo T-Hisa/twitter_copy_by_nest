@@ -9,6 +9,7 @@ interface CommonBoardProps {
   board: BoardModel
   isQuote: boolean
   isReply: boolean
+  isModal: boolean
 }
 
 const CommonBoard: React.FC<CommonBoardProps> = (props) => {
@@ -17,7 +18,7 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
   console.log('isReply', props.isReply)
   const renderThumbnail = () => {
     return (
-      <div className="reply-thumbnail">
+      <div className="thumbnail-wrapper">
         <img className="thumbnail" src="" alt="サム"/>
         <div className="reply-line"></div>
       </div>
@@ -29,11 +30,11 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
       <div className="quote-wrapper">
         <div className="quote-content-wrapper">
           <div className="quote-user-info-wrapper">
-            <img className="quote-thumbail" src="" alt="画像" />
-            <span className="username">{board?.user?.username}</span>
-            <span className="c-gray userid">@{board?.user?._id}</span>
-            <span className="dot">・</span>
-            <span className="c-gray">{displayDate(board?.timestamp)}</span>
+            <img className="quote-thumbnail" src="" alt="画像" />
+            <span className="quote-username">{board?.user?.username}</span>
+            <span className="c-gray quote-userid">@{board?.user?._id}</span>
+            <span className="quote-dot">・</span>
+            <span className="c-gray quote-time">{displayDate(board?.timestamp)}</span>
           </div>
           <div className="quote-content">
             {board?.body}
@@ -57,14 +58,17 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
             <span className="dot">・</span>
             <span className="c-gray">{displayDate(board?.timestamp)}</span>
           </div>
-          <div
-            className="icon-wrapper  more-btn"
-            data-bs-toggle="tooltip"
-            data-bs-placement="bottom"
-            title={displayTooltip('more')}
-          >
-            <i className="fas fa-ellipsis-h icon"></i>
-          </div>
+          {
+            !props.isModal && (
+              <div
+                className="icon-wrapper  more-btn"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title={displayTooltip('more')}
+              ><i className="fas fa-ellipsis-h icon"></i>
+              </div>
+            )
+          }
         </div>
         <div className="board-content">
           <div className="body" id={`body-${board?._id}`} />

@@ -22,6 +22,8 @@ export const displayTooltip = (type: string): string => {
       return '予約設定'
     case 'more':
       return 'もっと見る'
+    case 'cancel':
+      return '閉じる'
     default:
       break
   }

@@ -1,9 +1,7 @@
 @import './variables';
 
 .home-container {
-  width: 600px;
-  border-right: 1px solid $border_color;
-  overflow-y: scroll;
+  position: relative;
 
   .home-header {
     font-size: 20px;
@@ -13,88 +11,8 @@
     border-bottom: 1px solid $border_color;
     width: 100%;
   }
-
-  .home-tweet-wrapper {
-    max-height: 850px;
-    display: flex;
-    border-bottom: 0.5px solid $border_color;
-
-    .home-tweet {
-      display: flex;
-      flex-direction: column;
-      margin-left: 10px;
-      width: 100%;
-
-      .tweet-textarea {
-        width: 100%;
-        border: none;
-        font-size: 20px;
-        padding: 15px 0;
-        height: auto;
-        background: none;
-
-        &:focus {
-          border: none;
-          outline: none;
-        }
-      }
-
-      .tweet-tag {
-        color: $primary;
-        width: 95%;
-        padding-bottom: 10px;
-        border-bottom: 1px solid $border_color;
-
-        .tag-text {
-          font-size: 13px;
-        }
-      }
-
-      .tweet-select-wrapper {
-        color: $primary;
-        padding: 10px 0;
-        align-items: center;
-        justify-content: space-between;
-
-        .tweet-select-list {
-          font-size: 20px;
-
-          .icon-wrapper {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 24zpx;
-            position: relative;
-            margin-right: 10px;
-            cursor: pointer;
-
-            &:hover {
-              background-color: rgba(51, 153, 255, 0.2);
-            }
-
-            .icon {
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translateY(-50%) translateX(-50%);
-            }
-          }
-        }
-
-        .send-tweet-btn {
-          width: 120px;
-          height: 38px;
-          border-radius: 19px;
-          margin-right: 20px;
-          line-height: 38px;
-          text-align: center;
-          color: white;
-          font-weight: bold;
-        }
-      }
-    }
-  }
 }
+
 .empty-zone {
   height: 15px;
   background-color: rgb(247, 249, 250);
