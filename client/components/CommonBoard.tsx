@@ -15,11 +15,8 @@ interface CommonBoardProps {
 const CommonBoard: React.FC<CommonBoardProps> = (props) => {
   const { board } = props;
 
-  console.log('board.body at commonBoard', board.body)
-
   // 投稿した直後に描画すると、 body の部分だけ反映されないので、setTimeout を用いてほんの少し遅れて描画させる
   const renderBoardBody = () => {
-    console.log('CommonBoard modal debug');
     let text = board.body.replace(/\n/g, '<br/>');
     let bodyEl: HTMLDivElement
     if (props.isModal) {

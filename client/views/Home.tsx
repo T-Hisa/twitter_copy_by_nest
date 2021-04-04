@@ -69,6 +69,7 @@ class Home extends React.Component<HomeProps, HomeState> {
           handleCloseModal={this.handleCloseModal.bind(this)}
           board={this.state.selectedBoard}
           ref={this.modalRef}
+          isNotReply={false}
         />
       </React.StrictMode>
     );
@@ -100,7 +101,6 @@ class Home extends React.Component<HomeProps, HomeState> {
 const mapStateToProps = (state: any, props: any) => {
   const login_user = state.login_user;
   const boards = state.boards;
-  console.log('state at Home', state);
   return { boards, login_user };
 };
 

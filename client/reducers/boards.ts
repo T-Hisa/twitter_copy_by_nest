@@ -11,13 +11,11 @@ export const boards = (boardsModel: any = [], action: any) => {
       return action.data;
     case CREATE_BOARD:
       boardsModel.unshift(action.data);
-      console.log('action', action)
       return boardsModel;
     case GET_BOARDS_FOR_HOME:
       return action.data;
     case GET_DETAIL_BOARD:
     default:
-      console.log('action', action)
       return boardsModel;
   }
 };

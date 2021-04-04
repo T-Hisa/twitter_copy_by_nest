@@ -41,7 +41,6 @@ class App extends React.Component<any, any> {
 }
 
 const mapStateToProps = (state: any) => {
-  console.log('state at app', state);
   return state;
 };
 

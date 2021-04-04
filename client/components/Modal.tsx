@@ -13,6 +13,7 @@ interface ModalProps {
   board?: BoardModel;
 
   handleCloseModal: any;
+  isNotReply: boolean
 }
 
 class Modal extends React.Component<ModalProps, any> {
@@ -63,20 +64,23 @@ class Modal extends React.Component<ModalProps, any> {
             data-bs-placement="bottom"
             title={displayTooltip('cancel')}
           >
-            <span onClick={this.props.handleCloseModal} className="cancel-btn">×</span>
+            <span onClick={this.props.handleCloseModal} className="cancel-btn">
+              ×
+            </span>
           </div>
           <div className="unsend-btn">未送信ツイート</div>
         </div>
-
-        <div className="modal-content-container">
-          <CommonBoard
-            board={this.props.board}
-            isQuote={this.boardIsQuote()}
-            isReply={true}
-            isModal={true}
-          />
-        </div>
-        <Tweet isNotReply={false} isModal={true} />
+        {this.props.board && (
+          <div className="modal-content-container">
+            <CommonBoard
+              board={this.props.board}
+              isQuote={this.boardIsQuote()}
+              isReply={true}
+              isModal={true}
+            />
+          </div>
+        )}
+        <Tweet isNotReply={this.props.isNotReply} isModal={true} />
       </BaseModal>
     );
   }

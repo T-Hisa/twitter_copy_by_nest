@@ -20,9 +20,7 @@ interface BoardDetailState {
 class BoardDetail extends React.Component<any, any> {
   componentDidMount() {
     const bid = this.props.match.params.bid;
-    console.log('boardDidMount!', bid);
     this.props.getBoardDetail(bid).then((boardDetail) => {
-      console.log('boardDetail', boardDetail);
       this.setState({ boardDetail });
     });
   }

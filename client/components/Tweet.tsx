@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { CreateBoardInterface } from '../../types/boards.interface';
-import { displayTooltip } from '../utils';
+import { displayTooltip, renderTag } from '../utils';
 
 import { createBoard } from '../actions';
 import { UserModel } from '../types/UserModel';
@@ -11,13 +11,19 @@ import { UserModel } from '../types/UserModel';
 interface TweetProps {
   isNotReply: boolean;
   createBoard: any;
-  login_user: UserModel
-  isModal: boolean
+  login_user: UserModel;
+  isModal: boolean;
 
-  handleRedraw?: () => {}
+  handleRedraw?: () => {};
 }
 
-class Tweet extends React.Component<TweetProps, any> {
+interface TweetState {
+  body: string;
+  focusFlag: boolean;
+  controlReplyModal: boolean;
+}
+
+class Tweet extends React.Component<TweetProps, TweetState> {
   textareaRef: React.RefObject<HTMLTextAreaElement>;
   tweetBtnRef: React.RefObject<HTMLAnchorElement>;
 
@@ -52,7 +58,7 @@ class Tweet extends React.Component<TweetProps, any> {
               value={this.state.body}
             ></textarea>
 
-            {this.props.isNotReply && this.state.focusFlag && this.renderTag()}
+            {((this.props.isModal && this.props.isNotReply) || this.state.focusFlag) && renderTag()}
             {this.renderTweetMenu()}
           </div>
         </div>
@@ -60,15 +66,7 @@ class Tweet extends React.Component<TweetProps, any> {
       </React.StrictMode>
     );
   }
-
-  renderTag(): JSX.Element {
-    return (
-      <span className="tweet-tag">
-        <i className="fas fa-volleyball-ball"></i>{' '}
-        <span className="tag-text">全員が返信できます</span>
-      </span>
-    );
-  }
+  ;
 
   renderTweetMenu(): JSX.Element {
     return (
@@ -163,7 +161,7 @@ class Tweet extends React.Component<TweetProps, any> {
       };
       this.setState({ focusFlag: false });
       await this.postBoard(data);
-      this.props.handleRedraw()
+      this.props.handleRedraw();
     } else {
       alert('投稿内容を入力してください');
     }
@@ -184,7 +182,6 @@ class Tweet extends React.Component<TweetProps, any> {
 
 const mapStateToProps = (state: any) => {
   const login_user = state.login_user;
-  console.log('Tweet component state', state);
   return { login_user };
 };
 

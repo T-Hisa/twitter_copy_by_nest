@@ -31,7 +31,6 @@ class Container extends React.Component<any, any> {
 }
 
 const mapStateToProps = (state: any): any => {
-  console.log('llogin_user', state.login_user);
   return { login_user: state.login_user };
 };
 

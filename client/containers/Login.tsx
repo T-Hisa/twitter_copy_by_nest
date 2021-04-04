@@ -129,9 +129,7 @@ class Login extends React.Component<any, LoginState> {
 
   onClickLoginBtn(e: React.MouseEvent<HTMLAnchorElement>): void {
     const { _id, password } = this.state;
-    console.log('ログイン処理を行う');
     if (_id && password) {
-      console.log('ログイン！')
       this.props.login(this.state)
     }
   }
