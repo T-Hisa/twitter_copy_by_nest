@@ -11,8 +11,6 @@ import Tweet from '../components/Tweet';
 import { BoardModel } from '../types/BoardModel';
 import { RouteProps } from '../types/RouteProps';
 
-import { displayTooltip } from '../utils';
-
 interface HomeProps extends RouteProps {
   boards?: BoardModel[];
   login_user: any;
@@ -41,10 +39,6 @@ class Home extends React.Component<HomeProps, HomeState> {
       controlReplyModal: false,
       redrawFlag: 0,
     };
-  }
-
-  componentDidUpdate() {
-    // console.log('props at Home', this.props);
   }
 
   render(): JSX.Element {
@@ -85,7 +79,11 @@ class Home extends React.Component<HomeProps, HomeState> {
   }
 
   handleClickReply(board: BoardModel) {
-    this.setState({ selectedBoard: board });
+    let setBoard = board
+    if (board.origin_board && !board.body) {
+      setBoard = board.origin_board
+    }
+    this.setState({ selectedBoard: setBoard });
     this.setState({ controlReplyModal: true });
   }
 
@@ -102,7 +100,7 @@ class Home extends React.Component<HomeProps, HomeState> {
 const mapStateToProps = (state: any, props: any) => {
   const login_user = state.login_user;
   const boards = state.boards;
-  console.log('state,b ', state);
+  console.log('state at Home', state);
   return { boards, login_user };
 };
 

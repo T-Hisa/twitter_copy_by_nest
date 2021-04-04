@@ -15,24 +15,39 @@ interface CommonBoardProps {
 const CommonBoard: React.FC<CommonBoardProps> = (props) => {
   const { board } = props;
 
-  // if (props.isModal) {
-  //   let text = board.body.replace(/\n/g, '<br/>');
-  //   // board.body = board.body.replace(/\n/g, '<br/>');
-  //   const bodyEl: HTMLDivElement = document.getElementById(
-  //     `body-modal-${board._id}`,
-  //   ) as HTMLDivElement;
-  //   if (board.body.match(/\n/)) {
-  //   }
-  //   if (bodyEl) {
-  //     bodyEl.innerHTML = text;
-  //   }
-  // }
+  console.log('board.body at commonBoard', board.body)
+
+  // 投稿した直後に描画すると、 body の部分だけ反映されないので、setTimeout を用いてほんの少し遅れて描画させる
+  const renderBoardBody = () => {
+    console.log('CommonBoard modal debug');
+    let text = board.body.replace(/\n/g, '<br/>');
+    let bodyEl: HTMLDivElement
+    if (props.isModal) {
+      bodyEl = document.getElementById(
+        `body-modal-${board?._id}`,
+      ) as HTMLDivElement;
+      if (bodyEl) {
+        bodyEl.innerHTML = text;
+      }
+    } else {
+      bodyEl = document.getElementById(
+        `body-${board._id}`,
+      ) as HTMLDivElement;
+      if (bodyEl) {
+        bodyEl.innerHTML = text;
+      }
+    }
+  }
+
+  setTimeout(() => {
+    renderBoardBody();
+  }, 1);
 
   const renderThumbnail = () => {
     return (
       <div className="thumbnail-wrapper">
         <img className="thumbnail" src="" alt="サム" />
-        <div className="reply-line"></div>
+        <div className="reply-line" />
       </div>
     );
   };
@@ -59,6 +74,10 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
     );
   };
 
+  const reply_userids = board?.reply_user_ids
+    ? board.reply_user_ids.concat(board.user._id)
+    : board.user._id;
+
   return (
     <React.StrictMode>
       {props.isReply && renderThumbnail()}
@@ -83,11 +102,18 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
         </div>
         <div className="board-content">
           {props.isModal ? (
-            <div className="body" id={`body-modal-${board?._id}`} />
+            <div className="body-modal" id={`body-modal-${board?._id}`} />
           ) : (
-            <div className="body" id={`body-${board?._id}`} />
+            <div id={`body-${board?._id}`} />
           )}
           {board?.image && <img src="board.image" alt="投稿した画像" />}
+          {props.isReply && (
+            <div className="reply-to-wrapper">
+              返信先:
+              <span className="reply-userid">@{reply_userids}</span>
+              さん
+            </div>
+          )}
         </div>
         {props.isQuote && renderQuote()}
       </div>

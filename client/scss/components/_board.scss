@@ -146,6 +146,7 @@
   margin: 10px 0;
   padding: 10px;
   border: 1px solid lightgray;
+  cursor: pointer;
 
   &:hover {
     background-color: rgba(211, 211, 211, 0.2);
@@ -162,5 +163,19 @@
         border-radius: 50%;
       }
     }
+  }
+}
+
+.body-modal {
+  padding-bottom: 10px;
+}
+
+.reply-to-wrapper {
+  padding: 5px 0 10px 0;
+  cursor: pointer;
+
+  .reply-userid {
+    padding-left: 5px;
+    color: $primary;
   }
 }

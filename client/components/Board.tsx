@@ -185,14 +185,14 @@ const Board: React.FC<BoardProps> = (props) => {
   };
 
   const renderCommon = (
-    board: BoardModel,
+    displayBoard: BoardModel,
     isQuote: boolean,
-    user: UserModel,
-    repost_id: string,
+    repost_user: UserModel,
+    repost_user_id: string,
   ): JSX.Element => {
     return (
       <React.StrictMode>
-        {user && renderInfo(user.username)}
+        {repost_user && renderInfo(repost_user.username)}
         <div onClick={onClickBoard} className="board-wrapper">
           {/* <div className="board-wrapper"> */}
           <div className="thumbnail-wrapper">
@@ -200,19 +200,19 @@ const Board: React.FC<BoardProps> = (props) => {
           </div>
           <div className="board-content-wrapper">
             <CommonBoard
-              board={board}
+              board={displayBoard}
               isQuote={isQuote}
               isReply={false}
               isModal={false}
             />
-            {renderMenu(board, repost_id)}
+            {renderMenu(displayBoard, repost_user_id)}
           </div>
         </div>
       </React.StrictMode>
     );
   };
 
-  const renderMenu = (board: BoardModel, repost_id: string) => {
+  const renderMenu = (board: BoardModel, repost_user_id: string) => {
     return (
       <ul className="board-menu">
         <li className="board-menu-wrapper">
@@ -232,7 +232,7 @@ const Board: React.FC<BoardProps> = (props) => {
           className="for-mouse-over common"
         />
         <li className="board-menu-wrapper">
-          {login_user.repost_boards.indexOf(repost_id) > -1 ? (
+          {login_user.repost_boards.indexOf(repost_user_id) > -1 ? (
             <React.StrictMode>
               <div className="icon-wrapper repost">
                 <i className="fas fa-retweet icon done"></i>
@@ -305,27 +305,11 @@ const Board: React.FC<BoardProps> = (props) => {
     );
   };
 
-  // 投稿した直後に描画すると、 body の部分だけ反映されないので、setTimeout を用いてほんの少し遅れて描画させる
-  setTimeout(() => {
-    if (board.body) {
-      let text = board.body.replace(/\n/g, '<br/>');
-      // board.body = board.body.replace(/\n/g, '<br/>');
-      const bodyEl: HTMLDivElement = document.getElementById(
-        `body-${board._id}`,
-      ) as HTMLDivElement;
-      if (board.body.match(/\n/)) {
-      }
-      if (bodyEl) {
-        bodyEl.innerHTML = text;
-      }
-    }
-  }, 100);
-
   return (
     <div className="board-container" key={board._id}>
       {!board.origin_board
         ? renderCommon(board, false, null, null)
-        : board.body
+        : !!board.body
         ? renderCommon(board, true, null, null)
         : renderCommon(board.origin_board, false, board.user, board._id)}
     </div>

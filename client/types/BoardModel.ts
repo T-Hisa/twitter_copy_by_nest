@@ -14,4 +14,5 @@ export interface BoardModel {
   like_user_ids?: string[]
   repost_user_ids?: string[]
   origin_board?: BoardModel
+  reply_user_ids: string[]
 }

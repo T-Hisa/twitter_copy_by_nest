@@ -47,6 +47,9 @@ export class Board {
 
   @Prop()
   origin_timestamp: number;
+
+  @Prop([{type: mongoose.Schema.Types.String, ref: 'User'}])
+  reply_to_userids: User[]
 }
 
 export const BoardSchema = SchemaFactory.createForClass(Board);

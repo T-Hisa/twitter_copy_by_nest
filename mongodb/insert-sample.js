@@ -140,10 +140,16 @@ const replyBoard = async (db) => {
     .collection('boards')
     .findOne({ body: /フォロー内ユーザ/ });
   const inner_follower_board_id = inner_follower_board._id;
-  const outer_follower_board = await db
+  const inner_follower_board_user = await db
+    .collection('users')
+    .findOne({ _id: inner_follower_board.user });
+    const outer_follower_board = await db
     .collection('boards')
     .findOne({ body: /フォロー外ユーザ/ });
-  const outer_follower_board_id = outer_follower_board._id;
+    const outer_follower_board_id = outer_follower_board._id;
+    const outer_follower_board_user = await db
+      .collection('users')
+      .findOne({ _id: outer_follower_board.user });
   await db.collection('boards').insertMany([
     {
       body: '返信コメント by 本人',
@@ -152,6 +158,7 @@ const replyBoard = async (db) => {
       like_count: 0,
       timestamp: Date.now(),
       reply_to: inner_follower_board_id,
+      reply_to_userids: [inner_follower_board_user._id],
       reply_count: 0,
       repost_count: 0,
     },
@@ -162,6 +169,7 @@ const replyBoard = async (db) => {
       like_count: 0,
       timestamp: Date.now() + 1,
       reply_to: outer_follower_board_id,
+      reply_to_userids: [outer_follower_board_user._id],
       reply_count: 0,
       repost_count: 0,
     },
