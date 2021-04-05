@@ -3,15 +3,30 @@ import {
   CREATE_BOARD,
   GET_BOARDS_FOR_HOME,
   GET_DETAIL_BOARD,
+  REPLY_BOARD
 } from '..//actions';
 
-export const boards = (boardsModel: any = [], action: any) => {
+import { BoardModel } from '../types/BoardModel';
+
+export const boards = (boardsModel: BoardModel[] = [], action: any) => {
   switch (action.type) {
     case GET_BOARDS:
       return action.data;
     case CREATE_BOARD:
-      boardsModel.unshift(action.data);
+      console.log('action', action);
+      if (action.data) boardsModel.unshift(action.data);
       return boardsModel;
+    case REPLY_BOARD:
+      console.log('replyaction!!!!', action)
+      if (action.data) {
+        const updatedBoard = action.data
+        console.log('updatedBoard!', updatedBoard)
+        const replyBoardIndex = boardsModel.findIndex(board => board._id === updatedBoard._id)
+        console.log('replyBoardIndex', replyBoardIndex)
+        boardsModel.splice(replyBoardIndex, 1, updatedBoard)
+        console.log('boardMdel updated!', boardsModel)
+      }
+      return boardsModel
     case GET_BOARDS_FOR_HOME:
       return action.data;
     case GET_DETAIL_BOARD:

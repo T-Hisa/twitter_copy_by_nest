@@ -13,7 +13,8 @@ interface ModalProps {
   board?: BoardModel;
 
   handleCloseModal: any;
-  isNotReply: boolean
+  isNotReply: boolean;
+  handleRedraw?: () => {};
 }
 
 class Modal extends React.Component<ModalProps, any> {
@@ -80,7 +81,12 @@ class Modal extends React.Component<ModalProps, any> {
             />
           </div>
         )}
-        <Tweet isNotReply={this.props.isNotReply} isModal={true} />
+        <Tweet
+          isNotReply={this.props.isNotReply}
+          isModal={true}
+          reply_board={this.props.board}
+          handleRedraw={this.props.handleRedraw}
+        />
       </BaseModal>
     );
   }

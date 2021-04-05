@@ -20,17 +20,19 @@ export class BoardsService {
   ) {}
 
   async findOne(id: string): Promise<Board> {
-    const boardsObject = await this.boardModel.findById(id).populate('user').exec();
+    const boardsObject = await this.boardModel
+      .findById(id)
+      .populate('user')
+      .exec();
     return boardsObject;
   }
 
   async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
-    const createBoard = new this.boardModel(createBoardDto);
+    const createBoard: BoardDocument = new this.boardModel(createBoardDto);
     console.log('create board now!', createBoard);
-    const saveBoard = await createBoard.save();
-    const saveBoardPopulate = await this.boardModel.findById(saveBoard._id).populate('user')
-    console.log('saveBoardPopulate', saveBoardPopulate)
-    return saveBoardPopulate;
+    const retBoard = await this.saveAndCreateBoard(createBoard);
+
+    return retBoard;
   }
 
   async getBoardsForHomeDisplay(id: string): Promise<Board[]> {
@@ -130,16 +132,40 @@ export class BoardsService {
       .limit(20)
       .populate({ path: 'user' })
       .populate('origin_board')
-      .populate({
-        path: 'origin_board.user',
-        model: User
-      })
+      // .populate({
+      //   path: 'origin_board.user',
+      //   model: User,
+      // })
       .exec();
-    boardsForHomeDisplay = (await this.userModel.populate(boardsForHomeDisplay, {path: 'origin_board.user'}) as any) as BoardDocument[]
+    boardsForHomeDisplay = ((await this.userModel.populate(
+      boardsForHomeDisplay,
+      { path: 'origin_board.user' },
+    )) as any) as BoardDocument[];
     return boardsForHomeDisplay;
   }
 
   parseString(str: any): string {
     return JSON.parse(JSON.stringify(str));
+  }
+
+  async saveAndCreateBoard(board: BoardDocument) {
+    const saveBoard = await board.save();
+    if (board.reply_to) {
+      console.log('board.reply_to', board.reply_to)
+      await this.boardModel.updateOne(
+        { _id: board.reply_to },
+        { $inc: { reply_count: 1 } },
+      );
+      const updatedBoardPopulate = await (
+        await this.boardModel.findById(board.reply_to)
+      ).populate('user');
+      console.log('updateBoard', updatedBoardPopulate);
+      return updatedBoardPopulate;
+    }
+    const saveBoardPopulate = await this.boardModel
+      .findById(saveBoard._id)
+      .populate('user');
+    console.log('saveBoardPopulate', saveBoardPopulate);
+    return saveBoardPopulate;
   }
 }

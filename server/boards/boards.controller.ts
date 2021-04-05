@@ -20,15 +20,6 @@ export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('/create-board')
-  async createBoard(@Request() req, @Body() createBoardDto: CreateBoardDto) {
-    createBoardDto._id = new mongoose.Types.ObjectId();
-    console.log('createBoarDto', createBoardDto);
-    const boards = await this.boardsService.createBoard(createBoardDto);
-    return boards;
-  }
-
-  @UseGuards(AuthGuard('jwt'))
   @Post('get-boards-for-home-display')
   async getBoardsForHomeDisplay(@Request() req) {
     const boardsForHomeDisplay = await this.boardsService.getBoardsForHomeDisplay(
@@ -40,8 +31,25 @@ export class BoardsController {
   @UseGuards(AuthGuard('jwt'))
   @Post('get-board-detail')
   async getDetailBoard(@Request() req, @Body() data: { bid: string }) {
-    const board = await this.boardsService.findOne(data.bid)
-    console.log('board', board)
+    const board = await this.boardsService.findOne(data.bid);
+    console.log('board', board);
     return board;
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('/create-board')
+  async createBoard(@Request() req, @Body() createBoardDto: CreateBoardDto) {
+    createBoardDto._id = new mongoose.Types.ObjectId();
+    console.log('createBoarDto', createBoardDto);
+    const board = await this.boardsService.createBoard(createBoardDto);
+    return board;
+  }
+
+  // @UseGuards(AuthGuard('jwt'))
+  // @Post('reply-board')
+  // async replyBoard(@Body() replyBoardDto: CreateBoardDto) {
+  //   replyBoardDto._id = new mongoose.Types.ObjectId()
+  //   console.log('replyBoardDto', replyBoardDto)
+  //   const board = await this.boardsService.createBoard(replyBoardDto)
+  // }
 }

@@ -7,6 +7,7 @@ import { displayTooltip, renderTag } from '../utils';
 
 import { createBoard } from '../actions';
 import { UserModel } from '../types/UserModel';
+import { BoardModel } from '../types/BoardModel';
 
 interface TweetProps {
   isNotReply: boolean;
@@ -14,7 +15,8 @@ interface TweetProps {
   login_user: UserModel;
   isModal: boolean;
 
-  handleRedraw?: () => {};
+  reply_board?: BoardModel
+  handleRedraw: () => {};
 }
 
 interface TweetState {
@@ -53,7 +55,7 @@ class Tweet extends React.Component<TweetProps, TweetState> {
               ref={this.textareaRef}
               onInput={this.onInputTextarea.bind(this)}
               onFocus={this.onFocusTextarea.bind(this)}
-              placeholder="いまどうしてる？"
+              placeholder={this.displayPleceholder()}
               rows={1}
               value={this.state.body}
             ></textarea>
@@ -149,19 +151,34 @@ class Tweet extends React.Component<TweetProps, TweetState> {
 
   async onClickTweet(): Promise<void> {
     let body = this.state.body;
-    const initialNotEmptyPosition = this.state.body.search(/\S/);
-    if (initialNotEmptyPosition > 0) {
-      body = body.substr(initialNotEmptyPosition);
+    const initialNotEmptyIndex = this.state.body.search(/\S/);
+    if (initialNotEmptyIndex > 0) {
+      body = body.substr(initialNotEmptyIndex);
     }
     if (body) {
-      const data: CreateBoardInterface = {
-        body: body,
-        user: this.props.login_user._id,
-        timestamp: Date.now(),
-      };
+      let data: CreateBoardInterface
+      if (this.props.isNotReply) {
+        data = {
+          body,
+          user: this.props.login_user._id,
+          timestamp: Date.now(),
+        };
+      } else {
+        console.log('reply_board, ', this.props.reply_board)
+        const uids: string[] = this.props.reply_board.reply_user_ids || []
+        uids.push(this.props.reply_board.user._id)
+        const reply_to: string = this.props.reply_board._id
+        data = {
+          body,
+          user: this.props.login_user._id,
+          timestamp: Date.now(),
+          reply_to,
+          reply_to_userids: uids
+        }
+      }
       this.setState({ focusFlag: false });
       await this.postBoard(data);
-      this.props.handleRedraw();
+      this.props.handleRedraw && this.props.handleRedraw();
     } else {
       alert('投稿内容を入力してください');
     }
@@ -177,6 +194,13 @@ class Tweet extends React.Component<TweetProps, TweetState> {
     textArea.style.color = 'black';
     grandParentContainer.style.background = 'none';
     this.setState({ body: '' });
+  }
+
+  displayPleceholder() {
+    const placeholder = (this.props.isModal && !this.props.isNotReply)
+      ? '返信をツイート'
+      : 'いまどうしてる？'
+    return placeholder
   }
 }
 

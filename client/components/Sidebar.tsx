@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { Route, Redirect, withRouter } from 'react-router-dom';
+import { Route, Redirect, withRouter, RouteProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Modal from './Modal';
+import { UserModel } from '../types/UserModel';
 
-interface Props {
-  sample: any;
+interface SidebarProps extends RouteProps {
+  user?: any;
+  handleRedraw: () => {};
 }
 
 interface SidebarState {
@@ -86,6 +88,7 @@ class Sidebar extends React.Component<any, SidebarState> {
           isOpen={this.state.controlReplyModal}
           handleCloseModal={this.handleCloseModal.bind(this)}
           isNotReply={true}
+          handleRedraw={this.props.handleRedraw}
         />
       </React.StrictMode>
     );

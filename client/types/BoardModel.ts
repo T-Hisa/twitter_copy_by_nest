@@ -7,7 +7,7 @@ export interface BoardModel {
   like_count: number
   timestamp: number
   reply_count: number
-  reply_to: string
+  reply_to?: string
   repost_count: number
   full_repost_count: number
   image?: string

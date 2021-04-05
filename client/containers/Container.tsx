@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, RouteProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Home from '../views/Home';
@@ -8,18 +8,32 @@ import Sidebar from '../components/Sidebar';
 
 import { getBoardsForHome } from '../actions';
 
-interface Props {
-  sample: any;
+interface ContainerState {
+  redrawFlag: number;
 }
 
-class Container extends React.Component<any, any> {
+class Container extends React.Component<any, ContainerState> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      redrawFlag: 0,
+    };
+  }
   render(): JSX.Element {
     return (
       <div className="main-container d-flex">
-        <Sidebar user={this.props.login_user} />
+        <Sidebar
+          user={this.props.login_user}
+          handleRedraw={this.handleRedrawFlag.bind(this)}
+        />
         {/* <Route exact path="/compose/tweet" component={Modal}/> */}
         <div className="content-container">
-          <Route exact path="/home" component={Home}></Route>
+          {/* <Route exact path="/home" component={Home}></Route> */}
+          <Route
+            exact
+            path="/home"
+            render={(routeProps: RouteProps) => <Home {...routeProps} handleRedraw={this.handleRedrawFlag.bind(this)} />}
+          />
           <Route exact path="/:uid/status/:bid" component={BoardDetail}></Route>
           <Route path="/*">
             <Redirect to="/home" />
@@ -27,6 +41,12 @@ class Container extends React.Component<any, any> {
         </div>
       </div>
     );
+  }
+
+  handleRedrawFlag() {
+    console.log('hanndleRedrawFlag!!')
+    const redrawFlag = this.state.redrawFlag + 1;
+    this.setState({ redrawFlag });
   }
 }
 

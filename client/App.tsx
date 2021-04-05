@@ -9,9 +9,10 @@ import Login from './containers/Login';
 
 import { reload } from './actions';
 
+
 class App extends React.Component<any, any> {
   componentDidMount(): void {
-    this.props.reload()
+    this.props.reload();
   }
 
   renderRegular() {
@@ -32,9 +33,7 @@ class App extends React.Component<any, any> {
   render() {
     return (
       <React.StrictMode>
-        {this.props.login_user
-          ? this.renderRegular()
-          : this.renderLogin()}
+        {this.props.login_user ? this.renderRegular() : this.renderLogin()}
       </React.StrictMode>
     );
   }

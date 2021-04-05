@@ -15,6 +15,7 @@ interface HomeProps extends RouteProps {
   boards?: BoardModel[];
   login_user: any;
   getBoardsForHome: any;
+  handleRedraw: () => {}
 }
 
 interface HomeState {
@@ -49,7 +50,7 @@ class Home extends React.Component<HomeProps, HomeState> {
           <Tweet
             isNotReply={true}
             isModal={false}
-            handleRedraw={this.handleRedrawFlag.bind(this)}
+            handleRedraw={this.props.handleRedraw}
           />
 
           {/* 空白を入れる */}
@@ -70,6 +71,7 @@ class Home extends React.Component<HomeProps, HomeState> {
           board={this.state.selectedBoard}
           ref={this.modalRef}
           isNotReply={false}
+          handleRedraw={this.props.handleRedraw}
         />
       </React.StrictMode>
     );
@@ -91,16 +93,12 @@ class Home extends React.Component<HomeProps, HomeState> {
   handleCloseModal() {
     this.setState({ controlReplyModal: false });
   }
-
-  handleRedrawFlag() {
-    const redrawFlag = this.state.redrawFlag + 1;
-    this.setState({ redrawFlag });
-  }
 }
 
 const mapStateToProps = (state: any, props: any) => {
   const login_user = state.login_user;
   const boards = state.boards;
+  console.log('boards,', boards)
   return { boards, login_user };
 };
 
