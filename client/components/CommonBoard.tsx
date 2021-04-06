@@ -30,6 +30,7 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
           href=${matchWord}
           data-bs-toggle="tooltip"
           data-bs-placement="bottom"
+          class="match"
           title=${matchWord}
         >
           ${matchWord}

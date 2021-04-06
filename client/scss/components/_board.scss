@@ -137,6 +137,10 @@
   font-size: 10px;
 }
 
+.match:hover {
+  text-decoration: underline;
+}
+
 .quote-wrapper {
   border: 1px solid gray;
   display: flex;

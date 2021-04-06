@@ -7,5 +7,4 @@ export interface CreateBoardInterface {
   timestamp: number
   reply_to_userids?: string[]
   reply_to?: string
-
 }

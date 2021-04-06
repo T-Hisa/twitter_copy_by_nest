@@ -178,6 +178,7 @@ const Board: React.FC<BoardProps> = (props) => {
       // onClickAnalyze()
       case 'icon-wrapper  more-btn':
         // onClickMore()
+      case 'match':
         return;
       default:
         props.history.push(`/${board.user._id}/status/${board._id}`);
