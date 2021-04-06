@@ -75,6 +75,17 @@ const Board: React.FC<BoardProps> = (props) => {
     props.handleClickReply(board);
   };
 
+  const handleElementUnable = (element: HTMLElement) => {
+    const originClassName: string = element.className
+    element.className = `${originClassName} disable`
+  }
+
+  const handleElementAble = (element: HTMLElement) => {
+    const originClassName = element.className
+    const modifiedClassName = originClassName.replace(/disable/, '')
+    element.className = modifiedClassName
+
+  }
   const getDivPosition = (
     e: React.MouseEvent<HTMLDivElement>,
   ): [number, number] => {
