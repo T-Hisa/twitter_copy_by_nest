@@ -153,9 +153,7 @@ export class BoardsService {
         { _id: board.reply_to },
         { $inc: { reply_count: 1 } },
       );
-      const updatedBoardPopulate = await (
-        await this.boardModel.findById(board.reply_to)
-      ).populate('user');
+      const updatedBoardPopulate = await this.boardModel.findById(board.reply_to).populate('user');
       console.log('updateBoard', updatedBoardPopulate);
       return updatedBoardPopulate;
     }
@@ -175,7 +173,7 @@ export class BoardsService {
       promises = this.pushLikeYet(likeBoard)
     }
     await Promise.all(promises);
-    const updatedBoard = await this.boardModel.findById(likeBoard.bid);
+    const updatedBoard = await this.boardModel.findById(likeBoard.bid).populate('user');
     return updatedBoard;
   }
 

@@ -14,7 +14,7 @@ interface SendTweetProps {
   isModal: boolean;
 
   reply_board?: BoardModel
-  handleRedraw: () => {};
+  handleRedraw: () => void;
 }
 
 interface SendTweetState {
@@ -149,10 +149,12 @@ class SendTweet extends React.Component<SendTweetProps, SendTweetState> {
 
   async onClickTweet(): Promise<void> {
     let body = this.state.body;
+    // Tweet した際に初めに空白文字分があったら、その分だけ削除する処理
     const initialNotEmptyIndex = this.state.body.search(/\S/);
     if (initialNotEmptyIndex > 0) {
       body = body.substr(initialNotEmptyIndex);
     }
+
     if (body) {
       let data: CreateBoardInterface
       if (this.props.isNotReply) {

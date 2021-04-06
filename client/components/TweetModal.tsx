@@ -14,38 +14,12 @@ interface ModalProps {
 
   handleCloseModal: any;
   isNotReply: boolean;
-  handleRedraw?: () => {};
+  handleRedraw?: () => void;
 }
 
 class Modal extends React.Component<ModalProps, any> {
   constructor(props) {
     super(props);
-  }
-
-  afterOpen() {}
-
-  closeModal() {}
-
-  boardIsQuote(): boolean {
-    const { board } = this.props;
-    return !!(board?.origin_board && board?.body);
-  }
-
-  customStyle() {
-    return {
-      content: {
-        width: '600px',
-        inset: 'unset',
-        insetBlockStart: '5%',
-        insetInlineStart: '50%',
-        transform: 'translateX(-50%)',
-        padding: '0',
-        borderRadius: '15px',
-      },
-      overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-      },
-    };
   }
 
   render() {
@@ -86,10 +60,42 @@ class Modal extends React.Component<ModalProps, any> {
           isNotReply={this.props.isNotReply}
           isModal={true}
           reply_board={this.props.board}
-          handleRedraw={this.props.handleRedraw}
+          // handleRedraw={this.handleRedrawAndCloseModal}
+          handleRedraw={this.handleRedrawAndCloseModal.bind(this)}
         />
       </BaseModal>
     );
+  }
+
+  handleRedrawAndCloseModal() {
+    this.props.handleRedraw()
+    this.props.handleCloseModal()
+  }
+
+  afterOpen() {}
+
+  closeModal() {}
+
+  boardIsQuote(): boolean {
+    const { board } = this.props;
+    return !!(board?.origin_board && board?.body);
+  }
+
+  customStyle() {
+    return {
+      content: {
+        width: '600px',
+        inset: 'unset',
+        insetBlockStart: '5%',
+        insetInlineStart: '50%',
+        transform: 'translateX(-50%)',
+        padding: '0',
+        borderRadius: '15px',
+      },
+      overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+      },
+    };
   }
 }
 
