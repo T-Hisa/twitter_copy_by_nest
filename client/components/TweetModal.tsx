@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as BaseModal from 'react-modal';
 
 import { connect } from 'react-redux';
-import { BoardModel } from '../types/BoardModel';
+import { BoardModel } from '../../types';
 import { displayDate, displayTooltip } from '../utils';
 
 import CommonBoard from './CommonBoard';

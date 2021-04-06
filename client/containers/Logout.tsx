@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { connect } from 'react-redux';
 import { Route, Redirect, RouteComponentProps } from 'react-router-dom';
-import { UserModel } from '../types/UserModel';
+import { UserModel } from '../../types';
 
 import { logout } from '../actions';
 
@@ -21,11 +21,6 @@ class Logout extends React.Component<LogoutProps, LogoutState> {
     this.state = {
       isOpen: false,
     };
-  }
-
-  componentDidMount() {
-    console.log('logout view is mouted!');
-    // this.setState({ isOpen: true });
   }
 
   render() {

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    // "target": "es6",
+    "target": "es6",
+    // "target": "es2019",
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -9,7 +10,6 @@
     "allowSyntheticDefaultImports": true,
     // "noImplicitAny": true,
     // "esModuleInterop": true,
-    "target": "es2019",
     "sourceMap": false,
     "outDir": "./dist_2",
     "rootDir": "./",
@@ -21,7 +21,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["front", "server"],
+  "include": ["client", "server"],
   "exclude": ["node_modules", "dist", "test", "**/*.spec.ts", "webpack"]
   // "include": [
   //   "./src/front"

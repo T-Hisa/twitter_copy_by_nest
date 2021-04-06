@@ -3,7 +3,7 @@ import { Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { displayDate, displayTooltip } from '../utils';
-import { BoardModel } from '../types/BoardModel';
+import { BoardModel } from '../../types';
 
 interface CommonBoardProps {
   board: BoardModel;

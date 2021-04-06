@@ -8,8 +8,7 @@ import BoardComponent from '../components/Board';
 import TweetModal from '../components/TweetModal';
 import SendTweet from '../components/SendTweet';
 
-import { BoardModel } from '../types/BoardModel';
-import { RouteProps } from '../types/RouteProps';
+import { BoardModel, RouteProps } from '../../types';
 
 interface HomeProps extends RouteProps {
   boards?: BoardModel[];
@@ -101,7 +100,7 @@ class Home extends React.Component<HomeProps, HomeState> {
 const mapStateToProps = (state: any, props: any) => {
   const login_user = state.login_user;
   const boards = state.boards;
-  console.log('boards,', boards);
+  console.log('state at Home,', state);
   return { boards, login_user };
 };
 

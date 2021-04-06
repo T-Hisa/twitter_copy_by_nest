@@ -3,7 +3,7 @@ import { Route, Redirect, withRouter, RouteComponentProps } from 'react-router-d
 import { connect } from 'react-redux';
 
 import TweetModal from './TweetModal';
-import { UserModel } from '../types/UserModel';
+import { UserModel } from '../../types';
 
 interface SidebarProps extends RouteComponentProps {
   login_user: UserModel;
@@ -125,10 +125,8 @@ class Sidebar extends React.Component<SidebarProps, SidebarState> {
     const popupEl = document.createElement('div');
     popupEl.className = 'account-popup-wrapper';
     // const origin_node = document.getElementById('account-info')
-    // console.log('orogin_node', origin_node)
     // const firstChildEl = origin_node.cloneNode(true)
     // const icon_wrapper =firstChildEl.
-    // console.log('firstChildEl', firstChildEl)
 
     const firstChildEl = document.createElement('div');
     firstChildEl.className = 'popup-account-info-container';
@@ -164,7 +162,6 @@ class Sidebar extends React.Component<SidebarProps, SidebarState> {
     logoutEl.innerText = `@${this.props.login_user._id}からログアウト`;
 
     logoutEl.addEventListener('click', () => {
-      console.log('its about to logout!')
       this.props.history.push('logout')
     });
 

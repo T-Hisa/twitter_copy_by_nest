@@ -8,7 +8,7 @@ import BoardDetail from '../views/BoardDetail';
 import Sidebar from '../components/Sidebar';
 
 import { getBoardsForHome } from '../actions';
-import { UserModel } from '../types/UserModel';
+import { UserModel } from '../../types';
 
 interface ContainerProps {
   login_user: UserModel;
@@ -53,7 +53,6 @@ class Container extends React.Component<ContainerProps, ContainerState> {
   }
 
   handleRedrawFlag() {
-    console.log('hanndleRedrawFlag!!');
     const redrawFlag = this.state.redrawFlag + 1;
     this.setState({ redrawFlag });
   }

@@ -11,6 +11,8 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { NextFunction, Response } from 'express';
 import * as mongoose from 'mongoose';
+// import { BoardInterface } from './board.interface';
+import { LikeBoardData } from '../../types';
 import { CreateBoardDto } from './boards.create.dto';
 import { BoardsService } from './boards.service';
 // import { BoardInterface } from "./boards.interface"
@@ -43,6 +45,13 @@ export class BoardsController {
     console.log('createBoarDto', createBoardDto);
     const board = await this.boardsService.createBoard(createBoardDto);
     return board;
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('/push-like')
+  async pushLike(@Body() likeBoard: LikeBoardData) {
+    console.log('likeBoardData', likeBoard);
+    return likeBoard
   }
 
   // @UseGuards(AuthGuard('jwt'))

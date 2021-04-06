@@ -9,7 +9,7 @@ import Login from './containers/Login';
 import Logout from './containers/Logout';
 
 import { reload } from './actions';
-import { UserModel } from './types/UserModel';
+import { UserModel } from '../types';
 
 interface AppProps {
   login_user: UserModel;

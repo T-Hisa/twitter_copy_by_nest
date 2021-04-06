@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { BoardModel } from '../types/BoardModel';
+import { BoardModel } from '../../types';
 import { login } from '../actions';
-import { CreateBoardInterface } from '../../types/boards.interface';
 
 interface LoginState {
   _id: string;

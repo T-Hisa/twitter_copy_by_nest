@@ -4,17 +4,17 @@ import { connect } from 'react-redux';
 
 import { displayTooltip } from '../utils';
 
-import { BoardModel } from '../types/BoardModel';
-import { UserModel } from '../types/UserModel';
-import { RouteProps } from '../types/RouteProps';
+import { BoardModel, UserModel, RouteProps, LikeBoardData } from '../../types';
+
+import { clickLike } from '../actions';
 
 import CommonBoard from './CommonBoard';
-import EventEmitter from 'node:events';
 
 interface BoardProps extends RouteProps {
   board: BoardModel;
   login_user: any;
   handleClickReply: any;
+  clickLike: (data: LikeBoardData) => {};
 }
 
 const Board: React.FC<BoardProps> = (props) => {
@@ -142,6 +142,15 @@ const Board: React.FC<BoardProps> = (props) => {
   };
 
   const onClickLike = () => {
+    const bid = board._id;
+    const uid = login_user._id;
+    const isAlreadyLike = login_user.like_boards.includes(bid);
+    const sendData: LikeBoardData = {
+      bid,
+      uid,
+      isAlreadyLike,
+    };
+    props.clickLike(sendData);
     console.log('click like!!!');
   };
 
@@ -318,4 +327,6 @@ const Board: React.FC<BoardProps> = (props) => {
   );
 };
 
-export default withRouter(Board);
+const mapDispatchToProps = { clickLike };
+
+export default withRouter(connect(null, mapDispatchToProps)(Board));

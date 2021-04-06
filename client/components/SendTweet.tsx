@@ -2,12 +2,10 @@ import * as React from 'react';
 
 import { connect } from 'react-redux';
 
-import { CreateBoardInterface } from '../../types/boards.interface';
 import { displayTooltip, renderTag } from '../utils';
 
 import { createBoard } from '../actions';
-import { UserModel } from '../types/UserModel';
-import { BoardModel } from '../types/BoardModel';
+import { BoardModel, UserModel, CreateBoardInterface } from '../../types';
 
 interface SendTweetProps {
   isNotReply: boolean;

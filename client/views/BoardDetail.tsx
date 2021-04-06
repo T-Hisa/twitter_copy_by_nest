@@ -2,9 +2,7 @@ import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { BoardModel } from '../types/BoardModel';
-import { CreateBoardInterface } from '../../types/boards.interface';
-import { RouteProps } from '../types/RouteProps';
+import { BoardModel, RouteProps } from '../../types';
 
 import { getBoardDetail } from '../actions';
 import { displayTooltip } from '../utils';
@@ -194,11 +192,6 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
     let hour = displayDate.getHours();
     const minutes = `0${displayDate.getMinutes()}`.slice(-2);
     let hourPrefix = '午前';
-    console.log('year', year);
-    console.log('month', month);
-    console.log('day', day);
-    console.log('hour', hour);
-    console.log('minute', minutes);
     if (hour > 12) {
       hour -= 12;
       hourPrefix = '午後';

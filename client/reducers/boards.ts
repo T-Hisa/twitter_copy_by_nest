@@ -3,10 +3,11 @@ import {
   CREATE_BOARD,
   GET_BOARDS_FOR_HOME,
   GET_DETAIL_BOARD,
-  REPLY_BOARD
+  REPLY_BOARD,
+  PUSH_LIKE
 } from '..//actions';
 
-import { BoardModel } from '../types/BoardModel';
+import { BoardModel } from '../../types';
 
 export const boards = (boardsModel: BoardModel[] = [], action: any) => {
   switch (action.type) {
@@ -22,6 +23,9 @@ export const boards = (boardsModel: BoardModel[] = [], action: any) => {
         const replyBoardIndex = boardsModel.findIndex(board => board._id === updatedBoard._id)
         boardsModel.splice(replyBoardIndex, 1, updatedBoard)
       }
+      return boardsModel
+    case PUSH_LIKE:
+      console.log('PUSH_LIKE data is', action)
       return boardsModel
     case GET_BOARDS_FOR_HOME:
       return action.data;

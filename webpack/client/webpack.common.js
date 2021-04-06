@@ -12,7 +12,8 @@ module.exports = ({ outputFilename, isProd }) => ({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './'),
+      // '@': path.resolve(__dirname, './'),
+      '@': path.resolve(process.cwd(), './'),
     },
     extensions: ['.js', '.ts', '.tsx', '.jsx', 'scss'],
   },
