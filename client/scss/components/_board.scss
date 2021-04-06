@@ -49,6 +49,14 @@
           display: flex;
           align-items: center;
         }
+
+        .like-wrapper .done {
+          color: red;
+        }
+
+        .repost-wrapper .done {
+          color: green;
+        }
       }
 
       .count-display {

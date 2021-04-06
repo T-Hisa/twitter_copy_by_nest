@@ -2,7 +2,11 @@ import * as React from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { displayTooltip } from '../utils';
+import {
+  displayTooltip,
+  handleElementEnable,
+  handleElementUnable,
+} from '../utils';
 
 import { BoardModel, UserModel, RouteProps, LikeBoardData } from '../../types';
 
@@ -15,7 +19,7 @@ interface BoardProps extends RouteProps {
   login_user: UserModel;
   handleClickReply: any;
   clickLike: (data: LikeBoardData) => {};
-  handleRedraw: () => {}
+  handleRedraw: () => {};
 }
 
 const Board: React.FC<BoardProps> = (props) => {
@@ -75,17 +79,6 @@ const Board: React.FC<BoardProps> = (props) => {
     props.handleClickReply(board);
   };
 
-  const handleElementUnable = (element: HTMLElement) => {
-    const originClassName: string = element.className
-    element.className = `${originClassName} disable`
-  }
-
-  const handleElementAble = (element: HTMLElement) => {
-    const originClassName = element.className
-    const modifiedClassName = originClassName.replace(/disable/, '')
-    element.className = modifiedClassName
-
-  }
   const getDivPosition = (
     e: React.MouseEvent<HTMLDivElement>,
   ): [number, number] => {
@@ -153,12 +146,12 @@ const Board: React.FC<BoardProps> = (props) => {
     handlePopup(x, y);
   };
 
-  const onClickLike = async () => {
+  const onClickLike = async (el: HTMLElement) => {
     const bid = board._id;
     const uid = login_user._id;
-    console.log('board.like_userids', board.like_users)
+    console.log('board.like_userids', board.like_users);
     if (!board.like_users) {
-      board.like_users = []
+      board.like_users = [];
     }
     // const isAlreadyLike = login_user.like_board_ids.includes(bid);
     const isAlreadyLike = board.like_users.includes(uid);
@@ -167,8 +160,10 @@ const Board: React.FC<BoardProps> = (props) => {
       uid,
       isAlreadyLike,
     };
+    handleElementUnable(el);
     await props.clickLike(sendData);
-    props.handleRedraw()
+    props.handleRedraw();
+    handleElementEnable(el);
   };
 
   const onClickBoard = (e: React.MouseEvent<HTMLElement>) => {
@@ -195,7 +190,8 @@ const Board: React.FC<BoardProps> = (props) => {
         onClickRepost(e as React.MouseEvent<HTMLDivElement>);
         return;
       case 'for-mouse-over like':
-        onClickLike();
+      case 'for-mouse-over like disabled':
+        onClickLike(target);
         return;
       case 'fas fa-share icon common':
       case 'icon-wrapper commonshare':
@@ -259,8 +255,9 @@ const Board: React.FC<BoardProps> = (props) => {
           title={displayTooltip('reply')}
           className="for-mouse-over common"
         />
-        <li className="board-menu-wrapper">
-          {login_user.repost_boards.indexOf(repost_user_id) > -1 ? (
+        <li className="board-menu-wrapper repost-wrapper">
+          {/* {login_user.repost_boards.indexOf(repost_user_id) > -1 ? ( */}
+          {board?.repost_user_ids?.includes(login_user._id) ? (
             <React.StrictMode>
               <div className="icon-wrapper repost">
                 <i className="fas fa-retweet icon done"></i>
@@ -284,8 +281,9 @@ const Board: React.FC<BoardProps> = (props) => {
           title={displayTooltip('repost')}
           className="for-mouse-over repost"
         />
-        <li className="board-menu-wrapper">
-          {login_user.like_board_ids?.indexOf(board._id) > -1 ? (
+        <li className="board-menu-wrapper like-wrapper">
+          {/* {login_user.like_board_ids?.indexOf(board._id) > -1 ? ( */}
+          {board.like_users.includes(login_user._id) ? (
             <React.StrictMode>
               <div className="icon-wrapper like">
                 <i className="fas fa-heart done icon"></i>
