@@ -17,14 +17,10 @@ export const boards = (boardsModel: BoardModel[] = [], action: any) => {
       if (action.data) boardsModel.unshift(action.data);
       return boardsModel;
     case REPLY_BOARD:
-      console.log('replyaction!!!!', action)
       if (action.data) {
         const updatedBoard = action.data
-        console.log('updatedBoard!', updatedBoard)
         const replyBoardIndex = boardsModel.findIndex(board => board._id === updatedBoard._id)
-        console.log('replyBoardIndex', replyBoardIndex)
         boardsModel.splice(replyBoardIndex, 1, updatedBoard)
-        console.log('boardMdel updated!', boardsModel)
       }
       return boardsModel
     case GET_BOARDS_FOR_HOME:

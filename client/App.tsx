@@ -1,11 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, Switch} from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Container from './containers/Container';
 import Login from './containers/Login';
+import Logout from './containers/Logout';
 
 import { reload } from './actions';
 import { UserModel } from './types/UserModel';
@@ -21,7 +22,14 @@ class App extends React.Component<AppProps, any> {
   }
 
   renderRegular() {
-    return <Route path="/" component={Container}></Route>;
+    return(
+    <React.StrictMode>
+      <Switch>
+        <Route exact path="/logout" component={Logout} />
+        <Route path="/" component={Container}/>
+      </Switch>
+    </React.StrictMode>
+    )
   }
 
   renderLogin() {

@@ -1,0 +1,80 @@
+@import './variables';
+
+.logout-view-container {
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+
+  .logout-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    background-color: white;
+    border-radius: 15px;
+    padding: 25px;
+    width: 300px;
+
+    .logout-icon-wrapper {
+      margin: 0 auto;
+      font-size: 36px;
+      color: $primary;
+      text-align: center;
+      padding-bottom: 5px;
+    }
+
+    .logout-confirm {
+      font-weight: bold;
+      font-size: 20px;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+
+    .logout-description {
+      color: gray;
+      font-size: 14px;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+
+    .btn-wrapper {
+      display: flex;
+      justify-content: space-between;
+
+      .button {
+        width: 100px;
+        height: 38px;
+        border-radius: 19px;
+        text-align: center;
+        font-weight: bold;
+        position: relative;
+        padding: 0 60px;
+      }
+
+      .cancel-btn {
+        color: black;
+        background-color: $background_color;
+
+        &:hover {
+          background-color: $background_hover_color;
+        }
+      }
+
+      .logout-btn {
+        color: white;
+        background-color: $background_primary;
+
+        &:hover {
+          background-color: $background_primary_dark;
+        }
+      }
+
+      span.word {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        transform: translateY(-50%) translateX(-50%);
+      }
+    }
+  }
+}

@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 
 import Home from '../views/Home';
 import BoardDetail from '../views/BoardDetail';
+
 import Sidebar from '../components/Sidebar';
 
 import { getBoardsForHome } from '../actions';
 import { UserModel } from '../types/UserModel';
 
 interface ContainerProps {
-  login_user: UserModel
+  login_user: UserModel;
 }
 
 interface ContainerState {
@@ -42,7 +43,7 @@ class Container extends React.Component<ContainerProps, ContainerState> {
               />
             )}
           />
-          <Route exact path="/:uid/status/:bid" component={BoardDetail}></Route>
+          <Route exact path="/:uid/status/:bid" component={BoardDetail} />
           <Route path="/*">
             <Redirect to="/home" />
           </Route>

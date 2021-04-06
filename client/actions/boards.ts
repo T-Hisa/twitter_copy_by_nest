@@ -37,7 +37,11 @@ export const createBoard = (sendData: any) => async (
 export const getBoardsForHome = () => async (dispatch: any, state: any) => {
   // const token = state().login_user.access_token;
   const { data } = await commonFunc('/get-boards-for-home-display');
-  dispatch({ type: GET_BOARDS_FOR_HOME, data });
+  if (data) {
+    dispatch({ type: GET_BOARDS_FOR_HOME, data });
+  } else {
+    commonErrorFunc(dispatch)
+  }
 };
 
 export const getBoardDetail = (bid: string) => async (dispatch: any) => {

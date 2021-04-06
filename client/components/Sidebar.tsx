@@ -1,23 +1,20 @@
 import * as React from 'react';
-import { Route, Redirect, withRouter, RouteProps } from 'react-router-dom';
+import { Route, Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Modal from './Modal';
+import TweetModal from './TweetModal';
 import { UserModel } from '../types/UserModel';
 
-import { logout } from '../actions';
-
-interface SidebarProps extends RouteProps {
+interface SidebarProps extends RouteComponentProps {
   login_user: UserModel;
   handleRedraw: () => {};
-  logout?: () => {};
 }
 
 interface SidebarState {
   controlReplyModal: boolean;
 }
 
-class Sidebar extends React.Component<any, any> {
+class Sidebar extends React.Component<SidebarProps, SidebarState> {
   constructor(props: SidebarProps) {
     super(props);
     this.state = {
@@ -86,7 +83,7 @@ class Sidebar extends React.Component<any, any> {
             </div>
           </div>
         </div>
-        <Modal
+        <TweetModal
           isOpen={this.state.controlReplyModal}
           handleCloseModal={this.handleCloseModal.bind(this)}
           isNotReply={true}
@@ -168,7 +165,7 @@ class Sidebar extends React.Component<any, any> {
 
     logoutEl.addEventListener('click', () => {
       console.log('its about to logout!')
-      this.props.logout();
+      this.props.history.push('logout')
     });
 
     popupEl.appendChild(firstChildEl);
@@ -180,6 +177,6 @@ class Sidebar extends React.Component<any, any> {
   }
 }
 
-const mapDispatchToProps = { logout };
 // export default withRouter(connect(null, mapDispatchToProps)(Sidebar));
+// export default connect(null, mapDispatchToProps)(Sidebar);
 export default withRouter(Sidebar);

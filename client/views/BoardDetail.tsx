@@ -31,6 +31,7 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
     const bid = this.props.match.params.bid;
     const boardDetail = await this.props.getBoardDetail(bid);
     this.setState({ boardDetail });
+    this.renderBoardBody()
   }
 
   render() {
@@ -64,8 +65,8 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
       <div className="home-content">
         {this.renderUserInfo()}
         <div className="detail-body">
-          {this.state.boardDetail?.body}
-          {this.state.boardDetail?.image && <img src="" alt="" />}
+          <div id="board-body" />
+          {this.state.boardDetail?.image && <img  src="" alt="" />}
           <div className="detail-info">
             <span className="time-display">
               {this.displayDetailTime(this.state.boardDetail?.timestamp)}
@@ -91,7 +92,7 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
             <span className="username">
               {this.state.boardDetail?.user?.username}
             </span>
-            <span className="userid">{this.state.boardDetail?.user?._id}</span>
+            <span className="userid">@{this.state.boardDetail?.user?._id}</span>
           </div>
         </div>
         <div
@@ -152,6 +153,34 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
       </ul>
     );
   }
+
+  renderBoardBody() {
+    const board = this.state.boardDetail
+    let text = board.body.replace(/\n/g, '<br/>');
+    let matchWords = text.match(
+      /https?:\/\/[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*?\.(com|co|jp|es)/,
+    );
+    if (matchWords) {
+      const matchWord = matchWords[0];
+      let genAnchorTag = `
+        <a
+          href=${matchWord}
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          class="match"
+          title=${matchWord}
+        >
+          ${matchWord}
+        </a>
+      `;
+      text = text.replace(matchWord, genAnchorTag);
+    }
+    // let bodyEl: HTMLDivElement;
+    let  bodyEl = document.getElementById('board-body') as HTMLDivElement;
+    if (bodyEl) {
+      bodyEl.innerHTML = text;
+    }
+  };
 
   onClickBackBtn() {
     this.props.history.go(-1);

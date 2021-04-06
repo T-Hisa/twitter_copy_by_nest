@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getBoardsForHome } from '../actions';
 
 import BoardComponent from '../components/Board';
-import Modal from '../components/Modal';
+import TweetModal from '../components/TweetModal';
 import SendTweet from '../components/SendTweet';
 
 import { BoardModel } from '../types/BoardModel';
@@ -68,7 +68,7 @@ class Home extends React.Component<HomeProps, HomeState> {
           {/* z-indexで前に出してしまうと、MOdal 表示に主張してしまうので、最後に追加。 */}
           {this.renderHeader()}
         </div>
-        <Modal
+        <TweetModal
           isOpen={this.state.controlReplyModal}
           handleCloseModal={this.handleCloseModal.bind(this)}
           board={this.state.selectedBoard}
