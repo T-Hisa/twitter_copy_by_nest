@@ -9,7 +9,15 @@
     padding: 10px;
     height: 50px;
     border-bottom: 1px solid $border_color;
-    width: 100%;
+    width: 600px;
+    position: fixed;
+    top: 0;
+    background-color: white;
+    cursor: pointer;
+  }
+
+  .home-content {
+    margin-top: 50px;
   }
 }
 

@@ -9,7 +9,7 @@ import { createBoard } from '../actions';
 import { UserModel } from '../types/UserModel';
 import { BoardModel } from '../types/BoardModel';
 
-interface TweetProps {
+interface SendTweetProps {
   isNotReply: boolean;
   createBoard: any;
   login_user: UserModel;
@@ -19,13 +19,13 @@ interface TweetProps {
   handleRedraw: () => {};
 }
 
-interface TweetState {
+interface SendTweetState {
   body: string;
   focusFlag: boolean;
   controlReplyModal: boolean;
 }
 
-class Tweet extends React.Component<TweetProps, TweetState> {
+class SendTweet extends React.Component<SendTweetProps, SendTweetState> {
   textareaRef: React.RefObject<HTMLTextAreaElement>;
   tweetBtnRef: React.RefObject<HTMLAnchorElement>;
 
@@ -211,4 +211,4 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = { createBoard };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Tweet);
+export default connect(mapStateToProps, mapDispatchToProps)(SendTweet);

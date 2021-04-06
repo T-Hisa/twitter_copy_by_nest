@@ -132,10 +132,6 @@ export class BoardsService {
       .limit(20)
       .populate({ path: 'user' })
       .populate('origin_board')
-      // .populate({
-      //   path: 'origin_board.user',
-      //   model: User,
-      // })
       .exec();
     boardsForHomeDisplay = ((await this.userModel.populate(
       boardsForHomeDisplay,

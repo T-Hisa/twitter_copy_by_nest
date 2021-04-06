@@ -6,7 +6,7 @@ import { getBoardsForHome } from '../actions';
 
 import BoardComponent from '../components/Board';
 import Modal from '../components/Modal';
-import Tweet from '../components/Tweet';
+import SendTweet from '../components/SendTweet';
 
 import { BoardModel } from '../types/BoardModel';
 import { RouteProps } from '../types/RouteProps';
@@ -15,7 +15,7 @@ interface HomeProps extends RouteProps {
   boards?: BoardModel[];
   login_user: any;
   getBoardsForHome: any;
-  handleRedraw: () => {}
+  handleRedraw: () => {};
 }
 
 interface HomeState {
@@ -46,24 +46,27 @@ class Home extends React.Component<HomeProps, HomeState> {
     return (
       <React.StrictMode>
         <div className="home-container">
-          {this.renderHeader()}
-          <Tweet
-            isNotReply={true}
-            isModal={false}
-            handleRedraw={this.props.handleRedraw}
-          />
-
-          {/* 空白を入れる */}
-          <div className="empty-zone" />
-
-          {this.props.boards.map((board) => (
-            <BoardComponent
-              board={board}
-              login_user={this.props.login_user}
-              handleClickReply={this.handleClickReply.bind(this)}
-              key={board._id}
+          <div className="home-content">
+            <SendTweet
+              isNotReply={true}
+              isModal={false}
+              handleRedraw={this.props.handleRedraw}
             />
-          ))}
+
+            {/* 空白を入れる */}
+            <div className="empty-zone" />
+
+            {this.props.boards.map((board) => (
+              <BoardComponent
+                board={board}
+                login_user={this.props.login_user}
+                handleClickReply={this.handleClickReply.bind(this)}
+                key={board._id}
+              />
+            ))}
+          </div>
+          {/* z-indexで前に出してしまうと、MOdal 表示に主張してしまうので、最後に追加。 */}
+          {this.renderHeader()}
         </div>
         <Modal
           isOpen={this.state.controlReplyModal}
@@ -82,9 +85,9 @@ class Home extends React.Component<HomeProps, HomeState> {
   }
 
   handleClickReply(board: BoardModel) {
-    let setBoard = board
+    let setBoard = board;
     if (board.origin_board && !board.body) {
-      setBoard = board.origin_board
+      setBoard = board.origin_board;
     }
     this.setState({ selectedBoard: setBoard });
     this.setState({ controlReplyModal: true });
@@ -98,7 +101,7 @@ class Home extends React.Component<HomeProps, HomeState> {
 const mapStateToProps = (state: any, props: any) => {
   const login_user = state.login_user;
   const boards = state.boards;
-  console.log('boards,', boards)
+  console.log('boards,', boards);
   return { boards, login_user };
 };
 

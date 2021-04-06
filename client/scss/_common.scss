@@ -73,3 +73,24 @@ ul {
     margin-left: 10%;
   }
 }
+
+.icon-wrapper {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 16px;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(51, 153, 255, 0.2);
+    color: blue;
+  }
+
+  .icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+}

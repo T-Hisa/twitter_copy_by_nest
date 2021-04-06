@@ -26,13 +26,16 @@ class Container extends React.Component<any, ContainerState> {
           user={this.props.login_user}
           handleRedraw={this.handleRedrawFlag.bind(this)}
         />
-        {/* <Route exact path="/compose/tweet" component={Modal}/> */}
         <div className="content-container">
-          {/* <Route exact path="/home" component={Home}></Route> */}
           <Route
             exact
             path="/home"
-            render={(routeProps: RouteProps) => <Home {...routeProps} handleRedraw={this.handleRedrawFlag.bind(this)} />}
+            render={(routeProps: RouteProps) => (
+              <Home
+                {...routeProps}
+                handleRedraw={this.handleRedrawFlag.bind(this)}
+              />
+            )}
           />
           <Route exact path="/:uid/status/:bid" component={BoardDetail}></Route>
           <Route path="/*">
@@ -44,7 +47,7 @@ class Container extends React.Component<any, ContainerState> {
   }
 
   handleRedrawFlag() {
-    console.log('hanndleRedrawFlag!!')
+    console.log('hanndleRedrawFlag!!');
     const redrawFlag = this.state.redrawFlag + 1;
     this.setState({ redrawFlag });
   }

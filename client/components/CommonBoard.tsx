@@ -18,7 +18,26 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
   // 投稿した直後に描画すると、 body の部分だけ反映されないので、setTimeout を用いてほんの少し遅れて描画させる
   const renderBoardBody = () => {
     let text = board.body.replace(/\n/g, '<br/>');
-    let bodyEl: HTMLDivElement
+    console.log('tezt', text);
+    let matchWords = text.match(
+      /https?:\/\/[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*?\.(com|co|jp|es)/,
+    );
+    if (matchWords) {
+      const matchWord = matchWords[0];
+      console.log('matchWord', matchWord);
+      let genAnchorTag = `
+        <a
+          href=${matchWord}
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title=${matchWord}
+        >
+          ${matchWord}
+        </a>
+      `;
+      text = text.replace(matchWord, genAnchorTag);
+    }
+    let bodyEl: HTMLDivElement;
     if (props.isModal) {
       bodyEl = document.getElementById(
         `body-modal-${board?._id}`,
@@ -27,14 +46,12 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
         bodyEl.innerHTML = text;
       }
     } else {
-      bodyEl = document.getElementById(
-        `body-${board._id}`,
-      ) as HTMLDivElement;
+      bodyEl = document.getElementById(`body-${board._id}`) as HTMLDivElement;
       if (bodyEl) {
         bodyEl.innerHTML = text;
       }
     }
-  }
+  };
 
   setTimeout(() => {
     renderBoardBody();

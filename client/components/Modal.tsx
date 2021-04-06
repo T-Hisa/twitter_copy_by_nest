@@ -6,7 +6,7 @@ import { BoardModel } from '../types/BoardModel';
 import { displayDate, displayTooltip } from '../utils';
 
 import CommonBoard from './CommonBoard';
-import Tweet from './Tweet';
+import SendTweet from './SendTweet';
 
 interface ModalProps {
   isOpen: boolean;
@@ -64,8 +64,9 @@ class Modal extends React.Component<ModalProps, any> {
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
             title={displayTooltip('cancel')}
+            onClick={this.props.handleCloseModal}
           >
-            <span onClick={this.props.handleCloseModal} className="cancel-btn">
+            <span className="cancel-btn">
               ×
             </span>
           </div>
@@ -81,7 +82,7 @@ class Modal extends React.Component<ModalProps, any> {
             />
           </div>
         )}
-        <Tweet
+        <SendTweet
           isNotReply={this.props.isNotReply}
           isModal={true}
           reply_board={this.props.board}

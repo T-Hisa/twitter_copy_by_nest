@@ -180,7 +180,7 @@ const Board: React.FC<BoardProps> = (props) => {
         // onClickMore()
         return;
       default:
-        props.history.push(`/${login_user._id}/status/${board._id}`);
+        props.history.push(`/${board.user._id}/status/${board._id}`);
     }
   };
 
