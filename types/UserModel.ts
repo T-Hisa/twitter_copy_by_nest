@@ -7,4 +7,5 @@ export interface UserModel {
   board_ids?: string[]
   repost_board_ids?: string[]
   like_board_ids?: string[]
+  repost_boards: string[]
 }

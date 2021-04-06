@@ -51,7 +51,9 @@ export class BoardsController {
   @Post('/push-like')
   async pushLike(@Body() likeBoard: LikeBoardData) {
     console.log('likeBoardData', likeBoard);
-    return likeBoard
+    const updatedBoard = await this.boardsService.pushLike(likeBoard)
+    console.log('updatedBoard', updatedBoard)
+    return updatedBoard
   }
 
   // @UseGuards(AuthGuard('jwt'))

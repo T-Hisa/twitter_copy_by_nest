@@ -11,6 +11,7 @@ import { User, UserDocument } from '../users/user.schema';
 import { Board, BoardDocument, BoardSchema } from './board.schema';
 import { CreateBoardDto } from './boards.create.dto';
 import * as mongoose from 'mongoose';
+import { LikeBoardData } from '@/types';
 
 @Injectable()
 export class BoardsService {
@@ -147,7 +148,7 @@ export class BoardsService {
   async saveAndCreateBoard(board: BoardDocument) {
     const saveBoard = await board.save();
     if (board.reply_to) {
-      console.log('board.reply_to', board.reply_to)
+      console.log('board.reply_to', board.reply_to);
       await this.boardModel.updateOne(
         { _id: board.reply_to },
         { $inc: { reply_count: 1 } },
@@ -163,5 +164,64 @@ export class BoardsService {
       .populate('user');
     console.log('saveBoardPopulate', saveBoardPopulate);
     return saveBoardPopulate;
+  }
+
+  async pushLike(likeBoard: LikeBoardData) {
+    let promises = [];
+    console.log('isAlreadyLike', likeBoard.isAlreadyLike)
+    if (likeBoard.isAlreadyLike) {
+      promises = this.pushLikeAlready(likeBoard);
+    } else {
+      promises = this.pushLikeYet(likeBoard)
+    }
+    await Promise.all(promises);
+    const updatedBoard = await this.boardModel.findById(likeBoard.bid);
+    return updatedBoard;
+  }
+
+  pushLikeAlready(likeBoard: LikeBoardData): Promise<any>[] {
+    let promises = [];
+    promises.push(
+      this.boardModel.updateOne(
+        { _id: likeBoard.bid },
+        {
+          $pull: { like_users: { $in: likeBoard.uid } },
+          $inc: { like_count: -1 },
+        },
+      ),
+    );
+    promises.push(
+      this.userModel.updateOne(
+        { _id: likeBoard.uid },
+        {
+          $pull: { like_boards: { $in: likeBoard.bid } },
+          $inc: { like_boards_count: -1 },
+        },
+      ),
+    );
+    return promises
+  }
+
+  pushLikeYet(likeBoard: LikeBoardData): Promise<any>[] {
+    let promises = []
+    promises.push(
+      this.boardModel.updateOne(
+        { _id: likeBoard.bid },
+        {
+          $push: { like_users: likeBoard.uid as any },
+          $inc: { like_count: 1 },
+        },
+      ),
+    );
+    promises.push(
+      this.userModel.updateOne(
+        { _id: likeBoard.uid },
+        {
+          $push: { like_boards: likeBoard.bid as any },
+          $inc: { like_boards_count: 1 },
+        },
+      ),
+    );
+    return promises
   }
 }

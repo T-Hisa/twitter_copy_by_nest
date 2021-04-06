@@ -25,6 +25,9 @@ export const boards = (boardsModel: BoardModel[] = [], action: any) => {
       }
       return boardsModel
     case PUSH_LIKE:
+      const updatedBoard = action.data
+      const likeBoardIndex = boardsModel.findIndex(board => board._id === updatedBoard._id)
+      boardsModel.splice(likeBoardIndex, 1, updatedBoard)
       console.log('PUSH_LIKE data is', action)
       return boardsModel
     case GET_BOARDS_FOR_HOME:

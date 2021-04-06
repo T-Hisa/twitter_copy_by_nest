@@ -11,7 +11,7 @@ export interface BoardModel {
   repost_count: number
   full_repost_count: number
   image?: string
-  like_user_ids?: string[]
+  like_users?: string[]
   repost_user_ids?: string[]
   origin_board?: BoardModel
   reply_user_ids: string[]

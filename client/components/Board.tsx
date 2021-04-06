@@ -12,9 +12,10 @@ import CommonBoard from './CommonBoard';
 
 interface BoardProps extends RouteProps {
   board: BoardModel;
-  login_user: any;
+  login_user: UserModel;
   handleClickReply: any;
   clickLike: (data: LikeBoardData) => {};
+  handleRedraw: () => {}
 }
 
 const Board: React.FC<BoardProps> = (props) => {
@@ -141,17 +142,22 @@ const Board: React.FC<BoardProps> = (props) => {
     handlePopup(x, y);
   };
 
-  const onClickLike = () => {
+  const onClickLike = async () => {
     const bid = board._id;
     const uid = login_user._id;
-    const isAlreadyLike = login_user.like_boards.includes(bid);
+    console.log('board.like_userids', board.like_users)
+    if (!board.like_users) {
+      board.like_users = []
+    }
+    // const isAlreadyLike = login_user.like_board_ids.includes(bid);
+    const isAlreadyLike = board.like_users.includes(uid);
     const sendData: LikeBoardData = {
       bid,
       uid,
       isAlreadyLike,
     };
-    props.clickLike(sendData);
-    console.log('click like!!!');
+    await props.clickLike(sendData);
+    props.handleRedraw()
   };
 
   const onClickBoard = (e: React.MouseEvent<HTMLElement>) => {
@@ -268,7 +274,7 @@ const Board: React.FC<BoardProps> = (props) => {
           className="for-mouse-over repost"
         />
         <li className="board-menu-wrapper">
-          {login_user.like_boards.indexOf(board._id) > -1 ? (
+          {login_user.like_board_ids?.indexOf(board._id) > -1 ? (
             <React.StrictMode>
               <div className="icon-wrapper like">
                 <i className="fas fa-heart done icon"></i>
