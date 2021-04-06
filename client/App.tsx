@@ -8,9 +8,14 @@ import Container from './containers/Container';
 import Login from './containers/Login';
 
 import { reload } from './actions';
+import { UserModel } from './types/UserModel';
 
+interface AppProps {
+  login_user: UserModel;
+  reload: () => {};
+}
 
-class App extends React.Component<any, any> {
+class App extends React.Component<AppProps, any> {
   componentDidMount(): void {
     this.props.reload();
   }
@@ -40,7 +45,7 @@ class App extends React.Component<any, any> {
 }
 
 const mapStateToProps = (state: any) => {
-  return state;
+  return { login_user: state.login_user };
 };
 
 const mapDispatchToProps = { reload };

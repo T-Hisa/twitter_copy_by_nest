@@ -7,12 +7,17 @@ import BoardDetail from '../views/BoardDetail';
 import Sidebar from '../components/Sidebar';
 
 import { getBoardsForHome } from '../actions';
+import { UserModel } from '../types/UserModel';
+
+interface ContainerProps {
+  login_user: UserModel
+}
 
 interface ContainerState {
   redrawFlag: number;
 }
 
-class Container extends React.Component<any, ContainerState> {
+class Container extends React.Component<ContainerProps, ContainerState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +28,7 @@ class Container extends React.Component<any, ContainerState> {
     return (
       <div className="main-container d-flex">
         <Sidebar
-          user={this.props.login_user}
+          login_user={this.props.login_user}
           handleRedraw={this.handleRedrawFlag.bind(this)}
         />
         <div className="content-container">

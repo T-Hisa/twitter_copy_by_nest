@@ -96,14 +96,11 @@ const Board: React.FC<BoardProps> = (props) => {
     console.log('quote!');
   };
 
-  const handlePopup = (x: number, y: number) => {
-    const rootEl = document.getElementById('root');
+  const genPopupEl = (x: number, y: number): HTMLDivElement => {
     const popupContainer = document.createElement('div');
     popupContainer.className = 'popup-container';
-    popupContainer.id = 'popup';
     popupContainer.addEventListener('click', (event) => {
-      const popupContainerEl = document.getElementById('popup');
-      popupContainerEl.remove();
+      popupContainer.remove();
       switch ((event.target as HTMLElement).id) {
         case 'resend':
           handleResend();
@@ -130,9 +127,13 @@ const Board: React.FC<BoardProps> = (props) => {
     popupEl.appendChild(firstChildEl);
     popupEl.appendChild(secondChildEl);
     popupContainer.appendChild(popupEl);
-    setTimeout(() => {
-      rootEl.appendChild(popupContainer);
-    }, 1);
+    return popupContainer;
+  };
+
+  const handlePopup = (x: number, y: number) => {
+    const rootEl = document.getElementById('root');
+    const popupEl = genPopupEl(x, y);
+    rootEl.appendChild(popupEl);
   };
 
   const onClickRepost = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -177,7 +178,7 @@ const Board: React.FC<BoardProps> = (props) => {
       case 'fas fa-ellipsis-h icon analyze':
       // onClickAnalyze()
       case 'icon-wrapper  more-btn':
-        // onClickMore()
+      // onClickMore()
       case 'match':
         return;
       default:

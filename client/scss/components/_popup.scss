@@ -1,3 +1,4 @@
+@import './variables';
 .popup-container {
   width: 200%;
   height: 100%;
@@ -16,13 +17,42 @@
     box-shadow: 0 0 10px rgb(211, 211, 211);
     cursor: pointer;
 
-
     .popup-element {
       padding: 10px 20px;
 
       &:hover {
         background-color: $background_color;
       }
+    }
+  }
+
+  .account-popup-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 0 10px rgb(211, 211, 211);
+    width: 280px;
+    padding: 5px 0;
+  }
+
+  .popup-account-info-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $background_color;
+    }
+
+    .popup-account-info-wrapper {
+      display: flex;
+      align-items: center;
     }
   }
 }

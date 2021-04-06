@@ -5,17 +5,20 @@ import { connect } from 'react-redux';
 import Modal from './Modal';
 import { UserModel } from '../types/UserModel';
 
+import { logout } from '../actions';
+
 interface SidebarProps extends RouteProps {
-  user?: any;
+  login_user: UserModel;
   handleRedraw: () => {};
+  logout?: () => {};
 }
 
 interface SidebarState {
   controlReplyModal: boolean;
 }
 
-class Sidebar extends React.Component<any, SidebarState> {
-  constructor(props) {
+class Sidebar extends React.Component<any, any> {
+  constructor(props: SidebarProps) {
     super(props);
     this.state = {
       controlReplyModal: false,
@@ -67,20 +70,19 @@ class Sidebar extends React.Component<any, SidebarState> {
               <i className="fas fa-pencil-ruler post-btn icon"></i>
               <div className="do-post">ツイートする</div>
             </li>
-            {/* <li>
-              <i className="fas fa-check-circle icon"></i>
-            </li> */}
           </ul>
-          <div className="account-info-container">
-            <div className="account-info-wrapper">
-              <img className="thumbnail" src="" alt="サム" />
-              <div className="account-info">
-                <div className="username">{this.props.user.username}</div>
-                <div className="c-gray">@{this.props.user._id}</div>
+          <div onClick={this.onClickAccount.bind(this)}>
+            <div className="account-info-container" id="account-info">
+              <div className="account-info-wrapper">
+                <img className="thumbnail" src="" alt="サム" />
+                <div className="account-info">
+                  <div className="username">{this.props.login_user.username}</div>
+                  <div className="c-gray">@{this.props.login_user._id}</div>
+                </div>
               </div>
-            </div>
-            <div className="icon-wrapper">
-              <i className="fas fa-ellipsis-h icon"></i>
+              <div className="icon-wrapper">
+                <i className="fas fa-ellipsis-h icon"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -110,6 +112,74 @@ class Sidebar extends React.Component<any, SidebarState> {
       return 'icon-wrapper';
     }
   }
+
+  onClickAccount() {
+    this.handleAccountPopup();
+  }
+
+  handleAccountPopup() {
+    const rootEl = document.getElementById('root');
+    const accountPopupContainer = document.createElement('div');
+    accountPopupContainer.className = 'popup-container';
+    accountPopupContainer.id = 'account-popup';
+    accountPopupContainer.addEventListener('click', (event) => {
+      accountPopupContainer.remove();
+    });
+    const popupEl = document.createElement('div');
+    popupEl.className = 'account-popup-wrapper';
+    // const origin_node = document.getElementById('account-info')
+    // console.log('orogin_node', origin_node)
+    // const firstChildEl = origin_node.cloneNode(true)
+    // const icon_wrapper =firstChildEl.
+    // console.log('firstChildEl', firstChildEl)
+
+    const firstChildEl = document.createElement('div');
+    firstChildEl.className = 'popup-account-info-container';
+    const grandChildEl = document.createElement('div');
+    grandChildEl.className = 'popup-account-info-wrapper';
+    const thumbnailEl = document.createElement('img');
+    thumbnailEl.alt = 'サム';
+    const accountInfoEl = document.createElement('div');
+    accountInfoEl.className = 'popup-account-info';
+    const usernameEl = document.createElement('div');
+    usernameEl.className = 'username';
+    usernameEl.innerText = `${this.props.login_user.username}`;
+    const useridEl = document.createElement('div');
+    useridEl.className = 'c-gray';
+    useridEl.innerText = `${this.props.login_user._id}`;
+
+    accountInfoEl.appendChild(usernameEl);
+    accountInfoEl.appendChild(useridEl);
+    grandChildEl.appendChild(thumbnailEl);
+    grandChildEl.appendChild(accountInfoEl);
+    firstChildEl.appendChild(grandChildEl);
+
+    const addAccountEl = document.createElement('div');
+    addAccountEl.className = 'popup-account-info-container';
+    addAccountEl.innerText = '既存のアカウントを追加';
+
+    const controlAccountEl = document.createElement('div');
+    controlAccountEl.className = 'popup-account-info-container';
+    controlAccountEl.innerText = 'アカウントを管理';
+
+    const logoutEl = document.createElement('div');
+    logoutEl.className = 'popup-account-info-container';
+    logoutEl.innerText = `@${this.props.login_user._id}からログアウト`;
+
+    logoutEl.addEventListener('click', () => {
+      console.log('its about to logout!')
+      this.props.logout();
+    });
+
+    popupEl.appendChild(firstChildEl);
+    popupEl.appendChild(addAccountEl);
+    popupEl.appendChild(controlAccountEl);
+    popupEl.appendChild(logoutEl);
+    accountPopupContainer.appendChild(popupEl);
+    rootEl.appendChild(accountPopupContainer);
+  }
 }
 
+const mapDispatchToProps = { logout };
+// export default withRouter(connect(null, mapDispatchToProps)(Sidebar));
 export default withRouter(Sidebar);
