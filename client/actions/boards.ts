@@ -8,6 +8,7 @@ export const GET_BOARDS_FOR_HOME = 'GET_BOARDS_FOR_HOME';
 export const GET_DETAIL_BOARD = 'GET_DETAIL_BOARD';
 export const REPLY_BOARD = 'REPLY_BOARD';
 export const PUSH_LIKE = 'PUSH_LIKE';
+export const PUSH_LIKE_DETAIL = 'PUSH_LIKE_DETAIL'
 
 export const getBoards = () => (dispatch: any) => {
   axios.post('get-boards').then((res) => {
@@ -60,7 +61,13 @@ export const getBoardDetail = (bid: string) => async (dispatch: any) => {
 export const clickLike = (sendData: LikeBoardData) => async (dispatch: any) => {
   const { data } = await commonFunc('/push-like', sendData);
   if (data) {
-    dispatch({ type: PUSH_LIKE, data });
+    if (sendData.isReply) {
+      // ({ type: PUSH_LIKE_DETAIL, data })
+      console.log('isDetail clickLike returnData', data)
+      return data
+    } else {
+      dispatch({ type: PUSH_LIKE, data });
+    }
   } else {
     commonErrorFunc(dispatch);
   }

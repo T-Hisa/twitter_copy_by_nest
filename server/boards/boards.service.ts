@@ -198,10 +198,6 @@ export class BoardsService {
     let promises = [];
     console.log('isAlreadyLike', likeBoard.isAlreadyLike);
     let updatedBoard: BoardDocument;
-    // リツイートかどうかによって判断
-    // if (likeBoard.isRepost) {
-    // promises= this.pushLikeRepostAlready(likeBoard)
-    // } else {
     if (likeBoard.isAlreadyLike) {
       promises = this.pushLikeAlready(likeBoard);
     } else {
@@ -222,6 +218,7 @@ export class BoardsService {
 
   pushLikeAlready(likeBoard: LikeBoardData): Promise<any>[] {
     let promises = [];
+    // リツイートかどうかによって判断
     const bid = likeBoard.origin_bid ? likeBoard.origin_bid : likeBoard.bid;
     promises.push(
       this.boardModel.updateOne(

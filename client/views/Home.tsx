@@ -65,6 +65,7 @@ class Home extends React.Component<HomeProps, HomeState> {
                 handleClickReply={this.handleClickReply.bind(this)}
                 key={board._id}
                 handleRedraw={this.props.handleRedraw}
+                isReply={false}
               />
             ))}
           </div>

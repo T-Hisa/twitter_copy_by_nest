@@ -4,7 +4,8 @@ import {
   GET_BOARDS_FOR_HOME,
   GET_DETAIL_BOARD,
   REPLY_BOARD,
-  PUSH_LIKE
+  PUSH_LIKE,
+  PUSH_LIKE_DETAIL
 } from '..//actions';
 
 import { BoardModel } from '../../types';
@@ -29,6 +30,9 @@ export const boards = (boardsModel: BoardModel[] = [], action: any) => {
       const likeBoardIndex = boardsModel.findIndex(board => board._id === updatedBoard._id)
       boardsModel.splice(likeBoardIndex, 1, updatedBoard)
       return boardsModel
+    // case PUSH_LIKE_DETAIL:
+    //   console.log('action at PUSH_LIKE_DETAIL', action);
+    //   return boardsModel
     case GET_BOARDS_FOR_HOME:
       console.log('action at reducer', action);
       console.log('data at reducer', action.data);

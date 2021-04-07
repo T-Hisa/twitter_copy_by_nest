@@ -19,13 +19,13 @@ interface BoardProps extends RouteProps {
   board: BoardModel;
   login_user: UserModel;
   handleClickReply?: any;
-  clickLike: (data: LikeBoardData) => {};
+  isReply: boolean
+  clickLike: (data: LikeBoardData, isReply: boolean) => {};
   handleRedraw: () => void;
 }
 
 const Board: React.FC<BoardProps> = (props) => {
   let { board, login_user } = props;
-  
 
   const renderCount = (count: number): JSX.Element => {
     return <span className="count-display">{count}</span>;
@@ -157,9 +157,10 @@ const Board: React.FC<BoardProps> = (props) => {
       uid,
       isAlreadyLike,
       origin_bid,
+      isReply: props.isReply
     };
     handleElementUnable(el);
-    await props.clickLike(sendData);
+    await props.clickLike(sendData, props.isReply);
     props.handleRedraw();
     handleElementEnable(el);
   };

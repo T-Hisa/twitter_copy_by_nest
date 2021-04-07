@@ -12,7 +12,6 @@ import {
   renderInfo,
 } from '../utils';
 
-import DisplayBoard from '../components/DisplayBoard';
 import Board from '../components/Board';
 
 interface BoardDetailProps extends RouteProps {
@@ -253,6 +252,7 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
         login_user={this.props.login_user}
         key={board._id}
         handleRedraw={this.props.handleRedraw}
+        isReply={true}
       />
     );
   }
