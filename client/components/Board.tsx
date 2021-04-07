@@ -18,13 +18,14 @@ import DisplayBoard from './DisplayBoard';
 interface BoardProps extends RouteProps {
   board: BoardModel;
   login_user: UserModel;
-  handleClickReply: any;
+  handleClickReply?: any;
   clickLike: (data: LikeBoardData) => {};
-  handleRedraw: () => {};
+  handleRedraw: () => void;
 }
 
 const Board: React.FC<BoardProps> = (props) => {
   let { board, login_user } = props;
+  
 
   const renderCount = (count: number): JSX.Element => {
     return <span className="count-display">{count}</span>;
@@ -77,15 +78,10 @@ const Board: React.FC<BoardProps> = (props) => {
   ): [number, number] => {
     const x = pageXOffset;
     const y = pageYOffset;
-    console.log('pageXOffset', pageXOffset);
-    console.log('pageYOffset', pageYOffset);
-    console.log('e.pageX', e.pageX)
-    console.log('e.pageY', e.pageY)
     const positionParentEl = document.elementFromPoint(
       e.pageX - x,
       e.pageY - y,
     );
-    console.log('positionParentEl', positionParentEl)
     const xPosition = positionParentEl.getBoundingClientRect().left;
     const yPosition = positionParentEl.getBoundingClientRect().top;
     return [x + xPosition, y + yPosition];
@@ -151,7 +147,6 @@ const Board: React.FC<BoardProps> = (props) => {
     const origin_bid: string | null =
       !board.body && board.origin_board ? board.origin_board._id : null;
     const targetBoard: BoardModel = !!origin_bid ? board.origin_board : board;
-    console.log('targetBoard.like_userids', targetBoard.like_users);
     if (!targetBoard.like_users) {
       targetBoard.like_users = [];
     }

@@ -14,7 +14,7 @@ interface HomeProps extends RouteProps {
   boards?: BoardModel[];
   login_user: any;
   getBoardsForHome: any;
-  handleRedraw: () => {};
+  handleRedraw: () => void;
 }
 
 interface HomeState {
@@ -90,7 +90,6 @@ class Home extends React.Component<HomeProps, HomeState> {
 
   handleClickReply(board: BoardModel) {
     let setBoard = board;
-    console.log('handleClickReply At Home', board)
     if (board.origin_board && !board.body) {
       setBoard = board.origin_board;
       this.setState({ repost_bid: board._id })

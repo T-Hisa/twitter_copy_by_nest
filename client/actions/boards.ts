@@ -26,6 +26,7 @@ export const createBoard = (createBoardData: CreateBoardInterface) => async (
     const data: BoardModel = receiveData?.data;
     console.log('data', data);
 
+    // reply_count のみでは、リツイートに返信した際にcatch 側に行ってしまうので、 body も含める
     if (data.reply_count || !data.body) {
       dispatch({ type: REPLY_BOARD, data });
     } else {
@@ -57,7 +58,7 @@ export const getBoardDetail = (bid: string) => async (dispatch: any) => {
 };
 
 export const clickLike = (sendData: LikeBoardData) => async (dispatch: any) => {
-  const { data } = await commonFunc('push-like', sendData);
+  const { data } = await commonFunc('/push-like', sendData);
   if (data) {
     dispatch({ type: PUSH_LIKE, data });
   } else {

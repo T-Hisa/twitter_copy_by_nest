@@ -16,4 +16,5 @@ export interface BoardModel {
   origin_board?: BoardModel
   reply_to_users: string[]
   tweet_type: string
+  reply_boards: BoardModel[]
 }

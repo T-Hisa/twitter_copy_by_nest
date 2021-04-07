@@ -12,9 +12,13 @@ import {
   renderInfo,
 } from '../utils';
 
+import DisplayBoard from '../components/DisplayBoard';
+import Board from '../components/Board';
+
 interface BoardDetailProps extends RouteProps {
   login_user: UserModel;
   getBoardDetail: any;
+  handleRedraw: () => void
 }
 
 interface BoardDetailState {
@@ -40,16 +44,11 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
     const repost_board = await this.props.getBoardDetail(bid);
     // const displayBoard = await this.props.getBoardDetail(bid);
     // 表示用の Board を選別
+    console.log('boardDetail', repost_board);
     const displayBoard = repost_board.body
       ? repost_board
       : repost_board.origin_board;
     const isQuote: boolean = !!(repost_board.body && repost_board.origin_board);
-    console.log('boardDetail', displayBoard);
-    console.log(
-      'displayBoard?.like_users?.includethis.props.login_user._id',
-      displayBoard?.like_users?.includes(this.props.login_user._id),
-    );
-    console.log('displayBoard.like_users', displayBoard.like_users);
     this.setState({ displayBoard, repost_board, isQuote });
     renderBoardBody(displayBoard.body, displayBoard._id, false);
   }
@@ -62,6 +61,9 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
           {this.renderBody()}
           {this.renderActivity()}
           {this.renderMenu()}
+          {this.state?.displayBoard?.reply_boards?.map((board) => {
+            return this.renderReply(board);
+          })}
         </div>
       </React.StrictMode>
     );
@@ -244,6 +246,17 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
     );
   }
 
+  renderReply(board: BoardModel) {
+    return (
+      <Board
+        board={board}
+        login_user={this.props.login_user}
+        key={board._id}
+        handleRedraw={this.props.handleRedraw}
+      />
+    );
+  }
+
   onClickBackBtn() {
     this.props.history.go(-1);
   }
@@ -278,9 +291,6 @@ const mapStateToProps = (state: any, props: any) => {
   const login_user = state.login_user;
   const bid = props.match.params.id;
   // const board = state.board
-  // for (let board of state.boards) {
-  //   console.log('board.body', board.body)
-  // }
   const boards = state.boards;
   return { login_user };
 };

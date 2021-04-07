@@ -34,12 +34,21 @@ class Container extends React.Component<ContainerProps, ContainerState> {
             path="/home"
             render={(routeProps: RouteProps) => (
               <Home
-              {...routeProps}
-              handleRedraw={this.handleRedrawFlag.bind(this)}
+                {...routeProps}
+                handleRedraw={this.handleRedrawFlag.bind(this)}
               />
-              )}
+            )}
           />
-          <Route exact path="/:uid/status/:bid" component={BoardDetail} />
+          <Route
+            exact
+            path="/:uid/status/:bid"
+            render={(routeProps: RouteProps) => (
+              <BoardDetail
+                {...routeProps}
+                handleRedraw={this.handleRedrawFlag.bind(this)}
+              />
+            )}
+          />
           <Route path="/*">
             <Redirect to="/home" />
           </Route>

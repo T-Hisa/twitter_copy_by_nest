@@ -165,7 +165,6 @@ class SendTweet extends React.Component<SendTweetProps, SendTweetState> {
           timestamp: Date.now(),
         };
       } else {
-        console.log('reply_board, ', this.props.reply_board)
         const uids: string[] = this.props.reply_board.reply_to_users || []
         uids.push(this.props.reply_board.user._id)
         const reply_to: string = this.props.reply_board._id
