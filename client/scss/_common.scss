@@ -1,5 +1,9 @@
 @import './components/variables';
 
+#root {
+  position: relative;
+}
+
 a {
   cursor: pointer;
   color: $primary;
@@ -28,10 +32,6 @@ ul {
   color: rgb(29, 161, 242);
 }
 
-.main-container {
-  height: 100vh;
-}
-
 .c-gray {
   color: gray;
 }
@@ -50,6 +50,7 @@ ul {
     }
   }
 }
+
 
 .reply-line {
   height: calc(100% - 48px);

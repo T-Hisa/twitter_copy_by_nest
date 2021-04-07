@@ -171,7 +171,6 @@ export class BoardsService {
       );
       if (repost_bid) {
         // リツイートの場合は、リツイート元ではなく、リツイート先だけ更新しなくちゃならない
-        console.log('debug at repost');
         let updatedRepostBoardPopulate = await this.boardModel
           .findById(repost_bid)
           .populate('user')
@@ -180,7 +179,6 @@ export class BoardsService {
           updatedRepostBoardPopulate,
           { path: 'origin_board.user' },
         )) as any) as BoardDocument;
-        console.log('updatedRepostBoardPopulate', updatedRepostBoardPopulate);
         return updatedRepostBoardPopulate;
       }
       const updatedBoardPopulate = await this.boardModel

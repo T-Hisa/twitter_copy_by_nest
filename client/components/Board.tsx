@@ -6,7 +6,7 @@ import {
   displayTooltip,
   handleElementEnable,
   handleElementUnable,
-  renderInfo
+  renderInfo,
 } from '../utils';
 
 import { BoardModel, UserModel, RouteProps, LikeBoardData } from '../../types';
@@ -63,7 +63,7 @@ const Board: React.FC<BoardProps> = (props) => {
     previousElFirstChild.style.color = 'black';
   };
 
-  const onClickReply = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onClickReply = (e: React.MouseEvent<HTMLElement>) => {
     const replyEl: HTMLDivElement = e.target as HTMLDivElement;
     const prevEl: HTMLLIElement = replyEl.previousElementSibling as HTMLLIElement;
     const previousElFirstChild: HTMLDivElement = prevEl.firstChild as HTMLDivElement;
@@ -73,17 +73,22 @@ const Board: React.FC<BoardProps> = (props) => {
   };
 
   const getDivPosition = (
-    e: React.MouseEvent<HTMLDivElement>,
+    e: React.MouseEvent<HTMLElement>,
   ): [number, number] => {
     const x = pageXOffset;
     const y = pageYOffset;
+    console.log('pageXOffset', pageXOffset);
+    console.log('pageYOffset', pageYOffset);
+    console.log('e.pageX', e.pageX)
+    console.log('e.pageY', e.pageY)
     const positionParentEl = document.elementFromPoint(
       e.pageX - x,
       e.pageY - y,
     );
+    console.log('positionParentEl', positionParentEl)
     const xPosition = positionParentEl.getBoundingClientRect().left;
     const yPosition = positionParentEl.getBoundingClientRect().top;
-    return [xPosition, yPosition];
+    return [x + xPosition, y + yPosition];
   };
 
   const handleResend = () => {
@@ -130,11 +135,12 @@ const Board: React.FC<BoardProps> = (props) => {
 
   const handlePopup = (x: number, y: number) => {
     const rootEl = document.getElementById('root');
+    // const parentEl = document.getElementsByClassName('home-container')[0];
     const popupEl = genPopupEl(x, y);
     rootEl.appendChild(popupEl);
   };
 
-  const onClickRepost = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onClickRepost = (e: React.MouseEvent<HTMLElement>) => {
     const [x, y] = getDivPosition(e);
     handlePopup(x, y);
   };
@@ -142,7 +148,8 @@ const Board: React.FC<BoardProps> = (props) => {
   const onClickLike = async (el: HTMLElement) => {
     const bid: string = board._id;
     const uid: string = login_user._id;
-    const origin_bid: string | null = (!board.body && board.origin_board) ? board.origin_board._id : null;
+    const origin_bid: string | null =
+      !board.body && board.origin_board ? board.origin_board._id : null;
     const targetBoard: BoardModel = !!origin_bid ? board.origin_board : board;
     console.log('targetBoard.like_userids', targetBoard.like_users);
     if (!targetBoard.like_users) {
@@ -180,10 +187,10 @@ const Board: React.FC<BoardProps> = (props) => {
         return;
       // this.onClickQuote()
       case 'for-mouse-over common':
-        onClickReply(e as React.MouseEvent<HTMLDivElement>);
+        onClickReply(e);
         return;
       case 'for-mouse-over repost':
-        onClickRepost(e as React.MouseEvent<HTMLDivElement>);
+        onClickRepost(e);
         return;
       case 'for-mouse-over like':
       case 'for-mouse-over like disabled':
@@ -211,7 +218,8 @@ const Board: React.FC<BoardProps> = (props) => {
   ): JSX.Element => {
     return (
       <React.StrictMode>
-        {repost_user && renderInfo(repost_user.username, login_user.username, true)}
+        {repost_user &&
+          renderInfo(repost_user.username, login_user.username, true)}
         <div onClick={onClickBoard} className="board-wrapper">
           {/* <div className="board-wrapper"> */}
           <div className="thumbnail-wrapper">
@@ -232,8 +240,12 @@ const Board: React.FC<BoardProps> = (props) => {
   };
 
   const renderMenu = (displayBoard: BoardModel) => {
-    const isAlreadyLike: boolean = displayBoard?.like_users?.includes(login_user._id)
-    const isAlreadyRepost: boolean = displayBoard?.repost_users?.includes(login_user._id)
+    const isAlreadyLike: boolean = displayBoard?.like_users?.includes(
+      login_user._id,
+    );
+    const isAlreadyRepost: boolean = displayBoard?.repost_users?.includes(
+      login_user._id,
+    );
 
     return (
       <ul className="board-menu">
@@ -256,7 +268,7 @@ const Board: React.FC<BoardProps> = (props) => {
         />
         <li className="board-menu-wrapper repost-wrapper">
           {/* {login_user.repost_boards.indexOf(repost_users) > -1 ? ( */}
-          { isAlreadyRepost ? (
+          {isAlreadyRepost ? (
             <React.StrictMode>
               <div className="icon-wrapper repost">
                 <i className="fas fa-retweet icon done"></i>
@@ -305,7 +317,9 @@ const Board: React.FC<BoardProps> = (props) => {
           onMouseLeave={mouseLeaveEvent}
           data-bs-toggle="tooltip"
           data-bs-placement="bottom"
-          title={isAlreadyLike ? displayTooltip('like-done') : displayTooltip('like')}
+          title={
+            isAlreadyLike ? displayTooltip('like-done') : displayTooltip('like')
+          }
           className="for-mouse-over like"
         />
         <li className="board-menu-wrapper">

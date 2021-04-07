@@ -25,7 +25,7 @@ class Sidebar extends React.Component<SidebarProps, SidebarState> {
   render(): JSX.Element {
     return (
       <React.StrictMode>
-        <div className="sidebar">
+        <div className="sidebar" id="sidebar">
           <ul className="d-flex menu-list">
             <li className="icon-wrapper">
               <i className="fab fa-twitter icon main-icon"></i>
@@ -115,7 +115,7 @@ class Sidebar extends React.Component<SidebarProps, SidebarState> {
   }
 
   handleAccountPopup() {
-    const rootEl = document.getElementById('root');
+    const parentEl = document.getElementById('sidebar');
     const accountPopupContainer = document.createElement('div');
     accountPopupContainer.className = 'popup-container';
     accountPopupContainer.id = 'account-popup';
@@ -170,7 +170,7 @@ class Sidebar extends React.Component<SidebarProps, SidebarState> {
     popupEl.appendChild(controlAccountEl);
     popupEl.appendChild(logoutEl);
     accountPopupContainer.appendChild(popupEl);
-    rootEl.appendChild(accountPopupContainer);
+    parentEl.appendChild(accountPopupContainer);
   }
 }
 
