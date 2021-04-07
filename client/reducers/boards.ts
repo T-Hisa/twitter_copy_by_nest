@@ -30,6 +30,8 @@ export const boards = (boardsModel: BoardModel[] = [], action: any) => {
       boardsModel.splice(likeBoardIndex, 1, updatedBoard)
       return boardsModel
     case GET_BOARDS_FOR_HOME:
+      console.log('action at reducer', action);
+      console.log('data at reducer', action.data);
       return action.data;
     case GET_DETAIL_BOARD:
     default:

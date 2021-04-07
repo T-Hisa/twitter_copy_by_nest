@@ -13,7 +13,7 @@ import { BoardModel, UserModel, RouteProps, LikeBoardData } from '../../types';
 
 import { clickLike } from '../actions';
 
-import CommonBoard from './CommonBoard';
+import DisplayBoard from './DisplayBoard';
 
 interface BoardProps extends RouteProps {
   board: BoardModel;
@@ -226,11 +226,11 @@ const Board: React.FC<BoardProps> = (props) => {
             <img className="thumbnail" src="" alt="サム" />
           </div>
           <div className="board-content-wrapper">
-            <CommonBoard
+            <DisplayBoard
               board={displayBoard}
               isQuote={isQuote}
-              isReply={false}
-              isModal={false}
+              // isReply={false}
+              // isModal={false}
             />
             {renderMenu(displayBoard)}
           </div>

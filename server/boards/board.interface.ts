@@ -13,5 +13,5 @@ export interface BoardInterface {
   quote_post_count: number
   origin_board: string
   origin_timestamp: number
-  reply_to_userids: string[]
+  reply_to_users: string[]
 }

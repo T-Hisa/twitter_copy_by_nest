@@ -46,6 +46,10 @@
     padding: 10px 20px;
     cursor: pointer;
 
+    &.admin {
+      padding: 15px 20px;
+    }
+
     &:hover {
       background-color: $background_color;
     }

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { BoardModel } from '../../types';
 import { displayDate, displayTooltip } from '../utils';
 
-import CommonBoard from './CommonBoard';
+import ModalBoard from './ModalBoard';
 import SendTweet from './SendTweet';
 
 interface ModalProps {
@@ -49,11 +49,10 @@ class Modal extends React.Component<ModalProps, any> {
         </div>
         {this.props.board && (
           <div className="modal-content-container">
-            <CommonBoard
+            <ModalBoard
               board={this.props.board}
               isQuote={this.boardIsQuote()}
               isReply={true}
-              isModal={true}
             />
           </div>
         )}

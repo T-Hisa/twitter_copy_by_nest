@@ -150,15 +150,15 @@ class Sidebar extends React.Component<SidebarProps, SidebarState> {
     firstChildEl.appendChild(grandChildEl);
 
     const addAccountEl = document.createElement('div');
-    addAccountEl.className = 'popup-account-info-container';
+    addAccountEl.className = 'popup-account-info-container admin';
     addAccountEl.innerText = '既存のアカウントを追加';
 
     const controlAccountEl = document.createElement('div');
-    controlAccountEl.className = 'popup-account-info-container';
+    controlAccountEl.className = 'popup-account-info-container admin';
     controlAccountEl.innerText = 'アカウントを管理';
 
     const logoutEl = document.createElement('div');
-    logoutEl.className = 'popup-account-info-container';
+    logoutEl.className = 'popup-account-info-container admin';
     logoutEl.innerText = `@${this.props.login_user._id}からログアウト`;
 
     logoutEl.addEventListener('click', () => {
@@ -174,6 +174,4 @@ class Sidebar extends React.Component<SidebarProps, SidebarState> {
   }
 }
 
-// export default withRouter(connect(null, mapDispatchToProps)(Sidebar));
-// export default connect(null, mapDispatchToProps)(Sidebar);
 export default withRouter(Sidebar);

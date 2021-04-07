@@ -174,7 +174,7 @@ class SendTweet extends React.Component<SendTweetProps, SendTweetState> {
           user: this.props.login_user._id,
           timestamp: Date.now(),
           reply_to,
-          reply_to_userids: uids
+          reply_to_users: uids
         }
       }
       this.setState({ focusFlag: false });
