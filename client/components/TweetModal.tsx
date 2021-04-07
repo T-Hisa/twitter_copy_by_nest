@@ -14,6 +14,7 @@ interface ModalProps {
 
   handleCloseModal: any;
   isNotReply: boolean;
+  repost_bid?: string
   handleRedraw?: () => void;
 }
 
@@ -61,6 +62,7 @@ class Modal extends React.Component<ModalProps, any> {
           isModal={true}
           reply_board={this.props.board}
           // handleRedraw={this.handleRedrawAndCloseModal}
+          repost_bid={this.props.repost_bid}
           handleRedraw={this.handleRedrawAndCloseModal.bind(this)}
         />
       </BaseModal>

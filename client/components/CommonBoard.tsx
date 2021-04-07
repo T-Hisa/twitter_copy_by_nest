@@ -53,8 +53,8 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
   };
 
   const reply_userids = board?.reply_user_ids
-    ? board.reply_user_ids.concat(board.user._id)
-    : board.user._id;
+    ? board.reply_user_ids.unshift(board?.user?._id)
+    : board?.user?._id;
 
   return (
     <React.StrictMode>
@@ -62,8 +62,8 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
       <div className="board-content-wrapper">
         <div className="board-header">
           <div className="user-info-wrapper">
-            <span className="username">{board?.user.username}</span>
-            <span className="c-gray userid">@{board?.user._id}</span>
+            <span className="username">{board?.user?.username}</span>
+            <span className="c-gray userid">@{board?.user?._id}</span>
             <span className="dot">・</span>
             <span className="c-gray">{displayDate(board?.timestamp)}</span>
           </div>

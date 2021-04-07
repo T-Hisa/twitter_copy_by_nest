@@ -24,6 +24,8 @@ interface HomeState {
   controlReplyModal: boolean;
   selectedBoard?: BoardModel;
   redrawFlag: number;
+
+  repost_bid: string
 }
 
 class Home extends React.Component<HomeProps, HomeState> {
@@ -38,6 +40,7 @@ class Home extends React.Component<HomeProps, HomeState> {
       focusFlag: false,
       controlReplyModal: false,
       redrawFlag: 0,
+      repost_bid: ''
     };
   }
 
@@ -72,6 +75,7 @@ class Home extends React.Component<HomeProps, HomeState> {
           isOpen={this.state.controlReplyModal}
           handleCloseModal={this.handleCloseModal.bind(this)}
           board={this.state.selectedBoard}
+          repost_bid={this.state.repost_bid}
           ref={this.modalRef}
           isNotReply={false}
           handleRedraw={this.props.handleRedraw}
@@ -86,8 +90,10 @@ class Home extends React.Component<HomeProps, HomeState> {
 
   handleClickReply(board: BoardModel) {
     let setBoard = board;
+    console.log('handleClickReply At Home', board)
     if (board.origin_board && !board.body) {
       setBoard = board.origin_board;
+      this.setState({ repost_bid: board._id })
     }
     this.setState({ selectedBoard: setBoard });
     this.setState({ controlReplyModal: true });

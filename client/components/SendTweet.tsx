@@ -13,6 +13,7 @@ interface SendTweetProps {
   login_user: UserModel;
   isModal: boolean;
 
+  repost_bid?: string
   reply_board?: BoardModel
   handleRedraw: () => void;
 }
@@ -178,13 +179,14 @@ class SendTweet extends React.Component<SendTweetProps, SendTweetState> {
       }
       this.setState({ focusFlag: false });
       await this.postBoard(data);
-      this.props.handleRedraw && this.props.handleRedraw();
+      this.props.handleRedraw();
     } else {
       alert('投稿内容を入力してください');
     }
   }
 
   async postBoard(board: CreateBoardInterface) {
+    if (this.props.repost_bid) board["repost_bid"] = this.props.repost_bid
     const textArea: HTMLTextAreaElement = this.textareaRef.current;
     const grandParentContainer: HTMLDivElement = textArea.parentElement
       .parentElement as HTMLDivElement;

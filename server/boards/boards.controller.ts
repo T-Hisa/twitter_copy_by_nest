@@ -12,7 +12,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { NextFunction, Response } from 'express';
 import * as mongoose from 'mongoose';
 // import { BoardInterface } from './board.interface';
-import { LikeBoardData } from '../../types';
+import { CreateBoardInterface, LikeBoardData } from '../../types';
 import { CreateBoardDto } from './boards.create.dto';
 import { BoardsService } from './boards.service';
 // import { BoardInterface } from "./boards.interface"
@@ -40,10 +40,13 @@ export class BoardsController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post('/create-board')
-  async createBoard(@Request() req, @Body() createBoardDto: CreateBoardDto) {
-    createBoardDto._id = new mongoose.Types.ObjectId();
-    console.log('createBoarDto', createBoardDto);
-    const board = await this.boardsService.createBoard(createBoardDto);
+  async createBoard(
+    @Request() req,
+    @Body() createBoardData: CreateBoardInterface,
+  ) {
+    const { repost_bid, ...createBoardDto } = createBoardData;
+    (createBoardDto as CreateBoardDto)["_id"] = new mongoose.Types.ObjectId();
+    const board = await this.boardsService.createBoard(createBoardDto, repost_bid);
     return board;
   }
 
@@ -51,9 +54,9 @@ export class BoardsController {
   @Post('/push-like')
   async pushLike(@Body() likeBoard: LikeBoardData) {
     console.log('likeBoardData', likeBoard);
-    const updatedBoard = await this.boardsService.pushLike(likeBoard)
-    console.log('updatedBoard', updatedBoard)
-    return updatedBoard
+    const updatedBoard = await this.boardsService.pushLike(likeBoard);
+    console.log('updatedBoard', updatedBoard);
+    return updatedBoard;
   }
 
   // @UseGuards(AuthGuard('jwt'))

@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export class CreateBoardDto {
-  _id: mongoose.Types.ObjectId;
+  _id?: mongoose.Types.ObjectId;
   body: string;
   user: string;
   timestamp: number;
@@ -14,4 +14,5 @@ export class CreateBoardDto {
   // quote_post_count?: number;
   reply_to?: string;
   reply_user_ids?: string[]
+  // repost_bid?: string
 }

@@ -43,12 +43,11 @@ const Board: React.FC<BoardProps> = (props) => {
   const renderInfo = (username: string): JSX.Element => (
     <div className="board-info">
       <i className="fas fa-retweet"></i>
-      {
-        username === login_user.username
-          ? <span className="text">リツイート済み</span>
-          : <span className="text">{username}さんがリツイートしました</span>
-
-      }
+      {username === login_user.username ? (
+        <span className="text">リツイート済み</span>
+      ) : (
+        <span className="text">{username}さんがリツイートしました</span>
+      )}
     </div>
   );
 
@@ -81,13 +80,13 @@ const Board: React.FC<BoardProps> = (props) => {
     previousElFirstChild.style.color = 'black';
   };
 
-  const onClickReply = (e: React.MouseEvent<HTMLDivElement>, targetBoard: BoardModel) => {
+  const onClickReply = (e: React.MouseEvent<HTMLDivElement>) => {
     const replyEl: HTMLDivElement = e.target as HTMLDivElement;
     const prevEl: HTMLLIElement = replyEl.previousElementSibling as HTMLLIElement;
     const previousElFirstChild: HTMLDivElement = prevEl.firstChild as HTMLDivElement;
     previousElFirstChild.style.background = 'none';
     previousElFirstChild.style.color = 'black';
-    props.handleClickReply(targetBoard);
+    props.handleClickReply(board);
   };
 
   const getDivPosition = (
@@ -157,19 +156,22 @@ const Board: React.FC<BoardProps> = (props) => {
     handlePopup(x, y);
   };
 
-  const onClickLike = async (el: HTMLElement, targetBoard: BoardModel) => {
-    const bid = targetBoard._id;
-    const uid = login_user._id;
+  const onClickLike = async (el: HTMLElement) => {
+    const bid: string = board._id;
+    const uid: string = login_user._id;
+    const origin_bid: string | null = (!board.body && board.origin_board) ? board.origin_board._id : null;
+    const targetBoard: BoardModel = !!origin_bid ? board.origin_board : board;
     console.log('targetBoard.like_userids', targetBoard.like_users);
     if (!targetBoard.like_users) {
       targetBoard.like_users = [];
     }
     // const isAlreadyLike = login_user.like_board_ids.includes(bid);
-    const isAlreadyLike = targetBoard.like_users.includes(uid);
+    const isAlreadyLike = targetBoard.like_users?.includes(uid);
     const sendData: LikeBoardData = {
       bid,
       uid,
       isAlreadyLike,
+      origin_bid,
     };
     handleElementUnable(el);
     await props.clickLike(sendData);
@@ -180,7 +182,6 @@ const Board: React.FC<BoardProps> = (props) => {
   const onClickBoard = (e: React.MouseEvent<HTMLElement>) => {
     const target: HTMLElement = e.target as HTMLElement;
     const className = target.classList.value;
-    let targetBoard = (!!board.origin_board && !board.body) ? board.origin_board : board
     switch (className) {
       case 'thumbnail':
         // onClickThumbnail()
@@ -196,14 +197,14 @@ const Board: React.FC<BoardProps> = (props) => {
         return;
       // this.onClickQuote()
       case 'for-mouse-over common':
-        onClickReply(e as React.MouseEvent<HTMLDivElement>, targetBoard);
+        onClickReply(e as React.MouseEvent<HTMLDivElement>);
         return;
       case 'for-mouse-over repost':
         onClickRepost(e as React.MouseEvent<HTMLDivElement>);
         return;
       case 'for-mouse-over like':
       case 'for-mouse-over like disabled':
-        onClickLike(target, targetBoard);
+        onClickLike(target);
         return;
       case 'fas fa-share icon common':
       case 'icon-wrapper commonshare':
@@ -255,7 +256,8 @@ const Board: React.FC<BoardProps> = (props) => {
             <i className="far fa-comment icon"></i>
           </div>
           <div className="display-number-wrapper">
-            {displayBoard.reply_count > 0 && renderCount(displayBoard.reply_count)}
+            {displayBoard.reply_count > 0 &&
+              renderCount(displayBoard.reply_count)}
           </div>
         </li>
         <div
@@ -280,7 +282,8 @@ const Board: React.FC<BoardProps> = (props) => {
               <div className="icon-wrapper repost">
                 <i className="fas fa-retweet icon"></i>
               </div>
-              {displayBoard.repost_count > 0 && renderCount(displayBoard.repost_count)}
+              {displayBoard.repost_count > 0 &&
+                renderCount(displayBoard.repost_count)}
             </React.StrictMode>
           )}
         </li>
@@ -294,7 +297,7 @@ const Board: React.FC<BoardProps> = (props) => {
         />
         <li className="board-menu-wrapper like-wrapper">
           {/* {login_user.like_board_ids?.indexOf(board._id) > -1 ? ( */}
-          {displayBoard.like_users.includes(login_user._id) ? (
+          {displayBoard?.like_users?.includes(login_user._id) ? (
             <React.StrictMode>
               <div className="icon-wrapper like">
                 <i className="fas fa-heart done icon"></i>
@@ -306,7 +309,8 @@ const Board: React.FC<BoardProps> = (props) => {
               <div className="icon-wrapper like">
                 <i className="far fa-heart icon"></i>
               </div>
-              {displayBoard.like_count > 0 && renderCount(displayBoard.like_count)}
+              {displayBoard.like_count > 0 &&
+                renderCount(displayBoard.like_count)}
             </React.StrictMode>
           )}
         </li>
@@ -345,13 +349,13 @@ const Board: React.FC<BoardProps> = (props) => {
   return (
     <div className="board-container" key={board._id}>
       {!board.origin_board
-        // 標準ツイート
-        ? renderCommon(board, false, null)
+        ? // 標準ツイート
+          renderCommon(board, false, null)
         : !!board.body
-        // 引用ツイート
-        ? renderCommon(board, true, null)
-        // リツイート
-        : renderCommon(board.origin_board, false, board.user)}
+        ? // 引用ツイート
+          renderCommon(board, true, null)
+        : // リツイート
+          renderCommon(board.origin_board, false, board.user)}
     </div>
   );
 };

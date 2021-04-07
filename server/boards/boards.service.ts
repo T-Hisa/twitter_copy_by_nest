@@ -28,21 +28,22 @@ export class BoardsService {
       .populate('reply_boards')
       .exec();
 
-    boardsObject = ((await this.userModel.populate(
-      boardsObject,
-      { path: 'origin_board.user' },
-    )) as any) as BoardDocument;
-    boardsObject = ((await this.userModel.populate(
-      boardsObject,
-      { path: 'reply_boards.user' },
-    )) as any) as BoardDocument;
+    boardsObject = ((await this.userModel.populate(boardsObject, {
+      path: 'origin_board.user',
+    })) as any) as BoardDocument;
+    boardsObject = ((await this.userModel.populate(boardsObject, {
+      path: 'reply_boards.user',
+    })) as any) as BoardDocument;
     return boardsObject;
   }
 
-  async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
+  async createBoard(
+    createBoardDto: CreateBoardDto,
+    repost_bid: string,
+  ): Promise<Board> {
     const createBoard: BoardDocument = new this.boardModel(createBoardDto);
     console.log('create board now!', createBoard);
-    const retBoard = await this.saveAndCreateBoard(createBoard);
+    const retBoard = await this.saveAndCreateBoard(createBoard, repost_bid);
 
     return retBoard;
   }
@@ -156,15 +157,35 @@ export class BoardsService {
     return JSON.parse(JSON.stringify(str));
   }
 
-  async saveAndCreateBoard(board: BoardDocument) {
+  async saveAndCreateBoard(board: BoardDocument, repost_bid: string) {
     const saveBoard = await board.save();
     if (board.reply_to) {
+      // 返信の時は、返信元のみ更新
       console.log('board.reply_to', board.reply_to);
       await this.boardModel.updateOne(
         { _id: board.reply_to },
-        { $inc: { reply_count: 1 } },
+        {
+          $inc: { reply_count: 1 },
+          $push: { reply_boards: board._id },
+        },
       );
-      const updatedBoardPopulate = await this.boardModel.findById(board.reply_to).populate('user');
+      if (repost_bid) {
+        // リツイートの場合は、リツイート元ではなく、リツイート先だけ更新しなくちゃならない
+        console.log('debug at repost');
+        let updatedRepostBoardPopulate = await this.boardModel
+          .findById(repost_bid)
+          .populate('user')
+          .populate('origin_board');
+        updatedRepostBoardPopulate = ((await this.userModel.populate(
+          updatedRepostBoardPopulate,
+          { path: 'origin_board.user' },
+        )) as any) as BoardDocument;
+        console.log('updatedRepostBoardPopulate', updatedRepostBoardPopulate);
+        return updatedRepostBoardPopulate;
+      }
+      const updatedBoardPopulate = await this.boardModel
+        .findById(board.reply_to)
+        .populate('user');
       console.log('updateBoard', updatedBoardPopulate);
       return updatedBoardPopulate;
     }
@@ -177,22 +198,36 @@ export class BoardsService {
 
   async pushLike(likeBoard: LikeBoardData) {
     let promises = [];
-    console.log('isAlreadyLike', likeBoard.isAlreadyLike)
+    console.log('isAlreadyLike', likeBoard.isAlreadyLike);
+    let updatedBoard: BoardDocument;
+    // リツイートかどうかによって判断
+    // if (likeBoard.isRepost) {
+    // promises= this.pushLikeRepostAlready(likeBoard)
+    // } else {
     if (likeBoard.isAlreadyLike) {
       promises = this.pushLikeAlready(likeBoard);
     } else {
-      promises = this.pushLikeYet(likeBoard)
+      promises = this.pushLikeYet(likeBoard);
     }
+    // }
     await Promise.all(promises);
-    const updatedBoard = await this.boardModel.findById(likeBoard.bid).populate('user');
+    updatedBoard = await this.boardModel
+      .findById(likeBoard.bid)
+      .populate('user')
+      .populate('origin_board')
+      .exec();
+    updatedBoard = ((await this.userModel.populate(updatedBoard, {
+      path: 'origin_board.user',
+    })) as any) as BoardDocument;
     return updatedBoard;
   }
 
   pushLikeAlready(likeBoard: LikeBoardData): Promise<any>[] {
     let promises = [];
+    const bid = likeBoard.origin_bid ? likeBoard.origin_bid : likeBoard.bid;
     promises.push(
       this.boardModel.updateOne(
-        { _id: likeBoard.bid },
+        { _id: bid },
         {
           $pull: { like_users: { $in: likeBoard.uid } },
           $inc: { like_count: -1 },
@@ -203,19 +238,20 @@ export class BoardsService {
       this.userModel.updateOne(
         { _id: likeBoard.uid },
         {
-          $pull: { like_boards: { $in: likeBoard.bid } },
+          $pull: { like_boards: { $in: bid } },
           $inc: { like_boards_count: -1 },
         },
       ),
     );
-    return promises
+    return promises;
   }
 
   pushLikeYet(likeBoard: LikeBoardData): Promise<any>[] {
-    let promises = []
+    let promises = [];
+    const bid = likeBoard.origin_bid ? likeBoard.origin_bid : likeBoard.bid;
     promises.push(
       this.boardModel.updateOne(
-        { _id: likeBoard.bid },
+        { _id: bid },
         {
           $push: { like_users: likeBoard.uid as any },
           $inc: { like_count: 1 },
@@ -226,11 +262,11 @@ export class BoardsService {
       this.userModel.updateOne(
         { _id: likeBoard.uid },
         {
-          $push: { like_boards: likeBoard.bid as any },
+          $push: { like_boards: bid as any },
           $inc: { like_boards_count: 1 },
         },
       ),
     );
-    return promises
+    return promises;
   }
 }

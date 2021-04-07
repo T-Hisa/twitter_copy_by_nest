@@ -20,7 +20,7 @@ export const boards = (boardsModel: BoardModel[] = [], action: any) => {
     case REPLY_BOARD:
       if (action.data) {
         const updatedBoard = action.data
-        const replyBoardIndex = boardsModel.findIndex(board => board._id === updatedBoard._id)
+        const replyBoardIndex = boardsModel.findIndex(board =>  board._id === updatedBoard._id)
         boardsModel.splice(replyBoardIndex, 1, updatedBoard)
       }
       return boardsModel
@@ -28,7 +28,6 @@ export const boards = (boardsModel: BoardModel[] = [], action: any) => {
       const updatedBoard = action.data
       const likeBoardIndex = boardsModel.findIndex(board => board._id === updatedBoard._id)
       boardsModel.splice(likeBoardIndex, 1, updatedBoard)
-      console.log('PUSH_LIKE data is', action)
       return boardsModel
     case GET_BOARDS_FOR_HOME:
       return action.data;

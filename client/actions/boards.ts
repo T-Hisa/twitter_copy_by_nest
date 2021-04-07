@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { commonFunc, commonErrorFunc } from '../axiosCommon';
-import { BoardModel, LikeBoardData } from '../../types';
+import { BoardModel, CreateBoardInterface, LikeBoardData } from '../../types';
 
 export const GET_BOARDS = 'GET_BOARDS';
 export const CREATE_BOARD = 'CREATE_BOARD';
@@ -15,17 +15,18 @@ export const getBoards = () => (dispatch: any) => {
   });
 };
 
-export const createBoard = (sendData: any) => async (
+export const createBoard = (createBoardData: CreateBoardInterface) => async (
   dispatch: any,
   state: any,
 ) => {
+  console.log('sendData', createBoardData)
   try {
-    const receiveData = await commonFunc('/create-board', sendData);
+    const receiveData = await commonFunc('/create-board', createBoardData);
     console.log('receiveData at createBoard action', receiveData);
     const data: BoardModel = receiveData?.data;
     console.log('data', data);
 
-    if (data.reply_count) {
+    if (data.reply_count || !data.body) {
       dispatch({ type: REPLY_BOARD, data });
     } else {
       dispatch({ type: CREATE_BOARD, data });
