@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { displayDate, displayTooltip } from '../utils';
+import { displayDate, displayTooltip, renderBoardBody } from '../utils';
 import { BoardModel } from '../../types';
 
 interface CommonBoardProps {
@@ -16,44 +16,9 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
   const { board } = props;
 
   // 投稿した直後に描画すると、 body の部分だけ反映されないので、setTimeout を用いてほんの少し遅れて描画させる
-  const renderBoardBody = () => {
-    let text = board.body.replace(/\n/g, '<br/>');
-    let matchWords = text.match(
-      /https?:\/\/[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*?\.(com|co|jp|es)/,
-    );
-    if (matchWords) {
-      const matchWord = matchWords[0];
-      let genAnchorTag = `
-        <a
-          href=${matchWord}
-          data-bs-toggle="tooltip"
-          data-bs-placement="bottom"
-          class="match"
-          title=${matchWord}
-        >
-          ${matchWord}
-        </a>
-      `;
-      text = text.replace(matchWord, genAnchorTag);
-    }
-    let bodyEl: HTMLDivElement;
-    if (props.isModal) {
-      bodyEl = document.getElementById(
-        `body-modal-${board?._id}`,
-      ) as HTMLDivElement;
-      if (bodyEl) {
-        bodyEl.innerHTML = text;
-      }
-    } else {
-      bodyEl = document.getElementById(`body-${board._id}`) as HTMLDivElement;
-      if (bodyEl) {
-        bodyEl.innerHTML = text;
-      }
-    }
-  };
 
   setTimeout(() => {
-    renderBoardBody();
+    renderBoardBody(board.body, board._id, props.isModal);
   }, 1);
 
   const renderThumbnail = () => {

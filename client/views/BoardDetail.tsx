@@ -5,15 +5,13 @@ import { connect } from 'react-redux';
 import { BoardModel, RouteProps } from '../../types';
 
 import { getBoardDetail } from '../actions';
-import { displayTooltip } from '../utils';
+import { displayTooltip, renderBoardBody, displayDate } from '../utils';
 
 interface BoardDetailProps extends RouteProps {
   getBoardDetail: any;
 }
 
 interface BoardDetailState {
-  // body: string;
-  // focusFlag: boolean;
   boardDetail?: BoardModel;
 }
 
@@ -24,12 +22,14 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
       boardDetail: null,
     };
   }
+
   async componentDidMount() {
-    const uid = this.props.match.params.uid;
+    // const uid = this.props.match.params.uid;
     const bid = this.props.match.params.bid;
     const boardDetail = await this.props.getBoardDetail(bid);
+    console.log('boardDetail', boardDetail);
     this.setState({ boardDetail });
-    this.renderBoardBody()
+    renderBoardBody(boardDetail.body, boardDetail._id, false);
   }
 
   render() {
@@ -38,6 +38,7 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
         <div className="home-container">
           {this.renderHeader()}
           {this.renderBody()}
+          {this.renderActivity()}
           {this.renderMenu()}
         </div>
       </React.StrictMode>
@@ -63,17 +64,17 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
       <div className="home-content">
         {this.renderUserInfo()}
         <div className="detail-body">
-          <div id="board-body" />
-          {this.state.boardDetail?.image && <img  src="" alt="" />}
+          <div id={`body-${this.state.boardDetail?._id}`} />
+          {this.state.boardDetail?.image && <img src="" alt="" />}
+          {this.state.boardDetail?.origin_board &&
+            this.renderQuote(this.state.boardDetail.origin_board)}
           <div className="detail-info">
-            <span className="time-display">
+            <span className="information">
               {this.displayDetailTime(this.state.boardDetail?.timestamp)}
             </span>
             ・
+            <span className="information">{this.displayTweetType(this.state.boardDetail?.tweet_type)}</span>
           </div>
-        </div>
-        <div className="board-info">
-          {/* <span className="tweet-type">{this.state.boardDetail?.tweetType}</span> */}
         </div>
       </div>
     );
@@ -101,6 +102,15 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
         >
           <i className="fas fa-ellipsis-h icon"></i>
         </div>
+      </div>
+    );
+  }
+
+  renderActivity() {
+    return (
+      <div className="detail-activity">
+        <i className="fas fa-chart-bar icon common"></i>
+        <span className="activity-word">ツイートアクティビティを表示</span>
       </div>
     );
   }
@@ -152,51 +162,54 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
     );
   }
 
-  renderBoardBody() {
-    const board = this.state.boardDetail
-    let text = board.body.replace(/\n/g, '<br/>');
-    let matchWords = text.match(
-      /https?:\/\/[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*?\.(com|co|jp|es)/,
+  renderQuote(board: BoardModel) {
+    return (
+      <div className="quote-wrapper detail">
+        <div className="quote-content-wrapper">
+          <div className="quote-user-info-wrapper">
+            <img className="quote-thumbnail" src="" alt="画像" />
+            <span className="quote-username">{board?.user?.username}</span>
+            <span className="c-gray quote-userid">@{board?.user?._id}</span>
+            <span className="quote-dot">・</span>
+            <span className="c-gray quote-time">
+              {displayDate(board?.timestamp)}
+            </span>
+          </div>
+          <div className="quote-content">
+            {board?.body}
+            {board?.image && <img src="" alt="投稿した画像" />}
+          </div>
+        </div>
+      </div>
     );
-    if (matchWords) {
-      const matchWord = matchWords[0];
-      let genAnchorTag = `
-        <a
-          href=${matchWord}
-          data-bs-toggle="tooltip"
-          data-bs-placement="bottom"
-          class="match"
-          title=${matchWord}
-        >
-          ${matchWord}
-        </a>
-      `;
-      text = text.replace(matchWord, genAnchorTag);
-    }
-    // let bodyEl: HTMLDivElement;
-    let  bodyEl = document.getElementById('board-body') as HTMLDivElement;
-    if (bodyEl) {
-      bodyEl.innerHTML = text;
-    }
-  };
+  }
 
   onClickBackBtn() {
     this.props.history.go(-1);
   }
 
   displayDetailTime(timestamp: number) {
-    const displayDate = new Date(timestamp);
-    const year = displayDate.getFullYear();
-    const month = displayDate.getMonth() + 1;
-    const day = displayDate.getDate();
-    let hour = displayDate.getHours();
-    const minutes = `0${displayDate.getMinutes()}`.slice(-2);
+    const displayDateTime = new Date(timestamp);
+    const year = displayDateTime.getFullYear();
+    const month = displayDateTime.getMonth() + 1;
+    const day = displayDateTime.getDate();
+    let hour = displayDateTime.getHours();
+    const minutes = `0${displayDateTime.getMinutes()}`.slice(-2);
     let hourPrefix = '午前';
     if (hour > 12) {
       hour -= 12;
       hourPrefix = '午後';
     }
     return `${hourPrefix}${hour}:${minutes}・${year}年${month}月${day}日`;
+  }
+  
+  displayTweetType(tweetType: string) {
+    switch(tweetType) {
+      case 'web':
+        return 'Twitter Web App'
+      default:
+      }
+    return '対応していません'
   }
 }
 

@@ -20,11 +20,22 @@ export class BoardsService {
     @InjectModel(User.name) private userModel: Model<UserDocument>, // @InjectConnection() private connection: Connection
   ) {}
 
-  async findOne(id: string): Promise<Board> {
-    const boardsObject = await this.boardModel
+  async getBoardDetail(id: string): Promise<Board> {
+    let boardsObject: BoardDocument = await this.boardModel
       .findById(id)
       .populate('user')
+      .populate('origin_board')
+      .populate('reply_boards')
       .exec();
+
+    boardsObject = ((await this.userModel.populate(
+      boardsObject,
+      { path: 'origin_board.user' },
+    )) as any) as BoardDocument;
+    boardsObject = ((await this.userModel.populate(
+      boardsObject,
+      { path: 'reply_boards.user' },
+    )) as any) as BoardDocument;
     return boardsObject;
   }
 
@@ -60,7 +71,7 @@ export class BoardsService {
       .limit(20)
       .exec();
 
-    console.log('repost_boards', repost_boards);
+    // console.log('repost_boards', repost_boards);
 
     const quote_post_boards = await this.boardModel
       .find(
@@ -79,10 +90,10 @@ export class BoardsService {
       .limit(20)
       .exec();
 
-    console.log('quote_post_boards', quote_post_boards);
+    // console.log('quote_post_boards', quote_post_boards);
 
     const full_repost_boards = repost_boards.concat(quote_post_boards);
-    console.log('full_repost_boards', full_repost_boards);
+    // console.log('full_repost_boards', full_repost_boards);
     const quote_origin_board_ids = quote_post_boards.map((board) => {
       return this.parseString(board.origin_board);
     });

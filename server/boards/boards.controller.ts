@@ -33,7 +33,7 @@ export class BoardsController {
   @UseGuards(AuthGuard('jwt'))
   @Post('get-board-detail')
   async getDetailBoard(@Request() req, @Body() data: { bid: string }) {
-    const board = await this.boardsService.findOne(data.bid);
+    const board = await this.boardsService.getBoardDetail(data.bid);
     console.log('board', board);
     return board;
   }

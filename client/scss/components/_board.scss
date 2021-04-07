@@ -123,23 +123,11 @@
   font-weight: bold;
 }
 
-.quote-username {
-  font-weight: bold;
-}
-
-.quote-userid {
-  font-size: 14px;
-  padding-left: 4px;
-}
-
 .userid {
   font-size: 14px;
   padding-left: 4px;
 }
 
-.quote-dot {
-  font-size: 10px;
-}
 
 .dot {
   font-size: 10px;
@@ -147,35 +135,6 @@
 
 .match:hover {
   text-decoration: underline;
-}
-
-.quote-wrapper {
-  border: 1px solid gray;
-  display: flex;
-  flex-direction: column;
-  border-radius: 15px;
-  width: 95%;
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid lightgray;
-  cursor: pointer;
-
-  &:hover {
-    background-color: rgba(211, 211, 211, 0.2);
-  }
-
-  .quote-content-wrapper {
-    .quote-user-info-wrapper {
-      display: flex;
-      align-items: center;
-
-      .quote-thumbnail {
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-      }
-    }
-  }
 }
 
 .body-modal {

@@ -59,9 +59,11 @@ var insertBoards = async (db) => {
       like_count: 0,
       timestamp: Date.now(),
       reply_count: 0,
+      reply_boards: [],
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
+      tweet_type: 'web'
     },
     {
       body: '返信1 フォロー外ユーザー',
@@ -70,9 +72,11 @@ var insertBoards = async (db) => {
       like_count: 0,
       timestamp: Date.now() + 1,
       reply_count: 0,
+      reply_boards: [],
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
+      tweet_type: 'web'
     },
     {
       body: '返信1 フォロー内ユーザー',
@@ -81,9 +85,11 @@ var insertBoards = async (db) => {
       like_count: 0,
       timestamp: Date.now() + 2,
       reply_count: 0,
+      reply_boards: [],
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
+      tweet_type: 'web'
     },
     {
       body: '返信0・リツイート1',
@@ -92,9 +98,11 @@ var insertBoards = async (db) => {
       like_count: 0,
       timestamp: Date.now() + 3,
       reply_count: 0,
+      reply_boards: [],
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
+      tweet_type: 'web'
     },
     {
       body: '返信0・引用リツイート1',
@@ -103,9 +111,11 @@ var insertBoards = async (db) => {
       like_count: 0,
       timestamp: Date.now() + 4,
       reply_count: 0,
+      reply_boards: [],
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
+      tweet_type: 'web'
     },
     {
       body: '返信0・リツイート1・引用リツイート1',
@@ -114,9 +124,11 @@ var insertBoards = async (db) => {
       like_count: 0,
       timestamp: Date.now() + 5,
       reply_count: 0,
+      reply_boards: [],
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
+      tweet_type: 'web'
     },
     {
       body: '返信0・いいね1',
@@ -125,9 +137,11 @@ var insertBoards = async (db) => {
       like_count: 0,
       timestamp: Date.now() + 6,
       reply_count: 0,
+      reply_boards: [],
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
+      tweet_type: 'web'
     },
   ]);
 };
@@ -143,14 +157,14 @@ const replyBoard = async (db) => {
   const inner_follower_board_user = await db
     .collection('users')
     .findOne({ _id: inner_follower_board.user });
-    const outer_follower_board = await db
+  const outer_follower_board = await db
     .collection('boards')
     .findOne({ body: /フォロー外ユーザ/ });
-    const outer_follower_board_id = outer_follower_board._id;
-    const outer_follower_board_user = await db
-      .collection('users')
-      .findOne({ _id: outer_follower_board.user });
-  await db.collection('boards').insertMany([
+  const outer_follower_board_id = outer_follower_board._id;
+  const outer_follower_board_user = await db
+    .collection('users')
+    .findOne({ _id: outer_follower_board.user });
+  const insertReplyBoards = await db.collection('boards').insertMany([
     {
       body: '返信コメント by 本人',
       user: user1_Id,
@@ -160,7 +174,9 @@ const replyBoard = async (db) => {
       reply_to: inner_follower_board_id,
       reply_to_userids: [inner_follower_board_user._id],
       reply_count: 0,
+      reply_boards: [],
       repost_count: 0,
+      tweet_type: 'web'
     },
     {
       body: '返信コメント by フォロー外',
@@ -171,12 +187,26 @@ const replyBoard = async (db) => {
       reply_to: outer_follower_board_id,
       reply_to_userids: [outer_follower_board_user._id],
       reply_count: 0,
+      reply_boards: [],
       repost_count: 0,
+      tweet_type: 'web'
     },
   ]);
-  await db.collection('boards').updateMany(
-    { _id: { $in: [inner_follower_board_id, outer_follower_board_id] } },
+  const inner_reply_board_id = insertReplyBoards.ops[0]._id
+  console.log('inner_reply_board_id', inner_reply_board_id)
+  const outer_reply_board_id = insertReplyBoards.ops[1]._id
+  console.log('outer_reply_board_id', outer_reply_board_id)
+  await db.collection('boards').updateOne(
+    { _id: inner_follower_board_id },
     {
+      $push: { reply_boards: inner_reply_board_id },
+      $inc: { reply_count: 1 },
+    },
+  );
+  await db.collection('boards').updateOne(
+    { _id: outer_follower_board_id },
+    {
+      $push: { reply_boards: outer_reply_board_id },
       $inc: { reply_count: 1 },
     },
   );
@@ -216,9 +246,11 @@ const repostBoardGenerate = async (db) => {
       like_users: [],
       like_count: 0,
       reply_count: 0,
+      reply_boards: [],
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
+      tweet_type: 'web'
     },
     {
       origin_board: retweetAndQuoteTweetBoardId,
@@ -234,9 +266,11 @@ const repostBoardGenerate = async (db) => {
       like_users: [],
       like_count: 0,
       reply_count: 0,
+      reply_boards: [],
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
+      tweet_type: 'web'
     },
   ]);
   await db.collection('boards').updateOne(

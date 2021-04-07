@@ -30,6 +30,9 @@ export class Board {
   @Prop()
   reply_to: mongoose.Schema.Types.ObjectId;
 
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Board' }])
+  reply_boards: Board[]
+
   @Prop()
   reply_count: number;
 
@@ -50,6 +53,9 @@ export class Board {
 
   @Prop([{type: mongoose.Schema.Types.String, ref: 'User'}])
   reply_to_userids: User[]
+
+  @Prop()
+  tweet_type: string
 }
 
 export const BoardSchema = SchemaFactory.createForClass(Board);
