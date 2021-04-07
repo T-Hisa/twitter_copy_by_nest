@@ -52,8 +52,8 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
     );
   };
 
-  const reply_userids = board?.reply_user_ids
-    ? board.reply_user_ids.unshift(board?.user?._id)
+  const reply_to_users = board?.reply_to_users
+    ? board.reply_to_users.unshift(board?.user?._id)
     : board?.user?._id;
 
   return (
@@ -88,7 +88,7 @@ const CommonBoard: React.FC<CommonBoardProps> = (props) => {
           {props.isReply && (
             <div className="reply-to-wrapper">
               返信先:
-              <span className="reply-userid">@{reply_userids}</span>
+              <span className="reply-userid">@{reply_to_users}</span>
               さん
             </div>
           )}

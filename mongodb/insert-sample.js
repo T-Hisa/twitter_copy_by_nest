@@ -63,7 +63,7 @@ var insertBoards = async (db) => {
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
-      tweet_type: 'web'
+      tweet_type: 'web',
     },
     {
       body: '返信1 フォロー外ユーザー',
@@ -76,7 +76,7 @@ var insertBoards = async (db) => {
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
-      tweet_type: 'web'
+      tweet_type: 'web',
     },
     {
       body: '返信1 フォロー内ユーザー',
@@ -89,7 +89,7 @@ var insertBoards = async (db) => {
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
-      tweet_type: 'web'
+      tweet_type: 'web',
     },
     {
       body: '返信0・リツイート1',
@@ -102,7 +102,7 @@ var insertBoards = async (db) => {
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
-      tweet_type: 'web'
+      tweet_type: 'web',
     },
     {
       body: '返信0・引用リツイート1',
@@ -115,7 +115,7 @@ var insertBoards = async (db) => {
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
-      tweet_type: 'web'
+      tweet_type: 'web',
     },
     {
       body: '返信0・リツイート1・引用リツイート1',
@@ -128,7 +128,7 @@ var insertBoards = async (db) => {
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
-      tweet_type: 'web'
+      tweet_type: 'web',
     },
     {
       body: '返信0・いいね1',
@@ -141,7 +141,7 @@ var insertBoards = async (db) => {
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
-      tweet_type: 'web'
+      tweet_type: 'web',
     },
   ]);
 };
@@ -172,11 +172,11 @@ const replyBoard = async (db) => {
       like_count: 0,
       timestamp: Date.now(),
       reply_to: inner_follower_board_id,
-      reply_to_userids: [inner_follower_board_user._id],
+      reply_to_users: [inner_follower_board_user._id],
       reply_count: 0,
       reply_boards: [],
       repost_count: 0,
-      tweet_type: 'web'
+      tweet_type: 'web',
     },
     {
       body: '返信コメント by フォロー外',
@@ -185,17 +185,17 @@ const replyBoard = async (db) => {
       like_count: 0,
       timestamp: Date.now() + 1,
       reply_to: outer_follower_board_id,
-      reply_to_userids: [outer_follower_board_user._id],
+      reply_to_users: [outer_follower_board_user._id],
       reply_count: 0,
       reply_boards: [],
       repost_count: 0,
-      tweet_type: 'web'
+      tweet_type: 'web',
     },
   ]);
-  const inner_reply_board_id = insertReplyBoards.ops[0]._id
-  console.log('inner_reply_board_id', inner_reply_board_id)
-  const outer_reply_board_id = insertReplyBoards.ops[1]._id
-  console.log('outer_reply_board_id', outer_reply_board_id)
+  const inner_reply_board_id = insertReplyBoards.ops[0]._id;
+  console.log('inner_reply_board_id', inner_reply_board_id);
+  const outer_reply_board_id = insertReplyBoards.ops[1]._id;
+  console.log('outer_reply_board_id', outer_reply_board_id);
   await db.collection('boards').updateOne(
     { _id: inner_follower_board_id },
     {
@@ -250,7 +250,7 @@ const repostBoardGenerate = async (db) => {
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
-      tweet_type: 'web'
+      tweet_type: 'web',
     },
     {
       origin_board: retweetAndQuoteTweetBoardId,
@@ -270,7 +270,7 @@ const repostBoardGenerate = async (db) => {
       full_repost_count: 0,
       repost_count: 0,
       quote_post_count: 0,
-      tweet_type: 'web'
+      tweet_type: 'web',
     },
   ]);
   await db.collection('boards').updateOne(
@@ -279,6 +279,7 @@ const repostBoardGenerate = async (db) => {
     },
     {
       $inc: { full_repost_count: 1, repost_count: 1 },
+      $push: { repost_users: onlyRetweetBoard.user },
     },
   );
   await db.collection('boards').updateOne(
@@ -287,6 +288,7 @@ const repostBoardGenerate = async (db) => {
     },
     {
       $inc: { full_repost_count: 1, quote_post_count: 1 },
+      $push: { repost_users: onlyQuoteTweetBoard.user },
     },
   );
   await db.collection('boards').updateOne(
@@ -295,6 +297,7 @@ const repostBoardGenerate = async (db) => {
     },
     {
       $inc: { full_repost_count: 2, repost_count: 1, quote_post_count: 1 },
+      $push: { repost_users: retweetAndQuoteTweetBoard.user}
     },
   );
 };

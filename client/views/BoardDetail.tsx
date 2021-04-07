@@ -2,34 +2,56 @@ import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { BoardModel, RouteProps } from '../../types';
+import { BoardModel, RouteProps, UserModel } from '../../types';
 
 import { getBoardDetail } from '../actions';
-import { displayTooltip, renderBoardBody, displayDate } from '../utils';
+import {
+  displayTooltip,
+  renderBoardBody,
+  displayDate,
+  renderInfo,
+} from '../utils';
 
 interface BoardDetailProps extends RouteProps {
+  login_user: UserModel;
   getBoardDetail: any;
 }
 
 interface BoardDetailState {
-  boardDetail?: BoardModel;
+  displayBoard: BoardModel;
+  repost_board: BoardModel;
+  isQuote: boolean;
 }
 
 class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
   constructor(props) {
     super(props);
     this.state = {
-      boardDetail: null,
+      displayBoard: null,
+      repost_board: null,
+      isQuote: false,
     };
   }
 
   async componentDidMount() {
     // const uid = this.props.match.params.uid;
     const bid = this.props.match.params.bid;
-    const boardDetail = await this.props.getBoardDetail(bid);
-    console.log('boardDetail', boardDetail);
-    this.setState({ boardDetail });
-    renderBoardBody(boardDetail.body, boardDetail._id, false);
+    // まずは元となる Board を取得
+    const repost_board = await this.props.getBoardDetail(bid);
+    // const displayBoard = await this.props.getBoardDetail(bid);
+    // 表示用の Board を選別
+    const displayBoard = repost_board.body
+      ? repost_board
+      : repost_board.origin_board;
+    const isQuote: boolean = !!(repost_board.body && repost_board.origin_board);
+    console.log('boardDetail', displayBoard);
+    console.log(
+      'displayBoard?.like_users?.includethis.props.login_user._id',
+      displayBoard?.like_users?.includes(this.props.login_user._id),
+    );
+    console.log('displayBoard.like_users', displayBoard.like_users);
+    this.setState({ displayBoard, repost_board, isQuote });
+    renderBoardBody(displayBoard.body, displayBoard._id, false);
   }
 
   render() {
@@ -62,18 +84,26 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
   renderBody() {
     return (
       <div className="home-content">
+        {!this.state.displayBoard?.body &&
+          renderInfo(
+            this.state.displayBoard?.user?.username,
+            this.props.login_user?.username,
+            false,
+          )}
         {this.renderUserInfo()}
         <div className="detail-body">
-          <div id={`body-${this.state.boardDetail?._id}`} />
-          {this.state.boardDetail?.image && <img src="" alt="" />}
-          {this.state.boardDetail?.origin_board &&
-            this.renderQuote(this.state.boardDetail.origin_board)}
+          <div id={`body-${this.state.displayBoard?._id}`} />
+          {this.state.displayBoard?.image && <img src="" alt="" />}
+          {this.state.isQuote &&
+            this.renderQuote(this.state.displayBoard.origin_board)}
           <div className="detail-info">
             <span className="information">
-              {this.displayDetailTime(this.state.boardDetail?.timestamp)}
+              {this.displayDetailTime(this.state.displayBoard?.timestamp)}
             </span>
             ・
-            <span className="information">{this.displayTweetType(this.state.boardDetail?.tweet_type)}</span>
+            <span className="information">
+              {this.displayTweetType(this.state.displayBoard?.tweet_type)}
+            </span>
           </div>
         </div>
       </div>
@@ -89,9 +119,11 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
           </div>
           <div className="detail-userinfo">
             <span className="username">
-              {this.state.boardDetail?.user?.username}
+              {this.state.displayBoard?.user?.username}
             </span>
-            <span className="userid">@{this.state.boardDetail?.user?._id}</span>
+            <span className="userid">
+              @{this.state.displayBoard?.user?._id}
+            </span>
           </div>
         </div>
         <div
@@ -116,6 +148,12 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
   }
 
   renderMenu() {
+    const isAlreadyLike = this.state.displayBoard?.like_users?.includes(
+      this.props.login_user._id,
+    );
+    const isAlreadyRepost = this.state.displayBoard?.repost_users?.includes(
+      this.props.login_user._id,
+    );
     return (
       <ul className="detail-board-menu">
         <li className="detail-board-menu-wrapper">
@@ -129,24 +167,46 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
           </div>
         </li>
         <li className="detail-board-menu-wrapper">
-          <div
-            className="icon-wrapper repost"
-            data-bs-toggle="tooltip"
-            data-bs-placement="bottom"
-            title={displayTooltip('repost')}
-          >
-            <i className="fas fa-retweet icon"></i>
-          </div>
+          {isAlreadyRepost ? (
+            <div
+              className="icon-wrapper repost"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title={displayTooltip('repost')}
+            >
+              <i className="fas fa-retweet icon done"></i>
+            </div>
+          ) : (
+            <div
+              className="icon-wrapper repost"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title={displayTooltip('repost')}
+            >
+              <i className="fas fa-retweet icon"></i>
+            </div>
+          )}
         </li>
         <li className="detail-board-menu-wrapper">
-          <div
-            className="icon-wrapper like"
-            data-bs-toggle="tooltip"
-            data-bs-placement="bottom"
-            title={displayTooltip('like')}
-          >
-            <i className="far fa-heart icon"></i>
-          </div>
+          {isAlreadyLike ? (
+            <div
+              className="icon-wrapper like"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title={displayTooltip('like-done')}
+            >
+              <i className="fas fa-heart icon done"></i>
+            </div>
+          ) : (
+            <div
+              className="icon-wrapper like"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title={displayTooltip('like')}
+            >
+              <i className="far fa-heart icon"></i>
+            </div>
+          )}
         </li>
         <li className="detail-board-menu-wrapper">
           <div
@@ -202,14 +262,14 @@ class BoardDetail extends React.Component<BoardDetailProps, BoardDetailState> {
     }
     return `${hourPrefix}${hour}:${minutes}・${year}年${month}月${day}日`;
   }
-  
+
   displayTweetType(tweetType: string) {
-    switch(tweetType) {
+    switch (tweetType) {
       case 'web':
-        return 'Twitter Web App'
+        return 'Twitter Web App';
       default:
-      }
-    return '対応していません'
+    }
+    return 'まだ対応していません';
   }
 }
 
@@ -222,9 +282,9 @@ const mapStateToProps = (state: any, props: any) => {
   //   console.log('board.body', board.body)
   // }
   const boards = state.boards;
-  return { boards, login_user };
+  return { login_user };
 };
 
 const mapDispatchToProps = { getBoardDetail };
 
-export default connect(null, mapDispatchToProps)(BoardDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(BoardDetail);

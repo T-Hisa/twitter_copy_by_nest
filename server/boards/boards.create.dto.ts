@@ -13,6 +13,6 @@ export class CreateBoardDto {
   // full_repost_count?: number;
   // quote_post_count?: number;
   reply_to?: string;
-  reply_user_ids?: string[]
+  reply_to_users?: string[]
   // repost_bid?: string
 }

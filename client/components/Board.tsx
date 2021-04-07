@@ -6,6 +6,7 @@ import {
   displayTooltip,
   handleElementEnable,
   handleElementUnable,
+  renderInfo
 } from '../utils';
 
 import { BoardModel, UserModel, RouteProps, LikeBoardData } from '../../types';
@@ -24,13 +25,6 @@ interface BoardProps extends RouteProps {
 
 const Board: React.FC<BoardProps> = (props) => {
   let { board, login_user } = props;
-  // let isRepost: boolean = false
-  // // const login_user = props.login_user
-  // if (props.board?.origin_board && !props.board.body) {
-  //   board = props.board.origin_board
-  // }
-
-  // const [todos, setTodos] = React.useState<Todo[]>([]);
 
   const renderCount = (count: number): JSX.Element => {
     return <span className="count-display">{count}</span>;
@@ -39,17 +33,6 @@ const Board: React.FC<BoardProps> = (props) => {
   const renderCountWithDone = (count: number): JSX.Element => {
     return <span className="count-display done">{count}</span>;
   };
-
-  const renderInfo = (username: string): JSX.Element => (
-    <div className="board-info">
-      <i className="fas fa-retweet"></i>
-      {username === login_user.username ? (
-        <span className="text">リツイート済み</span>
-      ) : (
-        <span className="text">{username}さんがリツイートしました</span>
-      )}
-    </div>
-  );
 
   const mouseOverEvent = (e: React.MouseEvent<HTMLDivElement>): void => {
     const forMouseOverEl: HTMLDivElement = e.target as HTMLDivElement;
@@ -228,7 +211,7 @@ const Board: React.FC<BoardProps> = (props) => {
   ): JSX.Element => {
     return (
       <React.StrictMode>
-        {repost_user && renderInfo(repost_user.username)}
+        {repost_user && renderInfo(repost_user.username, login_user.username, true)}
         <div onClick={onClickBoard} className="board-wrapper">
           {/* <div className="board-wrapper"> */}
           <div className="thumbnail-wrapper">
@@ -249,6 +232,9 @@ const Board: React.FC<BoardProps> = (props) => {
   };
 
   const renderMenu = (displayBoard: BoardModel) => {
+    const isAlreadyLike: boolean = displayBoard?.like_users?.includes(login_user._id)
+    const isAlreadyRepost: boolean = displayBoard?.repost_users?.includes(login_user._id)
+
     return (
       <ul className="board-menu">
         <li className="board-menu-wrapper">
@@ -269,8 +255,8 @@ const Board: React.FC<BoardProps> = (props) => {
           className="for-mouse-over common"
         />
         <li className="board-menu-wrapper repost-wrapper">
-          {/* {login_user.repost_boards.indexOf(repost_user_id) > -1 ? ( */}
-          {displayBoard?.repost_user_ids?.includes(login_user._id) ? (
+          {/* {login_user.repost_boards.indexOf(repost_users) > -1 ? ( */}
+          { isAlreadyRepost ? (
             <React.StrictMode>
               <div className="icon-wrapper repost">
                 <i className="fas fa-retweet icon done"></i>
@@ -297,7 +283,7 @@ const Board: React.FC<BoardProps> = (props) => {
         />
         <li className="board-menu-wrapper like-wrapper">
           {/* {login_user.like_board_ids?.indexOf(board._id) > -1 ? ( */}
-          {displayBoard?.like_users?.includes(login_user._id) ? (
+          {isAlreadyLike ? (
             <React.StrictMode>
               <div className="icon-wrapper like">
                 <i className="fas fa-heart done icon"></i>
@@ -319,7 +305,7 @@ const Board: React.FC<BoardProps> = (props) => {
           onMouseLeave={mouseLeaveEvent}
           data-bs-toggle="tooltip"
           data-bs-placement="bottom"
-          title={displayTooltip('like')}
+          title={isAlreadyLike ? displayTooltip('like-done') : displayTooltip('like')}
           className="for-mouse-over like"
         />
         <li className="board-menu-wrapper">

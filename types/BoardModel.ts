@@ -12,8 +12,8 @@ export interface BoardModel {
   full_repost_count: number
   image?: string
   like_users?: string[]
-  repost_user_ids?: string[]
+  repost_users?: string[]
   origin_board?: BoardModel
-  reply_user_ids: string[]
+  reply_to_users: string[]
   tweet_type: string
 }

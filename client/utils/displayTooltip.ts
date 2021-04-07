@@ -6,6 +6,8 @@ export const displayTooltip = (type: string): string => {
       return '再投稿'
     case 'like':
       return 'いいね'
+    case 'like-done':
+      return 'いいねを取り消す'
     case 'share':
       return '共有'
     case 'analytics':

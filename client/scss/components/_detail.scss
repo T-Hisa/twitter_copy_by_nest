@@ -76,14 +76,26 @@
     .icon-wrapper {
       font-size: 18px;
 
-      &.repost:hover {
-        background-color: rgba(1, 255, 0, 0.2);
-        color: green;
+      &.repost {
+        .done {
+          color: green
+        }
+
+        &:hover {
+          background-color: rgba(1, 255, 0, 0.2);
+          color: green;
+        }
       }
 
-      &.like:hover {
-        background-color: rgba(255, 0, 0, 0.1);
-        color: red;
+      &.like {
+        .done {
+          color: red
+        }
+
+        &:hover {
+          background-color: rgba(255, 0, 0, 0.1);
+          color: red;
+        }
       }
     }
   }

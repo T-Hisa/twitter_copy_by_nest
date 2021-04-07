@@ -52,7 +52,7 @@ export class Board {
   origin_timestamp: number;
 
   @Prop([{type: mongoose.Schema.Types.String, ref: 'User'}])
-  reply_to_userids: User[]
+  reply_to_users: User[]
 
   @Prop()
   tweet_type: string

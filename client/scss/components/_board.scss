@@ -10,24 +10,6 @@
     background-color: $background_color;
   }
 
-  .board-info {
-    display: flex;
-    align-items: center;
-    margin-left: 50px;
-    color: darkslategray;
-    font-weight: bold;
-    font-size: 16px;
-
-    .text {
-      margin-left: 10px;
-      font-size: 12px;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-
   .board-wrapper {
     display: flex;
     padding: 5px 0;
@@ -112,6 +94,24 @@
 
   .icon {
     font-weight: normal;
+  }
+}
+
+.board-info {
+  display: flex;
+  align-items: center;
+  margin-left: 50px;
+  color: darkslategray;
+  font-weight: bold;
+  font-size: 16px;
+
+  .text {
+    margin-left: 10px;
+    font-size: 12px;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
