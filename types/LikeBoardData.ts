@@ -3,5 +3,5 @@ export interface LikeBoardData {
   bid: string
   isAlreadyLike: boolean
   origin_bid: string | null
-  isReply: boolean
+  // isReply: boolean
 }

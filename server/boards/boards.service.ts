@@ -196,14 +196,12 @@ export class BoardsService {
 
   async pushLike(likeBoard: LikeBoardData) {
     let promises = [];
-    console.log('isAlreadyLike', likeBoard.isAlreadyLike);
     let updatedBoard: BoardDocument;
     if (likeBoard.isAlreadyLike) {
       promises = this.pushLikeAlready(likeBoard);
     } else {
       promises = this.pushLikeYet(likeBoard);
     }
-    // }
     await Promise.all(promises);
     updatedBoard = await this.boardModel
       .findById(likeBoard.bid)

@@ -19,8 +19,11 @@ interface BoardProps extends RouteProps {
   board: BoardModel;
   login_user: UserModel;
   handleClickReply?: any;
-  isReply: boolean
-  clickLike: (data: LikeBoardData, isReply: boolean) => {};
+  isReply: boolean;
+  clickLike: (
+    data: LikeBoardData,
+    isReply: boolean,
+  ) => Promise<BoardModel> | Promise<any>;
   handleRedraw: () => void;
 }
 
@@ -157,10 +160,13 @@ const Board: React.FC<BoardProps> = (props) => {
       uid,
       isAlreadyLike,
       origin_bid,
-      isReply: props.isReply
+      // isReply: props.isReply
     };
     handleElementUnable(el);
-    await props.clickLike(sendData, props.isReply);
+    const data: BoardModel = await props.clickLike(sendData, props.isReply);
+    if (props.isReply) {
+      board = data;
+    }
     props.handleRedraw();
     handleElementEnable(el);
   };

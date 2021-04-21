@@ -58,10 +58,10 @@ export const getBoardDetail = (bid: string) => async (dispatch: any) => {
   }
 };
 
-export const clickLike = (sendData: LikeBoardData) => async (dispatch: any) => {
+export const clickLike = (sendData: LikeBoardData, isReply: boolean) => async (dispatch: any) => {
   const { data } = await commonFunc('/push-like', sendData);
   if (data) {
-    if (sendData.isReply) {
+    if (isReply) {
       // ({ type: PUSH_LIKE_DETAIL, data })
       console.log('isDetail clickLike returnData', data)
       return data
