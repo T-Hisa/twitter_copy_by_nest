@@ -1,14 +1,10 @@
-// const random = Math.random().toString(32).substring(2)
-// // const random = Math.random().toString(32).substring(2)
-// console.log('randomo', random)
-
-// const length = 24
-// let generatedWords = ''
-// while (generatedWords.length < length) {
-//   const random = Math.random().toString(32).substring(2, 10)
-//   generatedWords += random
-//   console.log('random', random)
-// }
-// console.log('generateDword', generatedWords)
-const date = new Date()
-console.log('date', date)
+const Mongo = require('mongodb');
+const mongoose = require('mongoose')
+console.log('1st Mongo.ObjectID', new Mongo.ObjectID())
+console.log('2 Mongo.ObjectID', new Mongo.ObjectID())
+console.log('3 Mongo.ObjectID', new Mongo.ObjectID())
+console.log('4 Mongo.ObjectID', new Mongo.ObjectID())
+console.log('1 Mongo.ObjectId', new Mongo.ObjectId())
+console.log('2 Mongo.ObjectId', new Mongo.ObjectId())
+console.log('3 Mongo.ObjectId', new Mongo.ObjectId())
+console.log('4 Mongo.ObjectId', new Mongo.ObjectId())

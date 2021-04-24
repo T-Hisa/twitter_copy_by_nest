@@ -69,11 +69,12 @@ module.exports = ({ outputFilename, isProd }) => ({
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: `${outputFilename}.css`,
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(process.cwd(), 'client/index.html'),
-      // filename: 'index.html',
+      filename: 'index.html',
+      // filename: '[name].html',
       inject: 'body',
       minify: isProd,
     }),

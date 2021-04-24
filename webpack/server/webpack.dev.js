@@ -3,7 +3,9 @@ const NodemonPlugin = require('nodemon-webpack-plugin')
 const commonConf = require('./webpack.common');
 const path = require('path')
 
-module.exports = webpackMerge(commonConf, {
+const outputFilename = 'server'
+
+module.exports = webpackMerge(commonConf(outputFilename), {
   mode: 'development',
   watch: true,
   plugins: [

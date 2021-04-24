@@ -1,17 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import {
-  AggregationCursor,
-  Connection,
-  FilterQuery,
   Model,
-  Mongoose,
 } from 'mongoose';
 import { User, UserDocument } from '../users/user.schema';
-import { Board, BoardDocument, BoardSchema } from './board.schema';
+import { Board, BoardDocument } from './board.schema';
 import { CreateBoardDto } from './boards.create.dto';
-import * as mongoose from 'mongoose';
 import { LikeBoardData } from '@/types';
+import * as mongoose from 'mongoose'
 
 @Injectable()
 export class BoardsService {
@@ -42,7 +38,7 @@ export class BoardsService {
     repost_bid: string,
   ): Promise<Board> {
     const createBoard: BoardDocument = new this.boardModel(createBoardDto);
-    console.log('create board now!', createBoard);
+    createBoard['_id'] = new mongoose.Types.ObjectId()
     const retBoard = await this.saveAndCreateBoard(createBoard, repost_bid);
 
     return retBoard;
@@ -50,9 +46,9 @@ export class BoardsService {
 
   async getBoardsForHomeDisplay(id: string): Promise<Board[]> {
     const allBoards = await this.boardModel.find().exec();
-    console.log('allBoards', allBoards);
+    // console.log('allBoards', allBoards);
     const amount = allBoards.length;
-    console.log('amount', amount);
+    // console.log('amount', amount);
     const loginUser = await this.userModel.findById(id).exec();
     const following_user_ids = [loginUser._id, ...loginUser.following_userids];
     const repost_boards = await this.boardModel
@@ -184,13 +180,13 @@ export class BoardsService {
       const updatedBoardPopulate = await this.boardModel
         .findById(board.reply_to)
         .populate('user');
-      console.log('updateBoard', updatedBoardPopulate);
+      // console.log('updateBoard', updatedBoardPopulate);
       return updatedBoardPopulate;
     }
     const saveBoardPopulate = await this.boardModel
       .findById(saveBoard._id)
       .populate('user');
-    console.log('saveBoardPopulate', saveBoardPopulate);
+    // console.log('saveBoardPopulate', saveBoardPopulate);
     return saveBoardPopulate;
   }
 

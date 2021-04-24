@@ -18,6 +18,7 @@ export class RootController {
   @Get('/**/*')
   @Redirect('/')
   redirectRoot() {
+    console.log('dummy')
   }
 
   // redirectRoot(@Res() res: Response) {

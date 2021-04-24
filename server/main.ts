@@ -6,6 +6,7 @@ import * as session from 'express-session'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(RootModule);
+  console.log('process.env.NODE_ENV', process.env.NODE_ENV)
   app.use(session({
     secret: 'SECRET_KEY',
     resave: false,
@@ -17,7 +18,7 @@ async function bootstrap() {
     }
   }))
   // app.set('trust-proxy', 1)
-  app.useStaticAssets(join(process.cwd(), 'dist', 'client'));
+  // app.useStaticAssets(join(process.cwd(), 'dist', 'client'));
   // app.setBaseViewsDir(join(__dirname, '../views'));
   await app.listen(3000);
 }

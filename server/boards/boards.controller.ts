@@ -9,13 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { NextFunction, Response } from 'express';
 import * as mongoose from 'mongoose';
-// import { BoardInterface } from './board.interface';
 import { CreateBoardInterface, LikeBoardData } from '../../types';
 import { CreateBoardDto } from './boards.create.dto';
 import { BoardsService } from './boards.service';
-// import { BoardInterface } from "./boards.interface"
+
+
 
 @Controller()
 export class BoardsController {
@@ -41,11 +40,9 @@ export class BoardsController {
   @UseGuards(AuthGuard('jwt'))
   @Post('/create-board')
   async createBoard(
-    @Request() req,
     @Body() createBoardData: CreateBoardInterface,
   ) {
     const { repost_bid, ...createBoardDto } = createBoardData;
-    (createBoardDto as CreateBoardDto)["_id"] = new mongoose.Types.ObjectId();
     const board = await this.boardsService.createBoard(createBoardDto, repost_bid);
     return board;
   }

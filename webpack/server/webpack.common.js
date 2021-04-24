@@ -1,7 +1,7 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals')
 
-module.exports = {
+module.exports = (outputFilename) => ({
   // entry: ['webpack/hot/poll?100', path.resolve(process.cwd(), './src/server/main')],
   // entry: [path.resolve(process.cwd(), './src/server/main'), 'webpack-hot-middleware/client'],
   entry: path.resolve(process.cwd(), './server/main'),
@@ -9,8 +9,9 @@ module.exports = {
   externals: [nodeExternals()],
   output: {
     path: path.resolve(process.cwd(), './dist'),
-    filename: 'server.js',
-    chunkFilename: `[name].js`,
+    // filename: 'server.js',
+    filename: `${outputFilename}.js`,
+    chunkFilename: `${outputFilename}.js`,
   },
   resolve: {
     alias: {
@@ -52,4 +53,4 @@ module.exports = {
       },
     },
   },
-};
+});
