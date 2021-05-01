@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { BoardModule } from '../boards/boards.module';
 import { SampleModule } from '../sample/sample.module';
 import { DynamicServeStaticModule } from '../serve-static/dynamic-serve-static.module';
@@ -35,12 +35,17 @@ console.log("path.join(__dirname, '../client')", path.join(__dirname, '../client
     AuthModule,
     // SampleModule,
     MongooseModule.forRoot(
-      'mongodb://localhost:27017/sample' /*, {
+      // 'mongodb://localhost:27017/sample' /*, {
+      'mongodb://mongo:27017/sample' /*, {
+      // 'mongodb://mongo:27018/sample' /*, {
       connectionFactory: (connection) => {
         connection.plugin(require('mongoose-autopopulate'))
         return connection
       }
     }*/,
+      {
+        useNewUrlParser: true
+      }
     ),
   ],
   controllers: [RootController],

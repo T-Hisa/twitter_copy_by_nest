@@ -1,0 +1,41 @@
+version: '3'
+services:
+  nestjs:
+    build: .
+    container_name: 'nestjs'
+    volumes:
+      - .:/twitter_like_app
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+    networks:
+      nest_net:
+        ipv4_address: 172.18.0.2
+        aliases:
+          - nestjs
+  mongo:
+    container_name: 'mongo'
+    build:
+      context: .
+      dockerfile: ./Dockerfile_mongo
+    networks:
+      nest_net:
+        ipv4_address: 172.18.0.3
+        aliases:
+          - mongo
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: example
+#     volumes:
+#       - mongo-volume:/var/lib/mongo
+# volumes:
+#   mongo-volume:
+
+networks:
+  nest_net:
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.18.0.0/16
+        # gateway: 172.18.0.1

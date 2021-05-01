@@ -1,0 +1,4 @@
+FROM mongo:4.4.3
+COPY mongo /mongo
+RUN cp /mongo/mongod.conf.orig /etc/mongod.conf.orig && rm -rf /mongo/
+CMD ["mongod"]
