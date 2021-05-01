@@ -35,8 +35,8 @@ console.log("path.join(__dirname, '../client')", path.join(__dirname, '../client
     AuthModule,
     // SampleModule,
     MongooseModule.forRoot(
-      // 'mongodb://localhost:27017/sample' /*, {
-      'mongodb://mongo:27017/sample' /*, {
+      'mongodb://localhost:27017/sample' /*, {
+      // 'mongodb://mongo:27017/sample' /*, {
       // 'mongodb://mongo:27018/sample' /*, {
       connectionFactory: (connection) => {
         connection.plugin(require('mongoose-autopopulate'))

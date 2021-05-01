@@ -22,8 +22,8 @@ services:
     networks:
       nest_net:
         ipv4_address: 172.18.0.3
-        aliases:
-          - mongo
+        # aliases:
+        #   - mongo
     # environment:
     #   MONGO_INITDB_ROOT_USERNAME: root
     #   MONGO_INITDB_ROOT_PASSWORD: example
